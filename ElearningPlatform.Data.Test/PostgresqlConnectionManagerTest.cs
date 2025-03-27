@@ -23,11 +23,12 @@ public class PostgresqlConnectionManagerTest
     public void Constructor_ThrowsException_WhenConnectionStringIsMissing()
     {
         // Arrange
-        _configuration.GetConnectionString("DefaultConnection").Returns((string)null);
+        _configuration.GetConnectionString("Postgres").Returns((string)null!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentNullException>(() => new PostgresqlConnectionManager(_configuration));
-        Assert.That(ex.Message, Does.Contain("DefaultConnection string is missing"));
+        Assert.That(ex.Message,
+            Does.Contain("Postgres connection string is missing in configuration (Parameter 'configuration')"));
     }
 
     [Test]
