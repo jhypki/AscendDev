@@ -8,4 +8,5 @@ public interface IRefreshTokenRepository
     Task<RefreshToken?> GetByTokenAsync(string token);
     Task DeleteAsync(string token);
     Task DeleteByUserIdAsync(Guid userId);
+    Task<bool> RevokeAsync(string token, string ip);
 }

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElearningPlatform.Data", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElearningPlatform.Services", "ElearningPlatform.Services\ElearningPlatform.Services.csproj", "{9BC823FB-956B-4FC2-9DD7-FAA9F58D1FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElearningPlatform.Functions", "ElearningPlatform.Functions\ElearningPlatform.Functions.csproj", "{DC3F3832-BCBD-44C0-9E8F-5E95F4641CDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElearningPlatform.API", "ElearningPlatform.API\ElearningPlatform.API.csproj", "{DC3F3832-BCBD-44C0-9E8F-5E95F4641CDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElearningPlatform.Core", "ElearningPlatform.Core\ElearningPlatform.Core.csproj", "{9FEE97AB-3E31-4B58-9CC0-54F2717161E2}"
 EndProject

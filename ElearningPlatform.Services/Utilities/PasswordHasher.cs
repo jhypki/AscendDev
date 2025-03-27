@@ -1,7 +1,8 @@
+using System;
 using ElearningPlatform.Core.Interfaces.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace ElearningPlatform.Services.Utils;
+namespace ElearningPlatform.Services.Utilities;
 
 public class PasswordHasher(ILogger<PasswordHasher> logger) : IPasswordHasher
 {

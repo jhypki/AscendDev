@@ -1,4 +1,4 @@
-using ElearningPlatform.Services.Utils;
+using ElearningPlatform.Services.Utilities;
 using Microsoft.Extensions.Logging;
 using Moq;
 

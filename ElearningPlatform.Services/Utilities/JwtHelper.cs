@@ -24,7 +24,7 @@ public class JwtHelper : IJwtHelper
             throw new ArgumentNullException(nameof(_jwtSettings.Audience), "JWT Audience is not configured.");
     }
 
-    public string GenerateToken(Guid userId, string email, string role)
+    public string GenerateToken(Guid userId, string email)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
@@ -34,8 +34,7 @@ public class JwtHelper : IJwtHelper
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Email, email)
             }),
             Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes),
             Issuer = _jwtSettings.Issuer,

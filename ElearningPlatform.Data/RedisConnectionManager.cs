@@ -1,5 +1,3 @@
-// ElearningPlatform.Services/Data/Redis/RedisConnectionManager.cs
-
 using ElearningPlatform.Core.Interfaces.Data;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
@@ -13,9 +11,9 @@ public class RedisConnectionManager : IConnectionManager<IDatabase>, IDisposable
 
     public RedisConnectionManager(IConfiguration configuration)
     {
-        var connectionString = configuration["RedisConnectionString"]
+        var connectionString = configuration.GetConnectionString("Redis")
                                ?? throw new ArgumentException(
-                                   "RedisConnectionString must be provided in configuration.");
+                                   "Redis connection string must be provided in configuration.");
 
         _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(connectionString));
     }

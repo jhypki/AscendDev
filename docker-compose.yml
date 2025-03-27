@@ -1,0 +1,37 @@
+﻿# docker-compose.yml
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: elearning_postgres
+    environment:
+      POSTGRES_USER: elearning_user
+      POSTGRES_PASSWORD: elearning_pass
+      POSTGRES_DB: elearning_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d # Mount init scripts
+    networks:
+      - elearning_network
+
+  redis:
+    image: redis:7
+    container_name: elearning_redis
+    # command: redis-server --requirepass elearning_pass  # Optional password
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - elearning_network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  elearning_network:
+    driver: bridge

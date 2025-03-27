@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.1.66"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.3"/>
+        <PackageReference Include="MongoDB.Driver" Version="3.2.1"/>
+        <PackageReference Include="Npgsql" Version="9.0.3"/>
+        <PackageReference Include="NSubstitute" Version="5.3.0"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.8.31"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ElearningPlatform.Core\ElearningPlatform.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Repositories\MongoDB\"/>
+    </ItemGroup>
+
+</Project>

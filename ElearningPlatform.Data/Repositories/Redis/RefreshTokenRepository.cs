@@ -9,17 +9,14 @@ namespace ElearningPlatform.Data.Repositories.Redis;
 
 public class RefreshTokenRepository(
     IConnectionManager<IDatabase> redisConnection,
-    ILogger<RefreshTokenRepository>? logger = null)
+    ILogger<RefreshTokenRepository> logger)
     : IRefreshTokenRepository
 {
-    private readonly IConnectionManager<IDatabase> _redisConnection =
-        redisConnection ?? throw new ArgumentNullException(nameof(redisConnection));
-
     public async Task SaveAsync(RefreshToken refreshToken)
     {
         try
         {
-            var db = _redisConnection.GetConnection();
+            var db = redisConnection.GetConnection();
             var key = $"refresh:{refreshToken.Token}";
 
             var hashEntries = new HashEntry[]
@@ -36,12 +33,12 @@ public class RefreshTokenRepository(
             await db.HashSetAsync(key, hashEntries);
             await db.KeyExpireAsync(key, refreshToken.Expires - DateTime.UtcNow);
 
-            logger?.LogInformation("Saved refresh token {Token} for user {UserId}", refreshToken.Token,
+            logger.LogInformation("Saved refresh token {Token} for user {UserId}", refreshToken.Token,
                 refreshToken.UserId);
         }
         catch (Exception ex)
         {
-            logger?.LogError(ex, "Failed to save refresh token {Token}", refreshToken.Token);
+            logger.LogError(ex, "Failed to save refresh token {Token}", refreshToken.Token);
             throw new Exception($"Error saving refresh token {refreshToken.Token}", ex);
         }
     }
@@ -50,13 +47,13 @@ public class RefreshTokenRepository(
     {
         try
         {
-            var db = _redisConnection.GetConnection();
+            var db = redisConnection.GetConnection();
             var key = $"refresh:{token}";
 
             var entries = await db.HashGetAllAsync(key);
             if (entries.Length == 0)
             {
-                logger?.LogWarning("Refresh token {Token} not found in Redis", token);
+                logger.LogWarning("Refresh token {Token} not found in Redis", token);
                 return null;
             }
 
@@ -77,16 +74,16 @@ public class RefreshTokenRepository(
 
             if (!refreshToken.IsActive)
             {
-                logger?.LogWarning("Refresh token {Token} is inactive or expired", token);
+                logger.LogWarning("Refresh token {Token} is inactive or expired", token);
                 return null;
             }
 
-            logger?.LogInformation("Retrieved active refresh token {Token}", token);
+            logger.LogInformation("Retrieved active refresh token {Token}", token);
             return refreshToken;
         }
         catch (Exception ex)
         {
-            logger?.LogError(ex, "Failed to retrieve refresh token {Token}", token);
+            logger.LogError(ex, "Failed to retrieve refresh token {Token}", token);
             throw new Exception($"Error retrieving refresh token {token}", ex);
         }
     }
@@ -95,18 +92,18 @@ public class RefreshTokenRepository(
     {
         try
         {
-            var db = _redisConnection.GetConnection();
+            var db = redisConnection.GetConnection();
             var key = $"refresh:{token}";
 
             var result = await db.KeyDeleteAsync(key);
             if (result)
-                logger?.LogInformation("Deleted refresh token {Token}", token);
+                logger.LogInformation("Deleted refresh token {Token}", token);
             else
-                logger?.LogWarning("Refresh token {Token} not found for deletion", token);
+                logger.LogWarning("Refresh token {Token} not found for deletion", token);
         }
         catch (Exception ex)
         {
-            logger?.LogError(ex, "Failed to delete refresh token {Token}", token);
+            logger.LogError(ex, "Failed to delete refresh token {Token}", token);
             throw new Exception($"Error deleting refresh token {token}", ex);
         }
     }
@@ -115,8 +112,8 @@ public class RefreshTokenRepository(
     {
         try
         {
-            var db = _redisConnection.GetConnection();
-            var pattern = "refresh:*";
+            var db = redisConnection.GetConnection();
+            const string pattern = "refresh:*";
             var server = db.Multiplexer.GetServer(db.Multiplexer.GetEndPoints()[0]);
             var keys = server.Keys(pattern: pattern);
 
@@ -127,12 +124,56 @@ public class RefreshTokenRepository(
                 if (storedUserId == userId) await db.KeyDeleteAsync(key);
             }
 
-            logger?.LogInformation("Deleted refresh tokens for user {UserId}", userId);
+            logger.LogInformation("Deleted refresh tokens for user {UserId}", userId);
         }
         catch (Exception ex)
         {
-            logger?.LogError(ex, "Failed to delete refresh tokens for user {UserId}", userId);
+            logger.LogError(ex, "Failed to delete refresh tokens for user {UserId}", userId);
             throw new Exception($"Error deleting refresh tokens for user {userId}", ex);
+        }
+    }
+
+    public async Task<bool> RevokeAsync(string token, string ip)
+    {
+        try
+        {
+            var db = redisConnection.GetConnection();
+            var key = $"refresh:{token}";
+
+            var entries = await db.HashGetAllAsync(key);
+            if (entries.Length == 0)
+            {
+                logger.LogWarning("Refresh token {Token} not found in Redis", token);
+                return false;
+            }
+
+            var refreshToken = new RefreshToken
+            {
+                UserId = Guid.Parse(entries.First(e => e.Name == "UserId").Value),
+                Token = entries.First(e => e.Name == "Token").Value,
+                Expires = DateTime.Parse(entries.First(e => e.Name == "Expires").Value),
+                Created = DateTime.Parse(entries.First(e => e.Name == "Created").Value),
+                CreatedByIp = entries.First(e => e.Name == "CreatedByIp").Value,
+                Revoked = DateTime.UtcNow,
+                RevokedByIp = ip
+            };
+
+            var hashEntries = new HashEntry[]
+            {
+                new("Revoked", refreshToken.Revoked.Value.ToString("o")),
+                new("RevokedByIp", refreshToken.RevokedByIp)
+            };
+
+            await db.HashSetAsync(key, hashEntries);
+            await db.KeyExpireAsync(key, refreshToken.Expires - DateTime.UtcNow);
+
+            logger.LogInformation("Revoked refresh token {Token}", token);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to revoke refresh token {Token}", token);
+            throw new Exception($"Error revoking refresh token {token}", ex);
         }
     }
 }

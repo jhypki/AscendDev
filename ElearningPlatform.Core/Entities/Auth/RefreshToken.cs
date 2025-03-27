@@ -2,7 +2,7 @@ namespace ElearningPlatform.Core.Entities.Auth;
 
 public class RefreshToken
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public string Token { get; set; } = null!;
     public DateTime Expires { get; set; }

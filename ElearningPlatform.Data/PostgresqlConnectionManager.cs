@@ -6,9 +6,9 @@ namespace ElearningPlatform.Data;
 
 public class PostgresqlConnectionManager(IConfiguration configuration) : IConnectionManager<NpgsqlConnection>
 {
-    private readonly string _connectionString = configuration.GetConnectionString("DefaultConnection")
+    private readonly string _connectionString = configuration.GetConnectionString("Postgres")
                                                 ?? throw new ArgumentNullException(nameof(configuration),
-                                                    "DefaultConnection string is missing in configuration");
+                                                    "Postgres connection string is missing in configuration");
 
     public virtual NpgsqlConnection GetConnection()
     {
