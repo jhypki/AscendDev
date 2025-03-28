@@ -1,4 +1,4 @@
-name: .NET API CI/CD with Postman Tests
+name: Postman
 
 on:
   push:
@@ -19,13 +19,6 @@ jobs:
 
       - name: Start API with Docker Compose
         run: docker-compose up -d
-
-      #   - name: Wait for API to be ready
-      #     run: |
-      #       echo "Waiting for API to start..."
-      #       until curl -s http://localhost:5000/health | grep "Healthy"; do
-      #         sleep 5
-      #       done
 
       - name: Install Postman CLI
         run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
