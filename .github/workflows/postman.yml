@@ -54,9 +54,6 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Run database migrations
-        run: dotnet ef database update
-
       - name: Run unit tests
         run: dotnet test --no-build --verbosity normal
 
