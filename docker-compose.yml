@@ -19,13 +19,28 @@ services:
   redis:
     image: redis:7
     container_name: elearning_redis
-    # command: redis-server --requirepass elearning_pass  # Optional password
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - elearning_network
+
+  api:
+    build: .
+    container_name: elearning_api
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=elearning_db;Username=elearning_user;Password=elearning_pass"
+      Redis__Host: "redis"
+      ASPNETCORE_URLS: "http://0.0.0.0:5171"
+    ports:
+      - "5171:5171"
+    networks:
+      - elearning_network
+    command: ["dotnet", "run"]
 
 volumes:
   postgres_data:
