@@ -1,19 +1,92 @@
-name: Automated API tests using Postman CLI
+# name: Automated API tests using Postman CLI
 
-on: push
+# on: push
+
+# jobs:
+#   automated-api-tests:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Install Postman CLI
+#         run: |
+#           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+#       - name: Login to Postman CLI
+#         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+#       - name: Run API tests
+#         run: |
+#           postman collection run "33345036-f08fe69e-b63f-4fd3-ab02-0d44d4288334" -e "33345036-a883de81-e883-4103-8dd3-667f0547d827"
+#           # Lint your API using Postman CLI
+#           postman api lint 9b098d76-fae2-4379-8c73-1e2bdd4ae60f
+
+name: .NET API CI/CD with Postman Tests
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
 
 jobs:
-  automated-api-tests:
+  build-and-test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydatabase
+        ports:
+          - 5432:5432
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Postman CLI
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Run database migrations
+        run: dotnet ef database update
+
+      - name: Run unit tests
+        run: dotnet test --no-build --verbosity normal
+
+  api-tests:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start API with Docker Compose
+        run: docker-compose up -d
+
+      - name: Wait for API to be ready
         run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+          echo "Waiting for API to start..."
+          until curl -s http://localhost:5171/health | grep "Healthy"; do
+            sleep 5
+          done
+
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+
       - name: Run API tests
         run: |
           postman collection run "33345036-f08fe69e-b63f-4fd3-ab02-0d44d4288334" -e "33345036-a883de81-e883-4103-8dd3-667f0547d827"
-          # Lint your API using Postman CLI
-          postman api lint 9b098d76-fae2-4379-8c73-1e2bdd4ae60f
+
+      - name: Stop containers
+        run: docker-compose down
