@@ -65,13 +65,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Docker Compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose
+
       - name: Start API with Docker Compose
         run: docker-compose up -d
 
       - name: Wait for API to be ready
         run: |
           echo "Waiting for API to start..."
-          until curl -s http://localhost:5171/health | grep "Healthy"; do
+          until curl -s http://localhost:5000/health | grep "Healthy"; do
             sleep 5
           done
 
