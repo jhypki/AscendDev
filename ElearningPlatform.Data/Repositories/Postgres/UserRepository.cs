@@ -2,7 +2,7 @@ using ElearningPlatform.Core.Entities.Auth;
 using ElearningPlatform.Core.Interfaces.Data;
 using Microsoft.Extensions.Logging;
 
-namespace ElearningPlatform.Data.Repositories;
+namespace ElearningPlatform.Data.Repositories.Postgres;
 
 public class UserRepository(ISqlExecutor sql, ILogger<UserRepository> logger)
     : IUserRepository

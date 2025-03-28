@@ -6,7 +6,7 @@ using ElearningPlatform.Core.Interfaces.Services;
 using ElearningPlatform.Core.Interfaces.Utils;
 using ElearningPlatform.Core.Models.Auth;
 using ElearningPlatform.Data;
-using ElearningPlatform.Data.Repositories;
+using ElearningPlatform.Data.Repositories.Postgres;
 using ElearningPlatform.Data.Repositories.Redis;
 using ElearningPlatform.Services.Services.Auth;
 using ElearningPlatform.Services.Utilities;

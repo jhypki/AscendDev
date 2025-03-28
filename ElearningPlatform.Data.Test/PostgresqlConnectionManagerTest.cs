@@ -16,7 +16,7 @@ public class PostgresqlConnectionManagerTest
 
     private IConfiguration _configuration;
 
-    private readonly string _validConnectionString =
+    private const string ValidConnectionString =
         "Host=localhost;Port=5432;Database=testdb;Username=testuser;Password=testpass";
 
     [Test]
@@ -35,7 +35,7 @@ public class PostgresqlConnectionManagerTest
     public void GetConnection_ReturnsOpenConnection_WhenValidConnectionStringProvided()
     {
         // Arrange
-        _configuration.GetConnectionString("DefaultConnection").Returns(_validConnectionString);
+        _configuration.GetConnectionString("DefaultConnection").Returns(ValidConnectionString);
         var mockConnection = Substitute.For<IDbConnection>();
         mockConnection.State.Returns(ConnectionState.Open);
 

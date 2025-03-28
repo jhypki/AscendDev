@@ -1,5 +1,3 @@
-// ElearningPlatform.Data/DapperSqlExecutor.cs
-
 using System.Data;
 using Dapper;
 using ElearningPlatform.Core.Interfaces.Data;

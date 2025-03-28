@@ -19,7 +19,7 @@ public class ApiResponse<T>(bool success, T? data, string message, List<string>?
         return new SuccessApiResponse<T>(data, message);
     }
 
-    public static ErrorApiResponse ErrorResponse(string message, List<string>? errors = null)
+    public static ApiResponse<object?> ErrorResponse(string message, List<string>? errors = null)
     {
         return new ErrorApiResponse(errors, message);
     }

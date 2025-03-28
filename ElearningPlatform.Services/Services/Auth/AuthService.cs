@@ -68,9 +68,6 @@ public class AuthService(
         if (user == null)
             throw new NotFoundException("User not found.");
 
-        await refreshTokenRepository.RevokeAsync(refreshToken.Token,
-            httpContextAccessor.HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown");
-
         var (accessToken, newRefreshToken) = await GenerateTokensAsync(user);
         await refreshTokenRepository.SaveAsync(newRefreshToken);
 
@@ -81,7 +78,7 @@ public class AuthService(
     {
         var refreshToken = await refreshTokenRepository.GetByTokenAsync(token);
         if (refreshToken is null)
-            throw new NotFoundException("Refresh token", token);
+            throw new NotFoundException("Refresh token");
 
         try
         {
@@ -103,7 +100,7 @@ public class AuthService(
         return new AuthResult
         {
             User = MapToUserDto(user),
-            Token = accessToken,
+            AccessToken = accessToken,
             RefreshToken = refreshToken.Token
         };
     }

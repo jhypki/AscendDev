@@ -175,7 +175,7 @@ public class DapperSqlExecutorTests
         Assert.That(exception.Message, Does.Contain("no such table: NonExistentTable"));
     }
 
-    public class TestEntity
+    private class TestEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

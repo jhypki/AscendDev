@@ -1,6 +1,6 @@
 using ElearningPlatform.Core.Entities.Auth;
 using ElearningPlatform.Core.Interfaces.Data;
-using ElearningPlatform.Data.Repositories;
+using ElearningPlatform.Data.Repositories.Postgres;
 using Microsoft.Extensions.Logging;
 using Moq;
 

@@ -1,13 +1,14 @@
 using ElearningPlatform.Core.DTOs;
 using ElearningPlatform.Core.DTOs.Auth;
-using ElearningPlatform.Core.Exceptions;
+using ElearningPlatform.Core.Filters;
 using ElearningPlatform.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElearningPlatform.Functions.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[ValidateModel]
+[Route("api/[controller]", Name = "auth")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]
@@ -17,10 +18,8 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
     {
-        if (!ModelState.IsValid) throw new ValidationException(ModelState);
-
         var authResult = await authService.RegisterAsync(request);
-        return Ok(ApiResponse<AuthResult>.SuccessResponse(authResult));
+        return Created("api/auth/register", ApiResponse<AuthResult>.SuccessResponse(authResult));
     }
 
     [HttpPost("login")]
@@ -30,8 +29,6 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        if (!ModelState.IsValid) throw new ValidationException(ModelState);
-
         var authResult = await authService.LoginAsync(request);
         return Ok(ApiResponse<AuthResult>.SuccessResponse(authResult));
     }
@@ -43,8 +40,6 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest)
     {
-        if (!ModelState.IsValid) throw new ValidationException(ModelState);
-
         var token = await authService.RefreshTokenAsync(refreshTokenRequest.RefreshToken);
         return Ok(ApiResponse<string>.SuccessResponse(token));
     }
@@ -56,9 +51,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest revokeTokenRequest)
     {
-        if (!ModelState.IsValid) throw new ValidationException(ModelState);
-
         await authService.RevokeRefreshTokenAsync(revokeTokenRequest.RefreshToken);
-        return NoContent();
+        return Ok(ApiResponse<string>.SuccessResponse(null!, "Token revoked successfully."));
     }
 }

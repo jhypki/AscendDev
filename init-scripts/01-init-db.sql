@@ -13,6 +13,5 @@ CREATE TABLE users (
     bio TEXT
 );
 
--- Optional: Add indexes for performance
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
