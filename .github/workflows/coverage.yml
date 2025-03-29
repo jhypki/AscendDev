@@ -25,10 +25,22 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Test with coverage
-        run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Threshold=80 /p:ThresholdType=line /p:ThresholdStat=warning
+        id: test
+        run: |
+          dotnet test --no-build --verbosity normal \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=opencover \
+            /p:Threshold=80 \
+            /p:ThresholdType=line || echo "COVERAGE_FAILED=true" >> $GITHUB_ENV
 
       - name: Upload coverage reports to Codecov
+        if: always()
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: jhypki/ElearningPlatform
+
+      - name: Fail if coverage is below threshold
+        if: env.COVERAGE_FAILED == 'true'
+        run: exit 1
+
