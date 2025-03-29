@@ -7,9 +7,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-  permissions:
-    contents: read
-    pull-requests: write
   build:
     runs-on: ubuntu-latest
 
