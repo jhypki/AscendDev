@@ -36,7 +36,6 @@ services:
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=elearning_db;Username=elearning_user;Password=elearning_pass"
       Redis__Host: "redis"
       ASPNETCORE_URLS: "http://0.0.0.0:5171"
-      ASPNETCORE_ENVIRONMENT: "Development"
     ports:
       - "5171:5171"
     networks:

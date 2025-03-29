@@ -25,7 +25,6 @@ COPY --from=build /app/out .
 
 # Set environment variables
 ENV ASPNETCORE_URLS=http://0.0.0.0:5171
-ENV ASPNETCORE_ENVIRONMENT=Development
 
 # Expose API port
 EXPOSE 5000
