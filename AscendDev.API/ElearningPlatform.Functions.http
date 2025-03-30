@@ -1,0 +1,6 @@
+@AscendDev.Functions_HostAddress = http://localhost:5171
+
+GET {{AscendDev.Functions_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

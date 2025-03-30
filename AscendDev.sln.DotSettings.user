@@ -1,0 +1,40 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1580850_002D7a96_002D446e_002Dae8f_002Dd3cd7fc3074f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Hash_WhenCalled_ReturnsHashAndSalt" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;Project Location="/Users/jakubhypki/Dev/UZ/ElearningPlatform/ElearningPlatform.Services.Test" Presentation="&amp;lt;ElearningPlatform.Services.Test&amp;gt;" /&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Data.Test.Repositories.UserRepositoryTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Tests.Data.Repositories.UserRepositoryTests&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=357579a6_002Dbb6c_002D4901_002D8e37_002Dc52b1f1fcad8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserRepositoryTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Tests.Repositories.UserRepositoryTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1df7a7b0_002Dcb01_002D4c3d_002D9a94_002D99d1e4dee9bb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateAsync_ShouldReturnTrue_WhenUserCreated" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;ProjectFile&gt;953C2848-A9C1-4351-A75A-56F108BD028E/d:Utils/f:PasswordHasherTest.cs&lt;/ProjectFile&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Tests.Data.Repositories.UserRepositoryTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Tests.Data.DapperSqlExecutorTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::809A5259-D516-418A-AD7C-8FFBC45A03F6::net8.0::ElearningPlatform.Tests.Data.DapperSqlExecutorTests&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df4a298b_002Db551_002D46fb_002D959a_002Df3c7120597d9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetConnection_WhenCalledWithInvalidConnectionString_ThrowsException" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d41c3ce3_002Def60_002D4b93_002D9879_002D6b2b6b501c2a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Verify_ShouldLogError_WhenBCryptFails" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b4769e8e_002Dd10a_002D4743_002D9428_002D864c0425619b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AGuard_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F4117ae48b3954af098dc2bcb9d4faf457872e2718768ea11ac4054d4f02a9fa9_003FGuard_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMockBehavior_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F7172141278468bd9f86748d895d52e8b0f7158a3789ad41cf34e7041c75541_003FMockBehavior_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003F9161da3da671f777cc3652d39696c23db97793e37cb97fcb4e1e87234e56322_003FValidationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADefaultValidatorExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fc0825838dbca581cf60bf89f4791b3457ede3abd17df9e3cc61257c8e15b43_003FDefaultValidatorExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fede214f761f295ccdcf1b49caef543669185f210ea4192acd18d5cce47efa892_003FValidationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String></wpf:ResourceDictionary>
