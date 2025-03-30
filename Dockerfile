@@ -27,7 +27,7 @@ COPY --from=build /app/out .
 ENV ASPNETCORE_URLS=http://0.0.0.0:5171
 
 # Expose API port
-EXPOSE 5000
+EXPOSE 5171
 
 # Run the API
 ENTRYPOINT ["dotnet", "ElearningPlatform.API.dll"]

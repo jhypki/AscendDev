@@ -58,7 +58,7 @@ public class AuthService(
         return authResult;
     }
 
-    public async Task<string> RefreshTokenAsync(string token)
+    public async Task<AuthResult> RefreshTokenAsync(string token)
     {
         var refreshToken = await refreshTokenRepository.GetByTokenAsync(token);
         if (refreshToken is not { IsActive: true })
@@ -69,9 +69,20 @@ public class AuthService(
             throw new NotFoundException("User not found.");
 
         var (accessToken, newRefreshToken) = await GenerateTokensAsync(user);
+
         await refreshTokenRepository.SaveAsync(newRefreshToken);
 
-        return accessToken;
+        await refreshTokenRepository.DeleteAsync(token);
+
+        logger.LogInformation("Rotated refresh token for user {UserId}. Old token: {OldToken}, New token: {NewToken}",
+            user.Id, token, newRefreshToken.Token);
+
+        return new AuthResult
+        {
+            User = MapToUserDto(user),
+            AccessToken = accessToken,
+            RefreshToken = newRefreshToken.Token
+        };
     }
 
     public async Task RevokeRefreshTokenAsync(string token)

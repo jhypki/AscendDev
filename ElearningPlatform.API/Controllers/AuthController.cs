@@ -40,8 +40,8 @@ public class AuthController(IAuthService authService) : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest)
     {
-        var token = await authService.RefreshTokenAsync(refreshTokenRequest.RefreshToken);
-        return Ok(ApiResponse<string>.SuccessResponse(token));
+        var authResult = await authService.RefreshTokenAsync(refreshTokenRequest.RefreshToken);
+        return Ok(ApiResponse<AuthResult>.SuccessResponse(authResult));
     }
 
     [HttpPost("revoke-token")]

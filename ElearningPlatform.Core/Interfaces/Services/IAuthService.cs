@@ -1,6 +1,6 @@
-using ElearningPlatform.Core.DTOs.Auth;
-
 namespace ElearningPlatform.Core.Interfaces.Services;
+
+using DTOs.Auth;
 
 public interface IAuthService
 {
@@ -9,7 +9,7 @@ public interface IAuthService
     Task<AuthResult> LoginAsync(LoginRequest loginRequest);
 
     // Task<AuthResult> OAuthLoginAsync(string provider, string accessToken);
-    Task<string> RefreshTokenAsync(string token);
+    Task<AuthResult> RefreshTokenAsync(string token);
 
     Task RevokeRefreshTokenAsync(string token);
 }
