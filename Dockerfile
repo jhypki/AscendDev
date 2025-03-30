@@ -2,13 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-COPY ["ElearningPlatform.sln", "./"]
-COPY ["ElearningPlatform.Core/ElearningPlatform.Core.csproj", "ElearningPlatform.Core/"]
-COPY ["ElearningPlatform.Data/ElearningPlatform.Data.csproj", "ElearningPlatform.Data/"]
-COPY ["ElearningPlatform.Services/ElearningPlatform.Services.csproj", "ElearningPlatform.Services/"]
-COPY ["ElearningPlatform.API/ElearningPlatform.API.csproj", "ElearningPlatform.API/"]
-COPY ["ElearningPlatform.Services.Test/ElearningPlatform.Services.Test.csproj", "ElearningPlatform.Services.Test/"]
-COPY ["ElearningPlatform.Data.Test/ElearningPlatform.Data.Test.csproj", "ElearningPlatform.Data.Test/"]
+COPY ["AscendDev.sln", "./"]
+COPY ["AscendDev.Core/AscendDev.Core.csproj", "AscendDev.Core/"]
+COPY ["AscendDev.Data/AscendDev.Data.csproj", "AscendDev.Data/"]
+COPY ["AscendDev.Services/AscendDev.Services.csproj", "AscendDev.Services/"]
+COPY ["AscendDev.API/AscendDev.API.csproj", "AscendDev.API/"]
+COPY ["AscendDev.Services.Test/AscendDev.Services.Test.csproj", "AscendDev.Services.Test/"]
+COPY ["AscendDev.Data.Test/AscendDev.Data.Test.csproj", "AscendDev.Data.Test/"]
 
 COPY . .
 RUN dotnet restore
@@ -30,4 +30,4 @@ ENV ASPNETCORE_URLS=http://0.0.0.0:5171
 EXPOSE 5171
 
 # Run the API
-ENTRYPOINT ["dotnet", "ElearningPlatform.API.dll"]
+ENTRYPOINT ["dotnet", "AscendDev.API.dll"]
