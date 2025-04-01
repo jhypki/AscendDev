@@ -1,0 +1,31 @@
+{
+  "title": "Basic Math",
+  "slug": "basic-math",
+  "content": "In this lesson, you will learn how to write a simple function that squares a number.",
+  "order": 1,
+  "language": "typescript",
+  "testConfig": {
+    "framework": "jest",
+    "timeoutMs": 3000,
+    "memoryLimitMb": 512,
+    "testCases": [
+      { "input": 2, "expected": 4 },
+      { "input": 3, "expected": 9 },
+      { "input": 4, "expected": 16 }
+    ],
+    "mainFunction": "square",
+    "dependencies": [
+      {
+        "name": "jest",
+        "version": "27.0.6"
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "Additional resource title",
+      "url": "https://www.example.com"
+    }
+  ],
+  "tags": ["typescript", "math"]
+}

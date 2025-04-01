@@ -1,5 +1,5 @@
-using AscendDev.Core.Entities.Auth;
 using AscendDev.Core.Interfaces.Data;
+using AscendDev.Core.Models.Auth;
 using AscendDev.Data.Repositories.Postgres;
 using Microsoft.Extensions.Logging;
 using Moq;

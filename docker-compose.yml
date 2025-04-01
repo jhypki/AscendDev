@@ -12,7 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d # Mount init scripts
+      - ./init-scripts:/docker-entrypoint-initdb.d
     networks:
       - elearning_network
 
@@ -26,26 +26,44 @@ services:
     networks:
       - elearning_network
 
+  mongodb:
+    image: mongo:latest
+    container_name: elearning_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: elearning_user
+      MONGO_INITDB_ROOT_PASSWORD: elearning_pass
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - elearning_network
+
   api:
     build: .
     container_name: elearning_api
     depends_on:
       - postgres
       - redis
+      - mongodb
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=elearning_db;Username=elearning_user;Password=elearning_pass"
       Redis__Host: "redis"
+      MongoDB__Host: "mongodb"
+      MongoDB__Username: "elearning_user"
+      MongoDB__Password: "elearning_pass"
       ASPNETCORE_URLS: "http://0.0.0.0:5171"
       ASPNETCORE_ENVIRONMENT: "Test"
     ports:
       - "5171:5171"
     networks:
       - elearning_network
-    command: [ "dotnet", "run" ]
+    command: ["dotnet", "run"]
 
 volumes:
   postgres_data:
   redis_data:
+  mongodb_data:
 
 networks:
   elearning_network:

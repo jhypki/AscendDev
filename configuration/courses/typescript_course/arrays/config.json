@@ -1,0 +1,31 @@
+{
+  "title": "Arrays",
+  "slug": "arrays",
+  "content": "In this lesson, you will learn how to write a simple function that reverses an array.",
+  "order": 1,
+  "language": "typescript",
+  "testConfig": {
+    "framework": "jest",
+    "timeoutMs": 3000,
+    "memoryLimitMb": 512,
+    "testCases": [
+      { "input": [1, 2, 3], "expected": [3, 2, 1] },
+      { "input": [4, 5, 6], "expected": [6, 5, 4] },
+      { "input": [7, 8, 9], "expected": [9, 8, 7] }
+    ],
+    "mainFunction": "reverseArray",
+    "dependencies": [
+      {
+        "name": "jest",
+        "version": "27.0.6"
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "Additional resource title",
+      "url": "https://www.example.com"
+    }
+  ],
+  "tags": ["typescript", "arrays"]
+}

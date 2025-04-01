@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using AscendDev.Core.DTOs.Auth;
-using AscendDev.Core.Entities.Auth;
 using AscendDev.Core.Exceptions;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;

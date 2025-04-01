@@ -10,7 +10,9 @@ CREATE TABLE users (
     updated_at TIMESTAMP WITH TIME ZONE,
     last_login TIMESTAMP WITH TIME ZONE,
     profile_picture_url TEXT,
-    bio TEXT
+    bio TEXT,
+    external_id VARCHAR(255),
+    provider VARCHAR(50)
 );
 
 CREATE INDEX idx_users_email ON users(email);

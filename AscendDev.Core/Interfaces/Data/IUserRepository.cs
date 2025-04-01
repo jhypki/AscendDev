@@ -1,4 +1,4 @@
-using AscendDev.Core.Entities.Auth;
+using AscendDev.Core.Models.Auth;
 
 namespace AscendDev.Core.Interfaces.Data;
 

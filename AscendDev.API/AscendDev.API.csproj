@@ -9,6 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Hellang.Authentication.JwtBearer.Google" Version="3.0.0"/>
+        <PackageReference Include="MDP.AspNetCore.Authentication.GitHub" Version="8.0.7.65"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11"/>

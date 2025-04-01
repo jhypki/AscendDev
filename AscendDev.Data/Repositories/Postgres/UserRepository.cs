@@ -1,5 +1,5 @@
-using AscendDev.Core.Entities.Auth;
 using AscendDev.Core.Interfaces.Data;
+using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 
 namespace AscendDev.Data.Repositories.Postgres;
@@ -121,6 +121,28 @@ public class UserRepository(ISqlExecutor sql, ILogger<UserRepository> logger)
         {
             logger.LogError(e, "Error deleting user");
             return false;
+        }
+    }
+
+    public async Task<User?> GetByExternalIdAndProviderAsync(string externalId, string provider)
+    {
+        const string query = """
+                                 SELECT id, email, password_hash, username, first_name, last_name, is_email_verified,
+                                        created_at, updated_at, last_login, profile_picture_url, bio, external_id, provider, access_token
+                                 FROM users
+                                 WHERE external_id = @ExternalId AND provider = @Provider
+                             """;
+        try
+        {
+            return await sql.QueryFirstOrDefaultAsync<User>(
+                query,
+                new { ExternalId = externalId, Provider = provider }
+            );
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error getting user by external ID and provider");
+            throw;
         }
     }
 }

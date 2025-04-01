@@ -1,7 +1,7 @@
 // AscendDev.Services/Data/Redis/RefreshTokenRepository.cs
 
-using AscendDev.Core.Entities.Auth;
 using AscendDev.Core.Interfaces.Data;
+using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 

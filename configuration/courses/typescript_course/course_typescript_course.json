@@ -1,0 +1,26 @@
+{
+  "_id": "typescript_course",
+  "title": "TypeScript Course",
+  "slug": "typescript-course",
+  "description": "Learn typescript course from scratch.",
+  "createdAt": "2025-04-01T18:59:46.670Z",
+  "featuredImage": "",
+  "tags": [],
+  "status": "published",
+  "createdBy": "",
+  "lessons": [
+    {
+      "lessonId": "typescript_course_arrays",
+      "title": "Arrays",
+      "slug": "arrays",
+      "order": 1
+    },
+    {
+      "lessonId": "typescript_course_basic_math",
+      "title": "Basic Math",
+      "slug": "basic-math",
+      "order": 1
+    }
+  ],
+  "updatedAt": "2025-04-01T19:00:22.394Z"
+}

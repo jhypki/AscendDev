@@ -1,0 +1,49 @@
+{
+  "_id": "typescript_course_basic_math",
+  "courseId": "typescript_course",
+  "title": "Basic Math",
+  "slug": "basic-math",
+  "content": "In this lesson, you will learn how to write a simple function that squares a number.",
+  "template": "function square(number: number): number {\n  // Write your code here\n}\n",
+  "createdAt": "2025-03-31T21:08:56.246Z",
+  "updatedAt": "2025-04-01T19:00:22.393Z",
+  "language": "typescript",
+  "order": 1,
+  "testConfig": {
+    "framework": "jest",
+    "timeoutMs": 3000,
+    "memoryLimitMb": 512,
+    "testTemplate": "__USER_CODE__;\n\ndescribe(\"Lesson 1\", () => {\n  test(\"Test 1\", () => {\n    expect(square(2)).toBe(4);\n  });\n  test(\"Test 2\", () => {\n    expect(square(3)).toBe(9);\n  });\n  test(\"Test 3\", () => {\n    expect(square(4)).toBe(16);\n  });\n});\n",
+    "testCases": [
+      {
+        "input": 2,
+        "expected": 4
+      },
+      {
+        "input": 3,
+        "expected": 9
+      },
+      {
+        "input": 4,
+        "expected": 16
+      }
+    ],
+    "mainFunction": "square",
+    "dependencies": [
+      {
+        "name": "jest",
+        "version": "27.0.6"
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "Additional resource title",
+      "url": "https://www.example.com"
+    }
+  ],
+  "tags": [
+    "typescript",
+    "math"
+  ]
+}

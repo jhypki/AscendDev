@@ -1,0 +1,73 @@
+{
+  "_id": "typescript_course_arrays",
+  "courseId": "typescript_course",
+  "title": "Arrays",
+  "slug": "arrays",
+  "content": "In this lesson, you will learn how to write a simple function that reverses an array.",
+  "template": "function reverseArray(array: number[]): number[] {\n  // Write your code here\n}\n",
+  "createdAt": "2025-03-31T21:08:56.246Z",
+  "updatedAt": "2025-04-01T19:00:22.393Z",
+  "language": "typescript",
+  "order": 1,
+  "testConfig": {
+    "framework": "jest",
+    "timeoutMs": 3000,
+    "memoryLimitMb": 512,
+    "testTemplate": "__USER_CODE__;\n\ndescribe(\"Reverse array\", () => {\n  test(\"Test 1\", () => {\n    expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n  });\n  test(\"Test 2\", () => {\n    expect(reverseArray([4, 5, 6])).toEqual([6, 5, 4]);\n  });\n  test(\"Test 3\", () => {\n    expect(reverseArray([7, 8, 9])).toEqual([9, 8, 7]);\n  });\n});\n",
+    "testCases": [
+      {
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expected": [
+          3,
+          2,
+          1
+        ]
+      },
+      {
+        "input": [
+          4,
+          5,
+          6
+        ],
+        "expected": [
+          6,
+          5,
+          4
+        ]
+      },
+      {
+        "input": [
+          7,
+          8,
+          9
+        ],
+        "expected": [
+          9,
+          8,
+          7
+        ]
+      }
+    ],
+    "mainFunction": "reverseArray",
+    "dependencies": [
+      {
+        "name": "jest",
+        "version": "27.0.6"
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "Additional resource title",
+      "url": "https://www.example.com"
+    }
+  ],
+  "tags": [
+    "typescript",
+    "arrays"
+  ]
+}
