@@ -29,7 +29,7 @@ public class CourseService(ICourseRepository courseRepository, ILogger<CourseSer
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error fetching course with ID {courseId}");
+            logger.LogError(ex, $"Error fetching course with ID {courseId.Replace('\n', '_').Replace('\r', '_')}");
             throw;
         }
     }
@@ -42,7 +42,7 @@ public class CourseService(ICourseRepository courseRepository, ILogger<CourseSer
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"Error fetching course with slug {slug}");
+            logger.LogError(ex, $"Error fetching course with slug {slug.Replace('\n', '_').Replace('\r', '_')}");
             throw;
         }
     }

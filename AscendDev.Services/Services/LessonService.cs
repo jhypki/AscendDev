@@ -42,7 +42,7 @@ public class LessonService(ILessonRepository lessonRepository) : ILessonService
 
         var lesson = await lessonRepository.GetById(lessonId);
         if (lesson == null)
-            throw new NotFoundException("Lesson", lessonId);
+            throw new NotFoundException("Lesson", lessonId.Replace('\n', '_').Replace('\r', '_'));
 
         return new LessonResponse
         {
