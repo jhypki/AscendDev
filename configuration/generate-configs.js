@@ -6,6 +6,7 @@ const filePatterns = {
   code_template: /code_template\.[a-z]+$/i,
   test_template: /test_template\.[a-z]+$/i,
   course_config: /^course_.*\.json$/i,
+  content: /content\.md$/i, // Added pattern for content.md
 };
 
 const courses = {}; // Stores courses and their associated lessons
@@ -16,6 +17,7 @@ function findFiles(directory) {
     config: null,
     code_template: null,
     test_template: null,
+    content: null, // Added content field
   };
 
   files.forEach((file) => {
@@ -24,6 +26,7 @@ function findFiles(directory) {
       matchedFiles.code_template = file;
     else if (filePatterns.test_template.test(file))
       matchedFiles.test_template = file;
+    else if (filePatterns.content.test(file)) matchedFiles.content = file;
   });
 
   return matchedFiles;
@@ -55,6 +58,15 @@ function processLesson(lessonDir, courseName) {
       "utf8"
     );
 
+    // Read content.md if it exists
+    let content = configData.content || "";
+    if (matchedFiles.content) {
+      content = fs.readFileSync(
+        path.join(lessonDir, matchedFiles.content),
+        "utf8"
+      );
+    }
+
     const lessonName = path.basename(lessonDir);
     const courseId = courseName;
     const lessonId = `${courseId}_${lessonName}`;
@@ -75,7 +87,7 @@ function processLesson(lessonDir, courseName) {
       courseId,
       title: configData.title || lessonName,
       slug: configData.slug || lessonName.toLowerCase(),
-      content: configData.content || "",
+      content: content, // Use content from content.md or config
       template: codeTemplate,
       createdAt,
       updatedAt,
@@ -103,12 +115,12 @@ function processLesson(lessonDir, courseName) {
     // Store lesson data for course update
     if (!courses[courseId]) {
       courses[courseId] = {
-        lessons: [],
+        lessonsSummaries: [],
         updatedAt: updatedAt,
       };
     }
 
-    courses[courseId].lessons.push({
+    courses[courseId].lessonsSummaries.push({
       lessonId,
       title: finalConfig.title,
       slug: finalConfig.slug,
@@ -149,24 +161,25 @@ function processCourse(courseDir) {
       // If course config file exists, read it
       if (courseConfigFile && fs.existsSync(courseConfigFile)) {
         courseData = JSON.parse(fs.readFileSync(courseConfigFile, "utf8"));
-      } else {
-        // Create default course config
-        courseConfigFile = path.join(courseDir, `course_${courseName}.json`);
-        courseData = {
-          _id: courseName,
-          title: courseName.replace(/_/g, " "),
-          slug: courseName.toLowerCase().replace(/_/g, "-"),
-          description: `Learn ${courseName.replace(/_/g, " ")} from scratch.`,
-          createdAt: new Date().toISOString(),
-          featuredImage: "",
-          tags: [],
-          status: "published",
-          createdBy: "",
-        };
       }
 
+      // Create default course config
+      courseConfigFile = path.join(courseDir, `course_${courseName}.json`);
+      courseData = {
+        _id: courseData._id || courseName,
+        title: courseData.title || courseName.replace(/_/g, " "),
+        slug: courseData.slug || courseName.toLowerCase().replace(/_/g, "-"),
+        language: courseData.language || "",
+        description: courseData.description || "",
+        createdAt: courseData.createdAt || new Date().toISOString(),
+        featuredImage: courseData.featuredImage || "",
+        tags: courseData.tags || [],
+        status: courseData.status || "draft",
+        createdBy: courseData.createdBy || "",
+      };
+
       // Update course data with lessons
-      courseData.lessons = courses[courseName].lessons.sort(
+      courseData.lessonSummaries = courses[courseName].lessonsSummaries.sort(
         (a, b) => a.order - b.order
       );
       courseData.updatedAt = new Date().toISOString();

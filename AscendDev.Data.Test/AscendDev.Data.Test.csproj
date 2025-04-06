@@ -37,8 +37,4 @@
         <ProjectReference Include="..\AscendDev.Data\AscendDev.Data.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Repositories\MongoDB\"/>
-    </ItemGroup>
-
 </Project>

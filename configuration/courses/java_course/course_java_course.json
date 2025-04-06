@@ -1,0 +1,30 @@
+{
+  "_id": "java_course",
+  "title": "Java Course",
+  "slug": "java-course",
+  "language": "",
+  "description": "Learn coding Java course from scratch.",
+  "createdAt": "2025-04-01T19:30:47.802Z",
+  "featuredImage": "",
+  "tags": [
+    "java",
+    "coding"
+  ],
+  "status": "draft",
+  "createdBy": "",
+  "lessonSummaries": [
+    {
+      "lessonId": "java_course_arrays",
+      "title": "Arrays",
+      "slug": "arrays",
+      "order": 1
+    },
+    {
+      "lessonId": "java_course_basic_math",
+      "title": "Basic Math",
+      "slug": "basic-math",
+      "order": 1
+    }
+  ],
+  "updatedAt": "2025-04-05T17:25:33.007Z"
+}

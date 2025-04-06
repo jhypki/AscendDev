@@ -58,7 +58,7 @@ public class DapperSqlExecutorTests
     }
 
     [Test]
-    public async Task QueryFirstOrDefaultAsync_ShouldPropagateError_WhenQueryFails()
+    public Task QueryFirstOrDefaultAsync_ShouldPropagateError_WhenQueryFails()
     {
         // Act
         var exception = Assert.ThrowsAsync<SqliteException>(async () =>
@@ -68,6 +68,7 @@ public class DapperSqlExecutorTests
 
         // Assert
         Assert.That(exception.Message, Does.Contain("no such table: NonExistentTable"));
+        return Task.CompletedTask;
     }
 
     [Test]

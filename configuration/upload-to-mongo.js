@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const { MongoClient } = require("mongodb");
 
-// MongoDB connection settings
 const uri =
   process.env.MONGODB_URI ||
   "mongodb://elearning_user:elearning_pass@localhost:27017/elearning_db?authSource=admin";

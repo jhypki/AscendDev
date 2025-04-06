@@ -60,6 +60,27 @@ services:
       - elearning_network
     command: ["dotnet", "run"]
 
+  upload-config-files:
+    build: ./configuration
+    depends_on:
+      - mongodb
+    networks:
+      - elearning_network
+    environment:
+      MONGODB_URI: "mongodb://elearning_user:elearning_pass@mongodb:27017/elearning_db?authSource=admin"
+      DB_NAME: "elearning_db"
+    restart: "no"
+    command: >
+      sh -c "
+        # Wait for MongoDB to be ready
+        while ! nc -z mongodb 27017; do
+          echo 'Waiting for MongoDB to start...'
+          sleep 1
+        done
+        echo 'MongoDB started, running upload script...'
+        node /app/upload-to-mongo.js
+      "
+
 volumes:
   postgres_data:
   redis_data:

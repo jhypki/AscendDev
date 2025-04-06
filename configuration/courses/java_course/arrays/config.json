@@ -1,18 +1,18 @@
 {
-  "title": "Basic Math",
-  "slug": "basic-math",
+  "title": "Arrays",
+  "slug": "arrays",
   "order": 1,
-  "language": "typescript",
+  "language": "java",
   "testConfig": {
-    "framework": "jest",
+    "framework": "junit",
     "timeoutMs": 3000,
     "memoryLimitMb": 512,
     "testCases": [
-      { "input": 2, "expected": 4 },
-      { "input": 3, "expected": 9 },
-      { "input": 4, "expected": 16 }
+      { "input": [1, 2, 3], "expected": [3, 2, 1] },
+      { "input": [4, 5, 6], "expected": [6, 5, 4] },
+      { "input": [7, 8, 9], "expected": [9, 8, 7] }
     ],
-    "mainFunction": "square",
+    "mainFunction": "reverseArray",
     "dependencies": [
       {
         "name": "jest",
@@ -26,5 +26,5 @@
       "url": "https://www.example.com"
     }
   ],
-  "tags": ["typescript", "math"]
+  "tags": ["typescript", "arrays"]
 }

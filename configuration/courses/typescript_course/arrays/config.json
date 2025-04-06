@@ -1,8 +1,7 @@
 {
   "title": "Arrays",
   "slug": "arrays",
-  "content": "In this lesson, you will learn how to write a simple function that reverses an array.",
-  "order": 1,
+  "order": 2,
   "language": "typescript",
   "testConfig": {
     "framework": "jest",

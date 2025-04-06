@@ -5,7 +5,7 @@ namespace AscendDev.Core.Interfaces.Data;
 
 public interface ILessonRepository
 {
-    Task<List<Lesson>> GetByCourseId(ObjectId courseId);
-    Task<Lesson> GetById(ObjectId lessonId);
+    Task<List<Lesson>> GetByCourseId(string courseId);
+    Task<Lesson> GetById(string lessonId);
     Task<Lesson> GetBySlug(string slug);
 }
