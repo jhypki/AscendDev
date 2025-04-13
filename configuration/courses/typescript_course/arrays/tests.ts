@@ -1,5 +1,3 @@
-__USER_CODE__;
-
 describe("Reverse array", () => {
   test("Test 1", () => {
     expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);

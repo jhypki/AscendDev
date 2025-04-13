@@ -1,0 +1,13 @@
+{
+  "name": "typescript-runner",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "sh run-tests.sh"
+  },
+  "dependencies": {
+    "typescript": "^4.5.4",
+    "ts-jest": "^27.1.2",
+    "@types/jest": "^27.0.3",
+    "jest": "^27.0.6"
+  }
+}

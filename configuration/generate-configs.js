@@ -38,8 +38,8 @@ function processLesson(lessonDir, courseName) {
 
   if (
     !matchedFiles.config ||
-    !matchedFiles.code_template ||
-    !matchedFiles.test_template
+    !matchedFiles.code-template ||
+    !matchedFiles.tests
   ) {
     console.warn(`Skipping ${lessonDir}: Missing required files.`);
     return;

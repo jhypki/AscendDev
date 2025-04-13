@@ -1,5 +1,3 @@
-__USER_CODE__;
-
 describe("Lesson 1", () => {
   test("Test 1", () => {
     expect(square(2)).toBe(4);

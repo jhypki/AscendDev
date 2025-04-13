@@ -9,4 +9,5 @@ public class TestCase
     [BsonElement("input")] public object Input { get; set; } = null!; // Can be any BSON type
 
     [BsonElement("expected")] public object Expected { get; set; } = null!;
+    [BsonElement("description")] public string? Description { get; set; } = null!; // Optional description
 }

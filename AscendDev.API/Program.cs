@@ -1,9 +1,12 @@
 using System.Text;
 using AscendDev.API.Middleware;
+using AscendDev.Core.CodeExecution;
+using AscendDev.Core.Interfaces.CodeExecution;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Interfaces.Utils;
 using AscendDev.Core.Models.Auth;
+using AscendDev.Core.TestsExecution;
 using AscendDev.Data;
 using AscendDev.Data.Repositories.MongoDB;
 using AscendDev.Data.Repositories.Postgres;
@@ -97,13 +100,15 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
-
+builder.Services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
 
 // Register AuthService as the implementation of IAuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<ICachingService, CachingService>();
+builder.Services.AddScoped<ICodeTestService, CodeTestService>();
+builder.Services.AddLanguageStrategies();
 
 // Register utilities
 builder.Services.AddSingleton<JwtHelper>();
