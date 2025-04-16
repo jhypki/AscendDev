@@ -8,7 +8,7 @@ namespace AscendDev.Services.Services;
 public class CourseService(ICourseRepository courseRepository, ILogger<CourseService> logger)
     : ICourseService
 {
-    public async Task<List<Course>> GetAllCourses()
+    public async Task<List<Course>?> GetAllCourses()
     {
         try
         {
@@ -21,7 +21,7 @@ public class CourseService(ICourseRepository courseRepository, ILogger<CourseSer
         }
     }
 
-    public async Task<Course> GetCourseById(string courseId)
+    public async Task<Course?> GetCourseById(string courseId)
     {
         try
         {
@@ -34,7 +34,7 @@ public class CourseService(ICourseRepository courseRepository, ILogger<CourseSer
         }
     }
 
-    public async Task<Course> GetCourseBySlug(string slug)
+    public async Task<Course?> GetCourseBySlug(string slug)
     {
         try
         {

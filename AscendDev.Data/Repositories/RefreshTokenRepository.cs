@@ -5,7 +5,7 @@ using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
-namespace AscendDev.Data.Repositories.Redis;
+namespace AscendDev.Data.Repositories;
 
 public class RefreshTokenRepository(
     IConnectionManager<IDatabase> redisConnection,

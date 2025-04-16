@@ -30,7 +30,6 @@ public class LessonService(ILessonRepository lessonRepository) : ILessonService
             Order = lesson.Order,
             AdditionalResources = lesson.AdditionalResources,
             Tags = lesson.Tags,
-            MainFunction = lesson.TestConfig.MainFunction,
             TestCases = lesson.TestConfig.TestCases
         }).ToList();
     }
@@ -58,7 +57,6 @@ public class LessonService(ILessonRepository lessonRepository) : ILessonService
             Order = lesson.Order,
             AdditionalResources = lesson.AdditionalResources,
             Tags = lesson.Tags,
-            MainFunction = lesson.TestConfig.MainFunction,
             TestCases = lesson.TestConfig.TestCases
         };
     }

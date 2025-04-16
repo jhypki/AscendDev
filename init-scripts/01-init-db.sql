@@ -15,5 +15,37 @@ CREATE TABLE users (
     provider VARCHAR(50)
 );
 
+CREATE TABLE courses (
+    id UUID PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE,
+    language VARCHAR(255) NOT NULL,
+    featured_image TEXT,
+    tags JSONB NOT NULL DEFAULT '[]'::jsonb,
+    lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
+    status VARCHAR(50) NOT NULL DEFAULT 'draft',
+    created_by UUID NOT NULL
+);
+
+CREATE TABLE lessons (
+    id UUID PRIMARY KEY,
+    course_id UUID NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    content TEXT,
+    language VARCHAR(255) NOT NULL,
+    template TEXT,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE,
+    "order" INT NOT NULL,
+    test_config JSONB NOT NULL DEFAULT '{}'::jsonb,
+    additional_resources JSONB NOT NULL DEFAULT '[]'::jsonb,
+    tags JSONB NOT NULL DEFAULT '[]'::jsonb,
+    status VARCHAR(50) NOT NULL DEFAULT 'draft'
+);
+
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);

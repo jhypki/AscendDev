@@ -40,30 +40,6 @@ public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageS
 
             await File.WriteAllTextAsync(Path.Combine(executionDirectory, "jest.config.js"), jestConfigContent);
         }
-
-        // Create dependencies installation script if needed
-        if (lesson.TestConfig.Dependencies?.Count > 0)
-        {
-            var dependenciesScript = CreateDependenciesScript(lesson.TestConfig.Dependencies);
-            await File.WriteAllTextAsync(Path.Combine(executionDirectory, "install-deps.sh"), dependenciesScript);
-
-            // Make the script executable (this will only work on Unix-like systems)
-            try
-            {
-                var filePath = Path.Combine(executionDirectory, "install-deps.sh");
-                if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
-                {
-                    var fileInfo = new FileInfo(filePath);
-                    var unixFileMode = fileInfo.UnixFileMode | UnixFileMode.UserExecute | UnixFileMode.GroupExecute;
-                    fileInfo.UnixFileMode = unixFileMode;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Just log warning - the container will handle execution permissions
-                _logger.LogWarning(ex, "Could not set executable bit on install-deps.sh. This is expected on Windows.");
-            }
-        }
     }
 
     public Task<CreateContainerParameters> CreateContainerConfigAsync(string containerName, string executionDirectory,
@@ -233,27 +209,6 @@ public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageS
             result.Success, result.TestResults.Count);
 
         return result;
-    }
-
-    // Helper method to create the dependencies installation script
-    private static string CreateDependenciesScript(List<Dependency> dependencies)
-    {
-        if (dependencies == null || dependencies.Count == 0)
-            return "#!/bin/sh\necho 'No additional dependencies required'\nexit 0";
-
-        var scriptLines = new List<string>
-        {
-            "#!/bin/sh",
-            "echo 'Installing additional dependencies...'"
-        };
-
-        foreach (var dependency in dependencies)
-            scriptLines.Add($"npm install --no-save {dependency.Name}@{dependency.Version}");
-
-        scriptLines.Add("echo 'Dependencies installed successfully'");
-        scriptLines.Add("exit 0");
-
-        return string.Join("\n", scriptLines);
     }
 
     // Classes for Jest test results

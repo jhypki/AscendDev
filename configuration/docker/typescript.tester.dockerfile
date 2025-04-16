@@ -4,7 +4,7 @@ FROM node:16-alpine
 WORKDIR /app
 
 # Copy environment files
-COPY ./environments/typescript/ /app/
+COPY ./environments/testers/typescript/ /app/
 
 # Install global dependencies
 RUN npm install -g typescript ts-node

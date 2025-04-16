@@ -1,19 +1,16 @@
 {
-  "_id": "typescript_course_basic_math",
-  "courseId": "typescript_course",
   "title": "Basic Math",
   "slug": "basic-math",
   "content": "# Lesson 1: Introduction\n\nThis is the content of the lesson, written in Markdown.\n\n- Point 1\n- Point 2\n",
   "template": "function square(number: number): number {\n  // Write your code here\n}\n",
   "createdAt": "2025-03-31T21:08:56.246Z",
-  "updatedAt": "2025-04-05T17:25:33.009Z",
+  "updatedAt": "2025-04-16T18:29:31.901Z",
   "language": "typescript",
   "order": 1,
   "testConfig": {
-    "framework": "jest",
     "timeoutMs": 3000,
     "memoryLimitMb": 512,
-    "testTemplate": "__USER_CODE__;\n\ndescribe(\"Lesson 1\", () => {\n  test(\"Test 1\", () => {\n    expect(square(2)).toBe(4);\n  });\n  test(\"Test 2\", () => {\n    expect(square(3)).toBe(9);\n  });\n  test(\"Test 3\", () => {\n    expect(square(4)).toBe(16);\n  });\n});\n",
+    "testTemplate": "describe(\"Lesson 1\", () => {\n  test(\"Test 1\", () => {\n    expect(square(2)).toBe(4);\n  });\n  test(\"Test 2\", () => {\n    expect(square(3)).toBe(9);\n  });\n  test(\"Test 3\", () => {\n    expect(square(4)).toBe(16);\n  });\n});\n",
     "testCases": [
       {
         "input": 2,
@@ -27,13 +24,6 @@
         "input": 4,
         "expected": 16
       }
-    ],
-    "mainFunction": "square",
-    "dependencies": [
-      {
-        "name": "jest",
-        "version": "27.0.6"
-      }
     ]
   },
   "additionalResources": [
@@ -45,5 +35,6 @@
   "tags": [
     "typescript",
     "math"
-  ]
+  ],
+  "status": "draft"
 }

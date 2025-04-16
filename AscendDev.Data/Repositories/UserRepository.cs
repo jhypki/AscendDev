@@ -2,7 +2,7 @@ using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 
-namespace AscendDev.Data.Repositories.Postgres;
+namespace AscendDev.Data.Repositories;
 
 public class UserRepository(ISqlExecutor sql, ILogger<UserRepository> logger)
     : IUserRepository

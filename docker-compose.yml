@@ -1,6 +1,4 @@
-﻿version: "3.8"
-
-services:
+﻿services:
   postgres:
     image: postgres:16
     container_name: elearning_postgres
@@ -26,65 +24,43 @@ services:
     networks:
       - elearning_network
 
-  mongodb:
-    image: mongo:latest
-    container_name: elearning_mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: elearning_user
-      MONGO_INITDB_ROOT_PASSWORD: elearning_pass
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - elearning_network
-
   api:
     build: .
     container_name: elearning_api
     depends_on:
       - postgres
       - redis
-      - mongodb
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=elearning_db;Username=elearning_user;Password=elearning_pass"
       Redis__Host: "redis"
-      MongoDB__Host: "mongodb"
-      MongoDB__Username: "elearning_user"
-      MongoDB__Password: "elearning_pass"
       ASPNETCORE_URLS: "http://0.0.0.0:5171"
       ASPNETCORE_ENVIRONMENT: "Test"
     ports:
       - "5171:5171"
     networks:
       - elearning_network
-    command: ["dotnet", "run"]
+    command: [ "dotnet", "run" ]
 
   upload-config-files:
     build: ./configuration
     depends_on:
-      - mongodb
+      - postgres
     networks:
       - elearning_network
     environment:
-      MONGODB_URI: "mongodb://elearning_user:elearning_pass@mongodb:27017/elearning_db?authSource=admin"
-      DB_NAME: "elearning_db"
+      POSTGRES_USER: elearning_user
+      POSTGRES_PASSWORD: elearning_pass
+      POSTGRES_DB: elearning_db
+      POSTGRES_HOST: elearning_postgres
     restart: "no"
     command: >
       sh -c "
-        # Wait for MongoDB to be ready
-        while ! nc -z mongodb 27017; do
-          echo 'Waiting for MongoDB to start...'
-          sleep 1
-        done
-        echo 'MongoDB started, running upload script...'
-        node /app/upload-to-mongo.js
+        node /app/upload-to-db.js
       "
 
 volumes:
   postgres_data:
   redis_data:
-  mongodb_data:
 
 networks:
   elearning_network:

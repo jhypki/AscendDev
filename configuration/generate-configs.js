@@ -4,7 +4,7 @@ const path = require("path");
 const filePatterns = {
   config: /config\.json$/i,
   code_template: /code_template\.[a-z]+$/i,
-  test_template: /test_template\.[a-z]+$/i,
+  tests: /tests\.[a-z]+$/i,
   course_config: /^course_.*\.json$/i,
   content: /content\.md$/i, // Added pattern for content.md
 };
@@ -16,7 +16,7 @@ function findFiles(directory) {
   const matchedFiles = {
     config: null,
     code_template: null,
-    test_template: null,
+    tests: null,
     content: null, // Added content field
   };
 
@@ -24,8 +24,7 @@ function findFiles(directory) {
     if (filePatterns.config.test(file)) matchedFiles.config = file;
     else if (filePatterns.code_template.test(file))
       matchedFiles.code_template = file;
-    else if (filePatterns.test_template.test(file))
-      matchedFiles.test_template = file;
+    else if (filePatterns.tests.test(file)) matchedFiles.tests = file;
     else if (filePatterns.content.test(file)) matchedFiles.content = file;
   });
 
@@ -38,7 +37,7 @@ function processLesson(lessonDir, courseName) {
 
   if (
     !matchedFiles.config ||
-    !matchedFiles.code-template ||
+    !matchedFiles.code_template ||
     !matchedFiles.tests
   ) {
     console.warn(`Skipping ${lessonDir}: Missing required files.`);
@@ -54,7 +53,7 @@ function processLesson(lessonDir, courseName) {
       "utf8"
     );
     const testTemplate = fs.readFileSync(
-      path.join(lessonDir, matchedFiles.test_template),
+      path.join(lessonDir, matchedFiles.tests),
       "utf8"
     );
 
@@ -83,8 +82,6 @@ function processLesson(lessonDir, courseName) {
     const updatedAt = new Date().toISOString();
 
     const finalConfig = {
-      _id: lessonId,
-      courseId,
       title: configData.title || lessonName,
       slug: configData.slug || lessonName.toLowerCase(),
       content: content, // Use content from content.md or config
@@ -94,7 +91,6 @@ function processLesson(lessonDir, courseName) {
       language: configData.language || "javascript",
       order: configData.order || 0,
       testConfig: {
-        framework: configData.testConfig?.framework || "jest",
         timeoutMs: configData.testConfig?.timeoutMs || 3000,
         memoryLimitMb: configData.testConfig?.memoryLimitMb || 512,
         testTemplate: testTemplate.replace(
@@ -102,11 +98,10 @@ function processLesson(lessonDir, courseName) {
           JSON.stringify(configData.testConfig?.testCases || [], null, 2)
         ),
         testCases: configData.testConfig?.testCases || [],
-        mainFunction: configData.testConfig?.mainFunction || "",
-        dependencies: configData.testConfig?.dependencies || [],
       },
       additionalResources: configData.additionalResources || [],
       tags: configData.tags || [],
+      status: configData.status || "draft",
     };
 
     fs.writeFileSync(finalFilename, JSON.stringify(finalConfig, null, 2));
@@ -166,7 +161,6 @@ function processCourse(courseDir) {
       // Create default course config
       courseConfigFile = path.join(courseDir, `course_${courseName}.json`);
       courseData = {
-        _id: courseData._id || courseName,
         title: courseData.title || courseName.replace(/_/g, " "),
         slug: courseData.slug || courseName.toLowerCase().replace(/_/g, "-"),
         language: courseData.language || "",

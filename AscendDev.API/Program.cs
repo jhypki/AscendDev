@@ -8,16 +8,13 @@ using AscendDev.Core.Interfaces.Utils;
 using AscendDev.Core.Models.Auth;
 using AscendDev.Core.TestsExecution;
 using AscendDev.Data;
-using AscendDev.Data.Repositories.MongoDB;
-using AscendDev.Data.Repositories.Postgres;
-using AscendDev.Data.Repositories.Redis;
+using AscendDev.Data.Repositories;
 using AscendDev.Services.Services;
 using AscendDev.Services.Utilities;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Npgsql;
@@ -87,7 +84,6 @@ builder.Services.AddAuthentication(options =>
 // Register database connection managers
 builder.Services.AddSingleton<IConnectionManager<NpgsqlConnection>, PostgresqlConnectionManager>();
 builder.Services.AddSingleton<IConnectionManager<IDatabase>, RedisConnectionManager>();
-builder.Services.AddSingleton<IConnectionManager<IMongoDatabase>, MongoDBConnectionManager>();
 
 // Register DapperSqlExecutor and map ISqlExecutor
 builder.Services.AddScoped(typeof(DapperSqlExecutor<>));
@@ -101,6 +97,7 @@ builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
+DapperConfig.SetupTypeHandlers();
 
 // Register AuthService as the implementation of IAuthService
 builder.Services.AddScoped<IAuthService, AuthService>();
