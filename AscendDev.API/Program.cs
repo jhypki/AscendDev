@@ -90,6 +90,7 @@ builder.Services.AddScoped(typeof(DapperSqlExecutor<>));
 builder.Services.AddScoped<ISqlExecutor>(sp => sp.GetRequiredService<DapperSqlExecutor<NpgsqlConnection>>());
 
 // Register repositories
+DapperConfig.SetupTypeHandlers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
@@ -97,7 +98,6 @@ builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtHelper, JwtHelper>();
 builder.Services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
-DapperConfig.SetupTypeHandlers();
 
 // Register AuthService as the implementation of IAuthService
 builder.Services.AddScoped<IAuthService, AuthService>();

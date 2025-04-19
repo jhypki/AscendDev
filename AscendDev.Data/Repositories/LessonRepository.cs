@@ -10,12 +10,9 @@ public class LessonRepository(
 {
     public async Task<List<Lesson>?> GetByCourseId(string courseId)
     {
-        if (string.IsNullOrEmpty(courseId))
-            throw new ArgumentException("Course ID cannot be null or empty", nameof(courseId));
-
         const string query = """
                                  SELECT id, course_id, title, slug, content, template, created_at, updated_at, language, "order",
-                                        additional_resources, tags
+                                        test_config, additional_resources, tags, status
                                  FROM lessons
                                  WHERE course_id = @CourseId
                              """;
@@ -33,18 +30,18 @@ public class LessonRepository(
 
     public async Task<Lesson?> GetById(string id)
     {
-        if (string.IsNullOrEmpty(id))
-            throw new ArgumentException("Lesson ID cannot be null or empty", nameof(id));
-
         const string query = """
                                  SELECT id, course_id, title, slug, content, template, created_at, updated_at, language, "order",
-                                        additional_resources, tags
+                                        test_config, additional_resources, tags, status
                                  FROM lessons
                                  WHERE id = @Id
                              """;
 
         try
         {
+            logger.LogInformation("Retrieving lesson by ID {Id}", id);
+            //log lesson
+            logger.LogInformation("Lesson: {Lesson}", sql.QueryFirstOrDefaultAsync<Lesson>(query, new { Id = id }));
             return await sql.QueryFirstOrDefaultAsync<Lesson>(query, new { Id = id });
         }
         catch (Exception ex)
@@ -56,12 +53,9 @@ public class LessonRepository(
 
     public async Task<Lesson?> GetBySlug(string slug)
     {
-        if (string.IsNullOrEmpty(slug))
-            throw new ArgumentException("Lesson slug cannot be null or empty", nameof(slug));
-
         const string query = """
                                  SELECT id, course_id, title, slug, content, template, created_at, updated_at, language, "order",
-                                        additional_resources, tags
+                                        test_config, additional_resources, tags, status
                                  FROM lessons
                                  WHERE slug = @Slug
                              """;

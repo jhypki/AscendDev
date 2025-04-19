@@ -2,6 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+# Copy project files first (for better layer caching)
 COPY ["AscendDev.sln", "./"]
 COPY ["AscendDev.Core/AscendDev.Core.csproj", "AscendDev.Core/"]
 COPY ["AscendDev.Data/AscendDev.Data.csproj", "AscendDev.Data/"]
@@ -10,12 +11,13 @@ COPY ["AscendDev.API/AscendDev.API.csproj", "AscendDev.API/"]
 COPY ["AscendDev.Services.Test/AscendDev.Services.Test.csproj", "AscendDev.Services.Test/"]
 COPY ["AscendDev.Data.Test/AscendDev.Data.Test.csproj", "AscendDev.Data.Test/"]
 
-COPY . .
+# Restore NuGet packages
 RUN dotnet restore
-RUN dotnet publish -c Release -o /app/out
 
+# Copy the rest of the source code
+COPY . .
 
-# Build the application
+# Build and publish the application
 RUN dotnet publish -c Release -o /app/out
 
 # Use a lightweight runtime image

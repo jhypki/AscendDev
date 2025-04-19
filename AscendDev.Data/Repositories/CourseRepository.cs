@@ -30,9 +30,6 @@ public class CourseRepository(
 
     public async Task<Course?> GetById(string courseId)
     {
-        if (string.IsNullOrEmpty(courseId))
-            throw new ArgumentException("Course ID cannot be null or empty", nameof(courseId));
-
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
                                     featured_image, lesson_summaries, status, created_by
@@ -53,9 +50,6 @@ public class CourseRepository(
 
     public async Task<Course?> GetBySlug(string slug)
     {
-        if (string.IsNullOrEmpty(slug))
-            throw new ArgumentException("Course slug cannot be null or empty", nameof(slug));
-
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
                                     featured_image, lesson_summaries, status, created_by
@@ -76,9 +70,6 @@ public class CourseRepository(
 
     public async Task<Course?> GetByLanguage(string language)
     {
-        if (string.IsNullOrEmpty(language))
-            throw new ArgumentException("Course language cannot be null or empty", nameof(language));
-
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
                                     featured_image, lesson_summaries, status, created_by
@@ -99,9 +90,6 @@ public class CourseRepository(
 
     public async Task<List<Course>?> GetByTag(string tag)
     {
-        if (string.IsNullOrEmpty(tag))
-            throw new ArgumentException("Course tag cannot be null or empty", nameof(tag));
-
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags
                                  FROM courses
