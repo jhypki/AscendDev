@@ -23,6 +23,4 @@ public class Course
     public List<LessonSummary> LessonSummaries { get; set; } = [];
 
     public string Status { get; set; } = "draft";
-
-    public string CreatedBy { get; set; } // TODO: change to guid
 }
