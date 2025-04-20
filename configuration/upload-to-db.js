@@ -2,12 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
 const { v4: uuidv4 } = require("uuid");
-const crypto = require("crypto");
 
-// PostgreSQL connection configuration
+// PostgreSQL connection configuration - using environment variables with fallbacks
+// SECURITY NOTE: In production, never hardcode credentials in your code
 const pool = new Pool({
   user: process.env.POSTGRES_USER || "elearning_user",
-  host: process.env.POSTGRES_HOST || "localhost",
+  host: process.env.POSTGRES_HOST || "20.107.168.229",
   database: process.env.POSTGRES_DB || "elearning_db",
   password: process.env.POSTGRES_PASSWORD || "elearning_pass",
   port: process.env.POSTGRES_PORT || 5432,
@@ -25,95 +25,23 @@ const filePatterns = {
   lesson_config: /^lesson_.*\.json$/i,
 };
 
-// Connect to PostgreSQL and setup tables
-async function setupDatabase() {
-  const client = await pool.connect();
-  try {
-    console.log("Connected to PostgreSQL");
-
-    // Create courses table if it doesn't exist
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS courses (
-        id VARCHAR(50) PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        slug VARCHAR(255) NOT NULL UNIQUE,
-        description TEXT DEFAULT '',
-        created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-        language VARCHAR(50) NOT NULL,
-        updated_at TIMESTAMP WITH TIME ZONE,
-        featured_image VARCHAR(255),
-        tags JSONB NOT NULL DEFAULT '[]'::jsonb,
-        lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
-        status VARCHAR(50) NOT NULL DEFAULT 'draft',
-        created_by VARCHAR(50) NOT NULL DEFAULT 'system'
-      )
-    `);
-
-    // Create lessons table if it doesn't exist
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS lessons (
-        id VARCHAR(50) PRIMARY KEY,
-        course_id VARCHAR(50) NOT NULL REFERENCES courses(id),
-        title VARCHAR(255) NOT NULL,
-        slug VARCHAR(255) NOT NULL,
-        content TEXT,
-        template TEXT,
-        created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-        updated_at TIMESTAMP WITH TIME ZONE,
-        language VARCHAR(50) NOT NULL,
-        "order" INTEGER NOT NULL,
-        test_config JSONB,
-        additional_resources JSONB DEFAULT '[]'::jsonb,
-        tags JSONB DEFAULT '[]'::jsonb,
-        status VARCHAR(50) NOT NULL DEFAULT 'draft',
-        UNIQUE(course_id, slug)
-      )
-    `);
-
-    // Create indexes for better performance
-    await client.query(
-      `CREATE INDEX IF NOT EXISTS lessons_course_id_idx ON lessons(course_id)`
-    );
-    await client.query(
-      `CREATE INDEX IF NOT EXISTS courses_status_idx ON courses(status)`
-    );
-    await client.query(
-      `CREATE INDEX IF NOT EXISTS lessons_status_idx ON lessons(status)`
-    );
-    await client.query(
-      `CREATE INDEX IF NOT EXISTS courses_tags_gin_idx ON courses USING GIN (tags jsonb_path_ops)`
-    );
-    await client.query(
-      `CREATE INDEX IF NOT EXISTS lessons_tags_gin_idx ON lessons USING GIN (tags jsonb_path_ops)`
-    );
-
-    console.log("Database setup completed");
-  } catch (err) {
-    console.error("Error setting up database:", err);
-    throw err;
-  } finally {
-    client.release();
-  }
-}
-
 async function updateCourseConfig(client, courseConfigPath) {
   try {
     const configData = JSON.parse(fs.readFileSync(courseConfigPath, "utf8"));
 
-    // Generate a course ID based on the slug if no original ID exists
     // Extract course name from the file path as a fallback
     const coursePathParts = courseConfigPath.split(path.sep);
     const courseFolder =
       coursePathParts[coursePathParts.length - 2] || "unknown_course";
     const courseSlug = configData.slug || courseFolder;
 
-    // Generate a stable ID based on the slug
-    const stableId = generateStableId(courseSlug);
+    // Use course folder as the course ID
+    const courseId = courseFolder;
 
     // Check if course already exists
     const existingCourse = await client.query(
       "SELECT id FROM courses WHERE slug = $1",
-      [configData.slug]
+      [courseSlug]
     );
 
     let postgresId;
@@ -123,12 +51,12 @@ async function updateCourseConfig(client, courseConfigPath) {
       postgresId = existingCourse.rows[0].id;
 
       // Update existing course
-      const result = await client.query(
-        `UPDATE courses 
-         SET title = $1, 
-             language = $2, 
-             updated_at = $3, 
-             tags = $4, 
+      await client.query(
+        `UPDATE courses
+         SET title = $1,
+             language = $2,
+             updated_at = $3,
+             tags = $4,
              status = $5,
              description = $6
          WHERE id = $7`,
@@ -144,24 +72,23 @@ async function updateCourseConfig(client, courseConfigPath) {
       );
       console.log(`Updated course: ${configData.title} (${postgresId})`);
     } else {
-      // Create new ID for PostgreSQL
-      postgresId = stableId;
+      // Use course folder as PostgreSQL ID
+      postgresId = courseId;
 
       // Insert new course
-      const result = await client.query(
-        `INSERT INTO courses 
-         (id, title, slug, language, created_at, updated_at, tags, status, created_by, description)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      await client.query(
+        `INSERT INTO courses
+         (id, title, slug, language, created_at, updated_at, tags, status, description)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
         [
           postgresId,
           configData.title,
-          configData.slug,
+          courseSlug,
           configData.language || "en",
           configData.createdAt ? new Date(configData.createdAt) : new Date(),
           configData.updatedAt ? new Date(configData.updatedAt) : new Date(),
           JSON.stringify(configData.tags || []),
           configData.status || "draft",
-          "system",
           configData.description || "",
         ]
       );
@@ -174,24 +101,8 @@ async function updateCourseConfig(client, courseConfigPath) {
     return postgresId;
   } catch (err) {
     console.error(`Error updating course from ${courseConfigPath}:`, err);
-    return null;
+    throw err; // Re-throw error to be caught by transaction handler
   }
-}
-
-// Generate a stable ID based on a string (for consistency across runs)
-function generateStableId(text) {
-  const hash = crypto.createHash("md5").update(text).digest("hex");
-  return (
-    hash.substring(0, 8) +
-    "-" +
-    hash.substring(8, 12) +
-    "-" +
-    hash.substring(12, 16) +
-    "-" +
-    hash.substring(16, 20) +
-    "-" +
-    hash.substring(20, 32)
-  );
 }
 
 async function updateLessonConfig(client, lessonConfigPath) {
@@ -206,8 +117,8 @@ async function updateLessonConfig(client, lessonConfigPath) {
     // Generate lesson slug if not provided
     const lessonSlug = configData.slug || lessonFolder;
 
-    // Generate a stable ID based on course and lesson slugs
-    const stableId = generateStableId(`${courseFolder}_${lessonSlug}`);
+    // Generate lesson ID as course_folder_lesson_folder
+    const lessonId = `${courseFolder}_${lessonFolder}`;
 
     // Look up the PostgreSQL course ID from our mapping
     const mappedCourseId = idMappings.courses[courseFolder];
@@ -219,10 +130,10 @@ async function updateLessonConfig(client, lessonConfigPath) {
       return;
     }
 
-    // Check if lesson already exists by course_id and slug
+    // Check if lesson already exists by slug
     const existingLesson = await client.query(
-      "SELECT id FROM lessons WHERE course_id = $1 AND slug = $2",
-      [mappedCourseId, lessonSlug]
+      "SELECT id FROM lessons WHERE slug = $1",
+      [lessonSlug]
     );
 
     let postgresId;
@@ -232,19 +143,20 @@ async function updateLessonConfig(client, lessonConfigPath) {
       postgresId = existingLesson.rows[0].id;
 
       // Update existing lesson
-      const result = await client.query(
-        `UPDATE lessons 
-         SET title = $1, 
+      await client.query(
+        `UPDATE lessons
+         SET title = $1,
              content = $2,
              template = $3,
-             language = $4, 
+             language = $4,
              "order" = $5,
-             updated_at = $6, 
+             updated_at = $6,
              test_config = $7,
              additional_resources = $8,
-             tags = $9, 
-             status = $10
-         WHERE id = $11`,
+             tags = $9,
+             status = $10,
+             course_id = $11
+         WHERE id = $12`,
         [
           configData.title,
           configData.content || "",
@@ -256,18 +168,19 @@ async function updateLessonConfig(client, lessonConfigPath) {
           JSON.stringify(configData.additionalResources || []),
           JSON.stringify(configData.tags || []),
           configData.status || "draft",
+          mappedCourseId,
           postgresId,
         ]
       );
       console.log(`Updated lesson: ${configData.title} (${postgresId})`);
     } else {
-      // Create new ID for PostgreSQL
-      postgresId = stableId;
+      // Use generated lesson ID
+      postgresId = lessonId;
 
       // Insert new lesson
-      const result = await client.query(
-        `INSERT INTO lessons 
-         (id, title, slug, course_id, content, template, created_at, updated_at, 
+      await client.query(
+        `INSERT INTO lessons
+         (id, title, slug, course_id, content, template, created_at, updated_at,
           language, "order", test_config, additional_resources, tags, status)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
         [
@@ -292,8 +205,11 @@ async function updateLessonConfig(client, lessonConfigPath) {
 
     // Store the mapping for reference
     idMappings.lessons[lessonFolder] = postgresId;
+
+    return postgresId;
   } catch (err) {
     console.error(`Error updating lesson from ${lessonConfigPath}:`, err);
+    throw err; // Re-throw error to be caught by transaction handler
   }
 }
 
@@ -364,7 +280,9 @@ async function traverseAndUpdateConfigs(rootDir) {
         try {
           fs.unlinkSync(tempConfigPath);
         } catch (e) {
-          /* ignore */
+          console.warn(
+            `Could not delete temp file ${tempConfigPath}: ${e.message}`
+          );
         }
       }
     }
@@ -394,6 +312,9 @@ async function traverseAndUpdateConfigs(rootDir) {
       }
     }
 
+    // Update lesson summaries in courses
+    await updateLessonSummaries(client);
+
     // Commit the transaction
     await client.query("COMMIT");
 
@@ -401,6 +322,9 @@ async function traverseAndUpdateConfigs(rootDir) {
     console.log("\nID Mapping Summary:");
     console.log(`Processed ${Object.keys(idMappings.courses).length} courses`);
     console.log(`Processed ${Object.keys(idMappings.lessons).length} lessons`);
+
+    // Save ID mappings to file for reference
+    await saveIdMappings();
   } catch (err) {
     // Rollback in case of error
     await client.query("ROLLBACK");
@@ -411,84 +335,96 @@ async function traverseAndUpdateConfigs(rootDir) {
   }
 }
 
-async function updateLessonSummaries() {
-  const client = await pool.connect();
+// Update lesson summaries for each course
+async function updateLessonSummaries(client) {
+  console.log("Updating lesson summaries for courses...");
 
   try {
-    // For each course, update the lesson summaries based on its lessons
-    const coursesResult = await client.query("SELECT id, title FROM courses");
+    // Get all courses
+    const coursesResult = await client.query("SELECT id FROM courses");
 
     for (const course of coursesResult.rows) {
       const courseId = course.id;
 
-      // Get all lessons for this course
+      // Get all lessons for this course, ordered by their order field
       const lessonsResult = await client.query(
-        'SELECT id, title, slug, "order" FROM lessons WHERE course_id = $1 ORDER BY "order"',
+        `SELECT id, title, slug, "order", status
+         FROM lessons
+         WHERE course_id = $1
+         ORDER BY "order" ASC`,
         [courseId]
       );
 
-      // Create lesson summaries
+      // Create lesson summaries array
       const lessonSummaries = lessonsResult.rows.map((lesson) => ({
         id: lesson.id,
         title: lesson.title,
         slug: lesson.slug,
         order: lesson.order,
+        status: lesson.status,
       }));
 
       // Update the course with lesson summaries
       await client.query(
-        "UPDATE courses SET lesson_summaries = $1 WHERE id = $2",
+        `UPDATE courses
+         SET lesson_summaries = $1
+         WHERE id = $2`,
         [JSON.stringify(lessonSummaries), courseId]
       );
 
       console.log(
-        `Updated lesson summaries for course: ${course.title} (${courseId}) - ${lessonSummaries.length} lessons`
+        `Updated lesson summaries for course ID: ${courseId} (${lessonSummaries.length} lessons)`
       );
     }
   } catch (err) {
     console.error("Error updating lesson summaries:", err);
-  } finally {
-    client.release();
+    throw err;
   }
 }
 
-// Helper function to save ID mappings to a file for reference
+// Save ID mappings to a JSON file for reference
 async function saveIdMappings() {
   try {
-    fs.writeFileSync(
-      path.join(__dirname, "id_mappings.json"),
-      JSON.stringify(idMappings, null, 2),
-      "utf8"
-    );
-    console.log("ID mappings saved to id_mappings.json");
+    const mappingsFile = path.join(process.cwd(), "id_mappings.json");
+    fs.writeFileSync(mappingsFile, JSON.stringify(idMappings, null, 2));
+    console.log(`ID mappings saved to ${mappingsFile}`);
   } catch (err) {
     console.error("Error saving ID mappings:", err);
   }
 }
 
+// Main function to run the entire process
 async function main() {
+  const client = await pool.connect();
   try {
-    // Setup database tables and indexes
-    await setupDatabase();
+    console.log("Starting database migration...");
 
-    console.log("Starting PostgreSQL update");
+    // Check if database connection credentials are provided
+    if (!process.env.POSTGRES_HOST || !process.env.POSTGRES_PASSWORD) {
+      console.warn(
+        "Database credentials notv provided in environment variables."
+      );
+      console.warn(
+        "Required variables: POSTGRES_USER, POSTGRES_HOST, POSTGRES_DB, POSTGRES_PASSWORD"
+      );
+      console.warn("Using fallback values is not recommended for production.");
+    }
 
-    // Process directories and update configs
-    await traverseAndUpdateConfigs(__dirname);
+    // Get root directory from command line or use current directory
+    const rootDir = process.argv[2] || process.cwd();
+    console.log(`Using root directory: ${rootDir}`);
 
-    // Update lesson summaries for each course
-    await updateLessonSummaries();
+    // Process all course and lesson configs
+    await traverseAndUpdateConfigs(rootDir);
 
-    // Save ID mappings to a file for reference
-    await saveIdMappings();
-
-    console.log("PostgreSQL update completed");
+    console.log("Database migration completed successfully!");
   } catch (err) {
-    console.error("Error during PostgreSQL update:", err);
+    console.error("Migration failed:", err);
+    process.exit(1);
   } finally {
-    // Close pool
+    client.release();
+    // Close the pool
     await pool.end();
-    console.log("PostgreSQL connection closed");
   }
 }
 

@@ -59,6 +59,25 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
             {
                 Directory.CreateDirectory(executionDirectory);
 
+                if (!OperatingSystem.IsWindows())
+                {
+                    var chmod = new Process
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            FileName = "chmod",
+                            Arguments = $"777 {executionDirectory}",
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            UseShellExecute = false
+                        }
+                    };
+                    chmod.Start();
+                    chmod.WaitForExit();
+                    if (chmod.ExitCode != 0)
+                        _logger.LogWarning("Failed to set permissions on {ExecutionDirectory}", executionDirectory);
+                }
+
                 await strategy.PrepareTestFilesAsync(executionDirectory, userCode, lesson);
 
                 var stopwatch = Stopwatch.StartNew();
@@ -68,10 +87,17 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                     var containerConfig = await strategy.CreateContainerConfigAsync(
                         containerName, executionDirectory, lesson);
 
+                    // Extract image name from container config
+                    var imageName = containerConfig.Image;
+
+                    // Ensure the image exists
+                    await EnsureImageExistsAsync(imageName);
+
                     var createContainerResponse =
                         await _dockerClient.Containers.CreateContainerAsync(containerConfig);
                     containerId = createContainerResponse.ID;
 
+                    // Rest of the method remains the same
                     var started = await _dockerClient.Containers.StartContainerAsync(containerId, null);
                     if (!started)
                         throw new InvalidOperationException("Failed to start the container");
@@ -188,6 +214,50 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                     $"Error during test execution: {ex.Message}\nFailed to get logs: {logEx.Message}",
                     1
                 );
+            }
+        }
+    }
+
+    // Add this method to the DockerTestsExecutor class
+    private async Task EnsureImageExistsAsync(string imageName)
+    {
+        try
+        {
+            // Try to inspect the image to see if it exists locally
+            await _dockerClient.Images.InspectImageAsync(imageName);
+            _logger.LogInformation("Image {ImageName} exists locally", imageName);
+        }
+        catch (DockerImageNotFoundException)
+        {
+            _logger.LogInformation("Image {ImageName} not found locally, pulling from registry...", imageName);
+
+            try
+            {
+                // Create progress handler for logging
+                var progress = new Progress<JSONMessage>(message =>
+                {
+                    if (!string.IsNullOrEmpty(message.Status))
+                        _logger.LogDebug("Docker pull progress: {Status} {Progress}",
+                            message.Status,
+                            message.Progress?.Current.ToString() ?? "");
+                });
+
+                // Pull the image
+                await _dockerClient.Images.CreateImageAsync(
+                    new ImagesCreateParameters
+                    {
+                        FromImage = imageName
+                    },
+                    null, // Optional auth credentials
+                    progress
+                );
+
+                _logger.LogInformation("Successfully pulled image {ImageName}", imageName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to pull image {ImageName}", imageName);
+                throw new InvalidOperationException($"Failed to pull Docker image {imageName}: {ex.Message}", ex);
             }
         }
     }
