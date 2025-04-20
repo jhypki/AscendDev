@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 // SECURITY NOTE: In production, never hardcode credentials in your code
 const pool = new Pool({
   user: process.env.POSTGRES_USER || "elearning_user",
-  host: process.env.POSTGRES_HOST || "20.107.168.229",
+  host: process.env.POSTGRES_HOST || "localhost",
   database: process.env.POSTGRES_DB || "elearning_db",
   password: process.env.POSTGRES_PASSWORD || "elearning_pass",
   port: process.env.POSTGRES_PORT || 5432,
