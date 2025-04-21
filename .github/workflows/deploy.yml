@@ -1,10 +1,10 @@
 name: Deploy to Azure VM
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  #   push:
+  #     branches: [main, master]
+  #   pull_request:
+  #     branches: [main, master]
   workflow_dispatch: # Allows manual triggering
 #   workflow_run:
 #     workflows:
@@ -95,6 +95,7 @@ jobs:
           REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
           REDIS_PORT=${{ secrets.REDIS_PORT }}
           REDIS_USER=${{ secrets.REDIS_USER }}
+          REDIS_HOST=${{ secrets.REDIS_HOST }}
 
           # API Configuration
           API_CONTAINER_NAME=${{ secrets.API_CONTAINER_NAME }}
