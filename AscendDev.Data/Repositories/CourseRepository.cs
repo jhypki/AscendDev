@@ -13,7 +13,7 @@ public class CourseRepository(
     {
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                        featured_image, lesson_summaries, status, created_by
+                                        featured_image, lesson_summaries, status
                                  FROM courses
                              """;
 
@@ -32,7 +32,7 @@ public class CourseRepository(
     {
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status, created_by
+                                    featured_image, lesson_summaries, status
                                     FROM courses
                                  WHERE id = @CourseId
                              """;
@@ -52,7 +52,7 @@ public class CourseRepository(
     {
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status, created_by
+                                    featured_image, lesson_summaries, status
                                     FROM courses
                                  WHERE slug = @Slug
                              """;
@@ -72,7 +72,7 @@ public class CourseRepository(
     {
         const string query = """
                                  SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status, created_by
+                                    featured_image, lesson_summaries, status
                                     FROM courses
                                  WHERE language = @Language
                              """;

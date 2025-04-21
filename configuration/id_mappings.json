@@ -1,9 +1,9 @@
 {
   "courses": {
-    "typescript_course": "30d81906-672d-db24-e50d-2701606d2cfd"
+    "typescript_course": "typescript_course"
   },
   "lessons": {
-    "arrays": "350c7714-54ab-761c-7e52-773bd39f8e12",
-    "basic_math": "c2e87fd2-615d-94f0-b6d6-0e5d8166e1d0"
+    "arrays": "typescript_course_arrays",
+    "basic_math": "typescript_course_basic_math"
   }
 }

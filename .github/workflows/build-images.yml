@@ -1,0 +1,62 @@
+name: Docker Build Workflow
+
+on:
+  pull_request:
+    paths:
+      - "configuration/docker/**"
+    branches:
+      - main
+      - master
+      - develop
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docker_changed: ${{ steps.filter.outputs.docker }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for docker configuration changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            docker:
+              - 'configuration/docker/**'
+
+  build-docker-images:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.docker_changed == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get PR number
+        id: pr
+        run: echo "pr_number=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')" >> $GITHUB_OUTPUT
+
+      - name: Build Docker images
+        working-directory: ./configuration/docker
+        run: |
+          chmod +x ./build-images.sh
+          DOCKER_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} ./build-images.sh
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.pr_number }}

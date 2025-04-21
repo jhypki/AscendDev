@@ -58,7 +58,11 @@ builder.Services.AddSingleton(jwtSettings);
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    var redisHost = builder.Configuration.GetSection("Redis")["Host"] ?? "localhost";
+    var redisPort = builder.Configuration.GetSection("Redis")["Port"] ?? "6379";
+    var redisPassword = builder.Configuration.GetSection("Redis")["Password"] ?? string.Empty;
+
+    options.Configuration = $"{redisHost}:{redisPort},abortConnect=false,password={redisPassword}";
     options.InstanceName = "AscendDev_";
 });
 

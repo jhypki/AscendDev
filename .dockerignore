@@ -63,4 +63,3 @@ terraform.tfvars
 
 # Node.js dependencies
 node_modules/
-*/upload-config-to-vm.sh

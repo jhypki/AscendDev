@@ -60,7 +60,8 @@ public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageS
             Cmd = new[] { "sh", "-c", "/app/run-tests.sh" },
             Tty = false,
             AttachStdout = true,
-            AttachStderr = true
+            AttachStderr = true,
+            User = "root"
         };
 
         return Task.FromResult(config);

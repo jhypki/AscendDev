@@ -5,7 +5,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace AscendDev.API.Middleware;
 
-public class ErrorHandlingMiddleware(RequestDelegate next)
+public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -19,10 +19,12 @@ public class ErrorHandlingMiddleware(RequestDelegate next)
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
         ApiResponse<object?> response;
+
+        logger.LogError(exception, exception.Message);
 
         switch (exception)
         {

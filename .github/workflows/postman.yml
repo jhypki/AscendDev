@@ -18,7 +18,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y docker-compose
 
       - name: Start API with Docker Compose
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose.test.yml up -d
 
       - name: Install Postman CLI
         run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
@@ -31,4 +31,4 @@ jobs:
           postman collection run "33345036-f08fe69e-b63f-4fd3-ab02-0d44d4288334" -e "33345036-a883de81-e883-4103-8dd3-667f0547d827"
 
       - name: Stop containers
-        run: docker-compose down
+        run: docker-compose -f docker-compose.test.yml down

@@ -11,11 +11,23 @@ public class RedisConnectionManager : IConnectionManager<IDatabase>, IDisposable
 
     public RedisConnectionManager(IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Redis")
-                               ?? throw new ArgumentException(
-                                   "Redis connection string must be provided in configuration.");
+        var redisSection = configuration.GetSection("Redis");
+        var host = redisSection["Host"] ?? "localhost";
+        var port = int.Parse(redisSection["Port"] ?? "6379");
+        var password = redisSection["Password"] ?? string.Empty;
+        var user = redisSection["User"] ?? "default";
 
-        _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(connectionString));
+        _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(
+            new ConfigurationOptions
+            {
+                EndPoints = { { host, port } },
+                User = user,
+                Password = password,
+                AbortOnConnectFail = false,  // Add this line
+                ConnectTimeout = 5000,       // Increase timeout to 5 seconds
+                ConnectRetry = 3
+            }
+        ));
     }
 
     public IDatabase GetConnection()

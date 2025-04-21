@@ -1,0 +1,179 @@
+name: Deploy to Azure VM
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to Azure VM"
+        required: true
+        default: "true"
+    #   environment:
+    #     description: "Environment to run tests against"
+    #     type: environment
+    #     required: true
+#   push:
+#     branches: [main, master]
+#   pull_request:
+#     branches: [main, master]
+#   workflow_run:
+#     workflows:
+#       [
+#         "Docker Build Workflow",
+#         "Course Upload Workflow",
+#         ".NET",
+#         "Postman",
+#         ".NET Code Coverage",
+#         "CodeQL Advanced",
+#       ]
+#     types:
+#       - completed
+
+env:
+  REGISTRY: docker.io
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  API_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api
+  DOTNET_VERSION: "8.0" # Update to match your .NET version
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup .NET if you need to build the app first
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Login to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Generate container metadata
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}
+          tags: |
+            type=sha,format=short
+            type=ref,event=branch
+            type=ref,event=pr
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') || github.ref == format('refs/heads/{0}', 'master') }}
+
+      # Build and push the Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Update this path to point to your API project directory
+          file: ./Dockerfile # Update this path to your Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get short SHA
+        id: sha
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      # Create .env file from secrets
+      - name: Create .env file
+        run: |
+          cat > .env << EOL
+          # PostgreSQL Configuration
+          POSTGRES_CONTAINER_NAME=${{ secrets.POSTGRES_CONTAINER_NAME }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
+          POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
+
+          # Redis Configuration
+          REDIS_CONTAINER_NAME=${{ secrets.REDIS_CONTAINER_NAME }}
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_PORT=${{ secrets.REDIS_PORT }}
+          REDIS_USER=${{ secrets.REDIS_USER }}
+          REDIS_HOST=${{ secrets.REDIS_HOST }}
+
+          # API Configuration
+          API_CONTAINER_NAME=${{ secrets.API_CONTAINER_NAME }}
+          API_PORT=${{ secrets.API_PORT }}
+          API_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api:sha-${{ steps.sha.outputs.short_sha }}
+          ASPNETCORE_URLS=${{ secrets.ASPNETCORE_URLS }}
+          ASPNETCORE_ENVIRONMENT=${{ secrets.ASPNETCORE_ENVIRONMENT }}
+          DOCKER_HOST=${{ secrets.DOCKER_HOST }}
+
+          # Connection Strings
+          ConnectionStrings__Postgres=${{ secrets.ConnectionStrings__Postgres }}
+
+          # JWT Settings
+          JwtSettings__Key=${{ secrets.JwtSettings__Key }}
+          JwtSettings__Issuer=${{ secrets.JwtSettings__Issuer }}
+          JwtSettings__Audience=${{ secrets.JwtSettings__Audience }}
+          JwtSettings__AccessTokenExpiryMinutes=${{ secrets.JwtSettings__AccessTokenExpiryMinutes }}
+          JwtSettings__RefreshTokenExpiryDays=${{ secrets.JwtSettings__RefreshTokenExpiryDays }}
+
+          # New Relic Configuration
+          NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }}
+          NEW_RELIC_APP_NAME=${{ secrets.NEW_RELIC_APP_NAME }}
+          EOL
+
+      # Copy docker-compose.yml and .env to VM
+      - name: Copy files to VM
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          source: "docker-compose.yml,.env,init-scripts/"
+          target: "~/app"
+
+      # SSH into VM and deploy
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VM_SSH_PORT }}
+          script: |
+            cd ~/app
+
+            # Log in to Docker Hub
+            echo *** | docker login -u *** --password-stdin
+
+            # Properly stop and remove existing containers
+            echo "Stopping and removing containers if they exist..."
+            docker compose down --remove-orphans
+
+            # Small delay to ensure resources are released
+            echo "Waiting for resources to be fully released..."
+            sleep 5
+
+            docker compose pull
+
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api:sha-${{ steps.sha.outputs.short_sha }}
+
+            # Start the application with new images
+            echo "Starting the application..."
+            docker compose up -d
+
+            # Clean up unused images
+            echo "Cleaning up unused images..."
+            docker image prune -af
