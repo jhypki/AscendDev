@@ -36,6 +36,9 @@
       interval: 5s
       timeout: 5s
       retries: 5
+    deploy:
+      restart_policy:
+        delay: 5s
 
   api:
     image: ${API_IMAGE:-} # Provide a default tag if API_IMAGE isn't set

@@ -144,6 +144,17 @@ jobs:
             # Log in to Docker Hub
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
+            echo "Checking for processes on Redis port (6379)..."
+            if sudo lsof -i :6379 > /dev/null; then
+                echo "Found processes using Redis port, forcefully stopping..."
+                # Find container using Redis port and stop it
+                REDIS_CONTAINER=$(docker ps -q --filter "publish=6379")
+                if [ ! -z "$REDIS_CONTAINER" ]; then
+                echo "Stopping Redis container..."
+                docker stop $REDIS_CONTAINER
+                fi
+            fi
+
             # Properly stop and remove existing containers
             echo "Stopping and removing containers if they exist..."
             docker compose down --remove-orphans
