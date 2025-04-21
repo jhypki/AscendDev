@@ -143,22 +143,38 @@ jobs:
             cd ~/app
 
             # Log in to Docker Hub
-            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            echo *** | docker login -u *** --password-stdin
 
-            echo "Checking for processes on Redis port (6379)..."
-            if sudo lsof -i :6379 > /dev/null; then
-                echo "Found processes using Redis port, forcefully stopping..."
-                # Find container using Redis port and stop it
-                REDIS_CONTAINER=$(docker ps -q --filter "publish=6379")
-                if [ ! -z "$REDIS_CONTAINER" ]; then
-                echo "Stopping Redis container..."
-                docker stop $REDIS_CONTAINER
+            # Check for existing containers with our names and remove them
+            echo "Checking for containers with conflicting names..."
+            # Get container names from docker-compose.yml
+            CONTAINER_NAMES=$(grep -E "container_name|CONTAINER_NAME" docker-compose.yml | sed -E 's/.*\$\{([^}]*)\}.*/\1/g' | xargs)
+
+            # Add explicit container names check
+            for ENV_VAR in $CONTAINER_NAMES; do
+            CONTAINER_NAME=$(grep "$ENV_VAR" .env | cut -d'=' -f2)
+            if [ ! -z "$CONTAINER_NAME" ]; then
+                echo "Checking for container with name: $CONTAINER_NAME"
+                if docker ps -a --format '{{.Names}}' | grep -q "^$CONTAINER_NAME$"; then
+                echo "Found container $CONTAINER_NAME. Removing it..."
+                docker rm -f "$CONTAINER_NAME"
                 fi
+            fi
+            done
+
+            # Force remove any container with matching names (as fallback)
+            echo "Force removing any potentially conflicting containers..."
+            if docker ps -a | grep -q "***"; then
+            docker rm -f "***"
             fi
 
             # Properly stop and remove existing containers
             echo "Stopping and removing containers if they exist..."
-            docker compose down --remove-orphans
+            docker compose down --remove-orphans --volumes
+
+            # Small delay to ensure resources are released
+            echo "Waiting for resources to be fully released..."
+            sleep 5
 
             # Pull the latest images
             echo "Pulling the latest images..."
@@ -168,6 +184,6 @@ jobs:
             echo "Starting the application..."
             docker compose up -d
 
-            # Clean up unused  images
+            # Clean up unused images
             echo "Cleaning up unused images..."
             docker image prune -af
