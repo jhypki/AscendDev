@@ -146,14 +146,18 @@ jobs:
             # Log in to Docker Hub
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
+            # Properly stop and remove existing containers
+            echo "Stopping and removing containers if they exist..."
+            docker compose down --remove-orphans
+
             # Pull the latest images
+            echo "Pulling the latest images..."
             docker compose pull
 
-            # Stop the current app containers but keep databases running
-            docker compose stop api
-
-            # Start with the updated images
+            # Start the application with new images
+            echo "Starting the application..."
             docker compose up -d
 
             # Clean up unused images
+            echo "Cleaning up unused images..."
             docker image prune -af
