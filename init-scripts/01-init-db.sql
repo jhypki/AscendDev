@@ -16,7 +16,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE courses (
-    id UUID PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
@@ -26,13 +26,13 @@ CREATE TABLE courses (
     featured_image TEXT,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
     lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
-    status VARCHAR(50) NOT NULL DEFAULT 'draft',
-    created_by UUID NOT NULL
+    status VARCHAR(50) NOT NULL DEFAULT 'draft'
+    -- created_by UUID NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE lessons (
-    id UUID PRIMARY KEY,
-    course_id UUID NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+    id TEXT PRIMARY KEY,
+    course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL UNIQUE,
     content TEXT,
@@ -49,3 +49,6 @@ CREATE TABLE lessons (
 
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
+
+-- CREATE INDEX idx_courses_slug ON courses(slug);
+-- CREATE INDEX idx_courses_id ON courses(id);

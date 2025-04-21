@@ -1,0 +1,49 @@
+name: Course Upload Workflow
+
+on:
+  push:
+    paths:
+      - "configuration/courses/**"
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    paths:
+      - "configuration/courses/**"
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  upload-courses:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: "./configuration/package-lock.json"
+
+      - name: Install dependencies
+        working-directory: ./configuration
+        run: npm ci
+
+      - name: Run upload script
+        working-directory: ./configuration
+        run: npm run upload
+        env:
+          # Database connection variables
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_HOST: ${{ secrets.VM_HOST }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          # Add any other environment variables needed
+          NODE_ENV: production
