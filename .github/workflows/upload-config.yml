@@ -47,17 +47,3 @@ jobs:
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           # Add any other environment variables needed
           NODE_ENV: production
-
-      - name: Notify on PR (if PR)
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const prNumber = context.issue.number;
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-              body: `✅ Course upload completed for PR #${prNumber}`
-            });

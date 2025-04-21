@@ -41,7 +41,9 @@ services:
         delay: 5s
 
   api:
-    image: docker.io/yourusername/ascenddev-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ascenddev-api
     depends_on:
       postgres:
@@ -66,10 +68,6 @@ services:
       JwtSettings__AccessTokenExpiryMinutes: "60"
       JwtSettings__RefreshTokenExpiryDays: "7"
 
-      # New Relic Configuration
-      NEW_RELIC_LICENSE_KEY: "your-new-relic-license-key"
-      NEW_RELIC_APP_NAME: "AscendDev-API"
-
       # TEMP_DIRECTORY for code execution
       TEMP_DIRECTORY: /app/temp
 
@@ -88,21 +86,6 @@ services:
         max-size: "10m"
         max-file: "3"
     restart: on-failure
-
-  newrelic-infra:
-    image: newrelic/infrastructure:latest
-    container_name: newrelic-infra
-    network_mode: host
-    cap_add:
-      - SYS_PTRACE
-    privileged: true
-    pid: host
-    volumes:
-      - /:/host:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      NRIA_LICENSE_KEY: "your-new-relic-license-key"
-    restart: unless-stopped
 
   upload-config-files:
     build: ./configuration
