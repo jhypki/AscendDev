@@ -12,6 +12,6 @@ public class HealthController : ControllerBase
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public IActionResult GetHealth()
     {
-        return Ok(ApiResponse<string>.SuccessResponse("Healthy"));
+        return Ok(ApiResponse<string>.SuccessResponse("Healthy af"));
     }
 }

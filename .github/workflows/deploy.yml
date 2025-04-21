@@ -6,6 +6,18 @@ on:
   pull_request:
     branches: [main, master]
   workflow_dispatch: # Allows manual triggering
+#   workflow_run:
+#     workflows:
+#       [
+#         "Docker Build Workflow",
+#         "Course Upload Workflow",
+#         ".NET",
+#         "Postman",
+#         ".NET Code Coverage",
+#         "CodeQL Advanced",
+#       ]
+#     types:
+#       - completed
 
 env:
   REGISTRY: docker.io
