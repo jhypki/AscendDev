@@ -1,0 +1,133 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ascenddev-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: ascenddev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - elearning_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ascenddev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: ascenddev-redis
+    command: redis-server --requirepass "redis123"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - elearning_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      restart_policy:
+        delay: 5s
+
+  api:
+    image: docker.io/yourusername/ascenddev-api:latest
+    container_name: ascenddev-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Application Configuration
+      ConnectionStrings__Postgres: "Host=postgres;Port=5432;Database=ascenddev;Username=postgres;Password=postgres123"
+      Redis__Host: redis
+      Redis__Port: 6379
+      Redis__User: default
+      Redis__Password: redis123
+      ASPNETCORE_URLS: http://+:5171
+      ASPNETCORE_ENVIRONMENT: Development
+      DOCKER_HOST: unix:///var/run/docker.sock
+
+      # JWT Settings
+      JwtSettings__Key: "super-secret-key-at-least-32-chars-long"
+      JwtSettings__Issuer: "ascenddev.api"
+      JwtSettings__Audience: "ascenddev.client"
+      JwtSettings__AccessTokenExpiryMinutes: "60"
+      JwtSettings__RefreshTokenExpiryDays: "7"
+
+      # New Relic Configuration
+      NEW_RELIC_LICENSE_KEY: "your-new-relic-license-key"
+      NEW_RELIC_APP_NAME: "AscendDev-API"
+
+      # TEMP_DIRECTORY for code execution
+      TEMP_DIRECTORY: /app/temp
+
+    ports:
+      - "5171:5171"
+    networks:
+      - elearning_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp:/tmp
+      - data_protection_keys:/root/.aspnet/DataProtection-Keys
+    user: "root"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: on-failure
+
+  newrelic-infra:
+    image: newrelic/infrastructure:latest
+    container_name: newrelic-infra
+    network_mode: host
+    cap_add:
+      - SYS_PTRACE
+    privileged: true
+    pid: host
+    volumes:
+      - /:/host:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      NRIA_LICENSE_KEY: "your-new-relic-license-key"
+    restart: unless-stopped
+
+  upload-config-files:
+    build: ./configuration
+    container_name: upload-config-files
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: ascenddev
+      POSTGRES_HOST: postgres
+    networks:
+      - elearning_network
+    restart: "no"
+    command: >
+      sh -c "
+        node /app/upload-to-db.js
+      "
+
+volumes:
+  postgres_data:
+  redis_data:
+  data_protection_keys:
+
+networks:
+  elearning_network:
+    driver: bridge
