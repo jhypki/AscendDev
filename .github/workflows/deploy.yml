@@ -167,6 +167,6 @@ jobs:
             echo "Starting the application..."
             docker compose up -d
 
-            # Clean up unused images
+            # Clean up unused  images
             echo "Cleaning up unused images..."
             docker image prune -af
