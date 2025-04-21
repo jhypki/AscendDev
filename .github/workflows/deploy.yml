@@ -95,8 +95,6 @@ jobs:
           REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
           REDIS_PORT=${{ secrets.REDIS_PORT }}
           REDIS_USER=${{ secrets.REDIS_USER }}
-          Redis__Host=${{ secrets.Redis__Host }}
-          Redis__Port=${{ secrets.Redis__Port }}
 
           # API Configuration
           API_CONTAINER_NAME=${{ secrets.API_CONTAINER_NAME }}
