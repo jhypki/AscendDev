@@ -48,8 +48,8 @@
     environment:
       # Application Configuration
       ConnectionStrings__Postgres: ${ConnectionStrings__Postgres}
-      Redis__Host: ${Redis__Host}
-      Redis__Port: ${Redis__Port}
+      Redis__Host: ${REDIS_HOST}
+      Redis__Port: ${REDIS_PORT}
       Redis__User: ${REDIS_USER}
       Redis__Password: ${REDIS_PASSWORD}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
