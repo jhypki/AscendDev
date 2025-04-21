@@ -100,7 +100,7 @@ jobs:
           # API Configuration
           API_CONTAINER_NAME=${{ secrets.API_CONTAINER_NAME }}
           API_PORT=${{ secrets.API_PORT }}
-          API_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api:latest
+          API_IMAGE=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api:sha-${{ steps.sha.outputs.short_sha }}
           ASPNETCORE_URLS=${{ secrets.ASPNETCORE_URLS }}
           ASPNETCORE_ENVIRONMENT=${{ secrets.ASPNETCORE_ENVIRONMENT }}
           DOCKER_HOST=${{ secrets.DOCKER_HOST }}
@@ -145,32 +145,9 @@ jobs:
             # Log in to Docker Hub
             echo *** | docker login -u *** --password-stdin
 
-            # Check for existing containers with our names and remove them
-            echo "Checking for containers with conflicting names..."
-            # Get container names from docker-compose.yml
-            CONTAINER_NAMES=$(grep -E "container_name|CONTAINER_NAME" docker-compose.yml | sed -E 's/.*\$\{([^}]*)\}.*/\1/g' | xargs)
-
-            # Add explicit container names check
-            for ENV_VAR in $CONTAINER_NAMES; do
-            CONTAINER_NAME=$(grep "$ENV_VAR" .env | cut -d'=' -f2)
-            if [ ! -z "$CONTAINER_NAME" ]; then
-                echo "Checking for container with name: $CONTAINER_NAME"
-                if docker ps -a --format '{{.Names}}' | grep -q "^$CONTAINER_NAME$"; then
-                echo "Found container $CONTAINER_NAME. Removing it..."
-                docker rm -f "$CONTAINER_NAME"
-                fi
-            fi
-            done
-
-            # Force remove any container with matching names (as fallback)
-            echo "Force removing any potentially conflicting containers..."
-            if docker ps -a | grep -q "***"; then
-            docker rm -f "***"
-            fi
-
             # Properly stop and remove existing containers
             echo "Stopping and removing containers if they exist..."
-            docker compose down --remove-orphans --volumes
+            docker compose down --remove-orphans
 
             # Small delay to ensure resources are released
             echo "Waiting for resources to be fully released..."
