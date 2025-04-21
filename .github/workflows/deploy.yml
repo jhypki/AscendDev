@@ -1,11 +1,11 @@
 name: Deploy to Azure VM
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-  workflow_dispatch: # Allows manual triggering
 #   workflow_run:
 #     workflows:
 #       [
