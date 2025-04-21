@@ -78,6 +78,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get short SHA
+        id: sha
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       # Create .env file from secrets
       - name: Create .env file
         run: |
@@ -153,9 +157,9 @@ jobs:
             echo "Waiting for resources to be fully released..."
             sleep 5
 
-            # Pull the latest images
-            echo "Pulling the latest images..."
             docker compose pull
+
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ascenddev-api:sha-${{ steps.sha.outputs.short_sha }}
 
             # Start the application with new images
             echo "Starting the application..."
