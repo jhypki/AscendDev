@@ -6,7 +6,7 @@ using AscendDev.Core.Models.Courses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AscendDev.Functions.Controllers;
+namespace AscendDev.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -26,8 +26,7 @@ public class CoursesController(ICourseService courseService, ILessonService less
         return Ok(courses);
     }
 
-    [HttpGet]
-    [Route("/{id}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(typeof(Course), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
@@ -39,8 +38,7 @@ public class CoursesController(ICourseService courseService, ILessonService less
         return Ok(course);
     }
 
-    [HttpGet]
-    [Route("{id}/lessons")]
+    [HttpGet("{id}/lessons")]
     [ProducesResponseType(typeof(List<LessonResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
@@ -52,8 +50,7 @@ public class CoursesController(ICourseService courseService, ILessonService less
         return Ok(lessons);
     }
 
-    [HttpGet]
-    [Route("{courseId}/lessons/{id}")]
+    [HttpGet("{courseId}/lessons/{id}")]
     [ProducesResponseType(typeof(LessonResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]

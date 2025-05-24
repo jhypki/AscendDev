@@ -1,0 +1,9 @@
+{
+  "id": "csharp_course",
+  "title": "C# Programming Fundamentals",
+  "description": "Learn the basics of C# programming language",
+  "language": "csharp",
+  "difficulty": "beginner",
+  "tags": ["csharp", "dotnet", "programming"],
+  "lessons": ["basic_math"]
+}

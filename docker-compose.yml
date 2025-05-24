@@ -1,13 +1,13 @@
 ﻿services:
   postgres:
     image: postgres:16
-    container_name: ${POSTGRES_CONTAINER_NAME}
+    container_name: ${POSTGRES_CONTAINER_NAME:-ascenddev-postgres}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-ascenddev}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d # Ensure this dir exists if needed
@@ -15,17 +15,21 @@
       - elearning_network
     restart: unless-stopped
     healthcheck: # Added from original script - good practice
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-ascenddev}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7
-    container_name: ${REDIS_CONTAINER_NAME}
-    command: redis-server --requirepass "${REDIS_PASSWORD}"
+    container_name: ${REDIS_CONTAINER_NAME:-ascenddev-redis}
+    command: redis-server --requirepass "${REDIS_PASSWORD:-redis}"
     ports:
-      - "${REDIS_PORT}:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -41,8 +45,11 @@
         delay: 5s
 
   api:
-    image: ${API_IMAGE:-} # Provide a default tag if API_IMAGE isn't set
-    container_name: ${API_CONTAINER_NAME}
+    image: ${API_IMAGE:-}
+    build:
+      context: .
+      dockerfile: Dockerfile # Ensure this is correct relative to your project structure
+    container_name: ${API_CONTAINER_NAME:-ascenddev-api}
     depends_on:
       postgres:
         condition: service_healthy
@@ -50,31 +57,31 @@
         condition: service_healthy
     environment:
       # Application Configuration
-      ConnectionStrings__Postgres: ${ConnectionStrings__Postgres}
-      Redis__Host: ${REDIS_HOST}
-      Redis__Port: ${REDIS_PORT}
-      Redis__User: ${REDIS_USER}
-      Redis__Password: ${REDIS_PASSWORD}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      DOCKER_HOST: ${DOCKER_HOST}
+      ConnectionStrings__Postgres: ${ConnectionStrings__Postgres:-Host=postgres;Database=ascenddev;Username=postgres;Password=postgres}
+      Redis__Host: ${REDIS_HOST:-redis}
+      Redis__Port: ${REDIS_PORT:-6379}
+      Redis__User: ${REDIS_USER:-default}
+      Redis__Password: ${REDIS_PASSWORD:-redis}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS:-http://+:5171}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      DOCKER_HOST: ${DOCKER_HOST:-unix:///var/run/docker.sock}
 
       # JWT Settings (Added from init script vars)
-      JwtSettings__Key: ${JwtSettings__Key}
-      JwtSettings__Issuer: ${JwtSettings__Issuer}
-      JwtSettings__Audience: ${JwtSettings__Audience}
-      JwtSettings__AccessTokenExpiryMinutes: ${JwtSettings__AccessTokenExpiryMinutes}
-      JwtSettings__RefreshTokenExpiryDays: ${JwtSettings__RefreshTokenExpiryDays}
+      JwtSettings__Key: ${JwtSettings__Key:-your-256-bit-secret-key-here-for-development-only}
+      JwtSettings__Issuer: ${JwtSettings__Issuer:-ascenddev}
+      JwtSettings__Audience: ${JwtSettings__Audience:-ascenddev-users}
+      JwtSettings__AccessTokenExpiryMinutes: ${JwtSettings__AccessTokenExpiryMinutes:-60}
+      JwtSettings__RefreshTokenExpiryDays: ${JwtSettings__RefreshTokenExpiryDays:-7}
 
       # New Relic Configuration (Passed from environment)
-      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
-      NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
+      NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY:-}
+      NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME:-AscendDev}
 
       # TEMP_DIRECTORY for code execution (align with Dockerfile ENV)
       TEMP_DIRECTORY: /app/temp # Or /tmp if mounting host's /tmp
 
     ports:
-      - "${API_PORT}:5171"
+      - "${API_PORT:-5171}:5171"
     networks:
       - elearning_network
     volumes:
@@ -104,28 +111,30 @@
       - /:/host:ro
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      NRIA_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY}
+      NRIA_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY:-}
     restart: unless-stopped # Or another restart policy as needed
+    profiles:
+      - production
 
-#TODO: upload config files in github actions
-# upload-config-files:
-#   build: ./configuration # Assumes Dockerfile is in ./configuration subdir
-#   container_name: ${UPLOAD_CONFIG_CONTAINER_NAME:-upload-config-files} # Optional: Define container name
-#   depends_on:
-#     postgres: # Use service_healthy condition
-#       condition: service_healthy
-#   environment:
-#     POSTGRES_USER: ${POSTGRES_USER}
-#     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#     POSTGRES_DB: ${POSTGRES_DB}
-#     POSTGRES_HOST: ${POSTGRES_HOST} # Typically the service name: 'postgres'
-#   networks:
-#     - elearning_network
-#   restart: "no"
-#   command: >
-#     sh -c "
-#       node /app/upload-to-db.js
-#     "
+  #TODO: upload config files in github actions
+  upload-config-files:
+    build: ./configuration # Assumes Dockerfile is in ./configuration subdir
+    container_name: ${UPLOAD_CONFIG_CONTAINER_NAME:-upload-config-files} # Optional: Define container name
+    depends_on:
+      postgres: # Use service_healthy condition
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-ascenddev}
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres} # Typically the service name: 'postgres'
+    networks:
+      - elearning_network
+    restart: "no"
+    command: >
+      sh -c "
+        node /app/upload-to-db.js
+      "
 
 volumes:
   postgres_data:

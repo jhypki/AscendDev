@@ -14,8 +14,8 @@ public static class CodeExecutionServiceExtensions
         // Register all strategies
         services.AddTransient<ILanguageStrategy, TypeScriptStrategy>();
         // services.AddTransient<ILanguageStrategy, JavaScriptStrategy>();
-        // services.AddTransient<ILanguageStrategy, CSharpStrategy>();
-        // services.AddTransient<ILanguageStrategy, PythonStrategy>();
+        services.AddTransient<ILanguageStrategy, CSharpStrategy>();
+        services.AddTransient<ILanguageStrategy, PythonStrategy>();
 
         // Register the factory
         services.AddTransient<ILanguageStrategyFactory, LanguageStrategyFactory>();

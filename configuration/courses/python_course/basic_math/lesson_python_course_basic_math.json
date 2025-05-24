@@ -1,0 +1,13 @@
+{
+  "id": "python_course_basic_math",
+  "title": "Basic Math Operations in Python",
+  "description": "Learn how to implement basic math operations in Python",
+  "order": 1,
+  "content_file": "content.md",
+  "code_template_file": "code_template.py",
+  "test_config": {
+    "test_template_file": "tests.py",
+    "timeout_ms": 5000,
+    "memory_limit_mb": 128
+  }
+}

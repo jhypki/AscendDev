@@ -1,0 +1,9 @@
+{
+  "id": "python_course",
+  "title": "Python Programming Fundamentals",
+  "description": "Learn the basics of Python programming language",
+  "language": "python",
+  "difficulty": "beginner",
+  "tags": ["python", "programming"],
+  "lessons": ["basic_math"]
+}

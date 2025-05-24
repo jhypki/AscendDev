@@ -1,9 +1,11 @@
 {
   "courses": {
+    "csharp_course": "csharp_course",
+    "python_course": "python_course",
     "typescript_course": "typescript_course"
   },
   "lessons": {
-    "arrays": "typescript_course_arrays",
-    "basic_math": "typescript_course_basic_math"
+    "basic_math": "typescript_course_basic_math",
+    "arrays": "typescript_course_arrays"
   }
 }
