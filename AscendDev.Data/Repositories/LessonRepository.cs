@@ -39,10 +39,6 @@ public class LessonRepository(
 
         try
         {
-            var sanitizedId = id.Replace("\n", "_").Replace("\r", "_");
-            logger.LogInformation("Retrieving lesson by ID {Id}", sanitizedId);
-            //log lesson
-            logger.LogInformation("Lesson: {Lesson}", sql.QueryFirstOrDefaultAsync<Lesson>(query, new { Id = id }));
             return await sql.QueryFirstOrDefaultAsync<Lesson>(query, new { Id = id });
         }
         catch (Exception ex)

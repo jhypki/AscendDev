@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AscendDev.Functions.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 [ValidateModel]
 [Authorize]
 public class CoursesController(ICourseService courseService, ILessonService lessonService) : ControllerBase
 {
     [HttpGet]
-    [Route("api/[controller]")]
-    [ProducesResponseType(typeof(SuccessApiResponse<List<Lesson>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<Lesson>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
@@ -23,12 +23,12 @@ public class CoursesController(ICourseService courseService, ILessonService less
     public async Task<IActionResult> GetAllCourses()
     {
         var courses = await courseService.GetAllCourses();
-        return Ok(ApiResponse<List<Course>>.SuccessResponse(courses));
+        return Ok(courses);
     }
 
     [HttpGet]
-    [Route("api/[controller]/{id}")]
-    [ProducesResponseType(typeof(SuccessApiResponse<Course>), StatusCodes.Status200OK)]
+    [Route("/{id}")]
+    [ProducesResponseType(typeof(Course), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
@@ -36,12 +36,12 @@ public class CoursesController(ICourseService courseService, ILessonService less
     public async Task<IActionResult> GetCourseById([FromRoute] string id)
     {
         var course = await courseService.GetCourseById(id);
-        return Ok(ApiResponse<Course>.SuccessResponse(course));
+        return Ok(course);
     }
 
     [HttpGet]
-    [Route("api/[controller]/{id}/lessons")]
-    [ProducesResponseType(typeof(SuccessApiResponse<List<LessonResponse>>), StatusCodes.Status200OK)]
+    [Route("{id}/lessons")]
+    [ProducesResponseType(typeof(List<LessonResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
@@ -49,6 +49,19 @@ public class CoursesController(ICourseService courseService, ILessonService less
     public async Task<IActionResult> GetLessonsByCourseId([FromRoute] string id)
     {
         var lessons = await lessonService.GetLessonsByCourseId(id);
-        return Ok(ApiResponse<List<LessonResponse>>.SuccessResponse(lessons));
+        return Ok(lessons);
+    }
+
+    [HttpGet]
+    [Route("{courseId}/lessons/{id}")]
+    [ProducesResponseType(typeof(LessonResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetLessonById([FromRoute] string id, string courseId)
+    {
+        var lesson = await lessonService.GetLessonById(id);
+        return Ok(lesson);
     }
 }

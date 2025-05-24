@@ -8,10 +8,10 @@ public class HealthController : ControllerBase
 {
     [HttpGet]
     [Route("[controller]")]
-    [ProducesResponseType(typeof(SuccessApiResponse<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
     public IActionResult GetHealth()
     {
-        return Ok(ApiResponse<string>.SuccessResponse("Healthy af"));
+        return Ok("Healthy");
     }
 }

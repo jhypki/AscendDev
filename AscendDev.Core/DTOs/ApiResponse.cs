@@ -14,11 +14,6 @@ public class ApiResponse<T>(bool success, T? data, string message, List<string>?
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public List<string>? Errors { get; set; } = errors;
 
-    public static ApiResponse<T> SuccessResponse(T data, string message = "Operation successful")
-    {
-        return new SuccessApiResponse<T>(data, message);
-    }
-
     public static ApiResponse<object?> ErrorResponse(string message, List<string>? errors = null)
     {
         return new ErrorApiResponse(errors, message);
