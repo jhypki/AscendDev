@@ -1,4 +1,5 @@
 using AscendDev.Core.CodeExecution;
+using AscendDev.Core.CodeExecution.Sanitizers;
 using AscendDev.Core.CodeExecution.Strategies;
 using AscendDev.Core.Interfaces.CodeExecution;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,24 @@ public static class CodeExecutionServiceExtensions
     }
 
     /// <summary>
+    ///     Register all code sanitizers and the factory
+    /// </summary>
+    public static void AddCodeSanitizers(this IServiceCollection services)
+    {
+        // Register JavaScript sanitizer first (needed by TypeScript sanitizer)
+        services.AddTransient<JavaScriptSanitizer>();
+
+        // Register all sanitizers
+        services.AddTransient<ICodeSanitizer, PythonSanitizer>();
+        services.AddTransient<ICodeSanitizer, CSharpSanitizer>();
+        services.AddTransient<ICodeSanitizer, JavaScriptSanitizer>();
+        services.AddTransient<ICodeSanitizer, TypeScriptSanitizer>();
+
+        // Register the factory
+        services.AddTransient<ICodeSanitizerFactory, CodeSanitizerFactory>();
+    }
+
+    /// <summary>
     ///     Register all code execution services
     /// </summary>
     public static void AddCodeExecutionServices(this IServiceCollection services)
@@ -47,6 +66,9 @@ public static class CodeExecutionServiceExtensions
 
         // Register execution strategies
         services.AddLanguageExecutionStrategies();
+
+        // Register code sanitizers
+        services.AddCodeSanitizers();
 
         // Register executors
         services.AddTransient<ITestsExecutor, DockerTestsExecutor>();
