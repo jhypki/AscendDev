@@ -1,9 +1,23 @@
 {
-  "id": "python_course",
-  "title": "Python Programming Fundamentals",
-  "description": "Learn the basics of Python programming language",
+  "title": "Python Course",
+  "slug": "python-course",
   "language": "python",
-  "difficulty": "beginner",
-  "tags": ["python", "programming"],
-  "lessons": ["basic_math"]
+  "description": "Learn Python programming from scratch.",
+  "createdAt": "2025-05-24T19:51:30.000Z",
+  "featuredImage": "",
+  "tags": [
+    "python",
+    "programming"
+  ],
+  "status": "draft",
+  "createdBy": "",
+  "lessonSummaries": [
+    {
+      "lessonId": "python_course_arrays",
+      "title": "Arrays",
+      "slug": "arrays",
+      "order": 1
+    }
+  ],
+  "updatedAt": "2025-05-24T19:57:34.298Z"
 }

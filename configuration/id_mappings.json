@@ -5,7 +5,9 @@
     "typescript_course": "typescript_course"
   },
   "lessons": {
-    "basic_math": "typescript_course_basic_math",
-    "arrays": "typescript_course_arrays"
+    "csharp_course_arrays": "csharp_course_arrays",
+    "python_course_arrays": "python_course_arrays",
+    "typescript_course_arrays": "typescript_course_arrays",
+    "typescript_course_basic_math": "typescript_course_basic_math"
   }
 }

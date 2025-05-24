@@ -1,0 +1,45 @@
+{
+  "title": "Arrays",
+  "slug": "arrays",
+  "content": "# Lists in Python\n\nThis lesson introduces lists in Python, which are used to store collections of items.\n\n## What are Lists?\n\nIn Python, lists are ordered collections of items that can be of different types. Lists are mutable, which means you can change their content without changing their identity. They are one of the most versatile and commonly used data structures in Python.\n\n## Key Concepts\n\n- Lists are created using square brackets `[]`\n- Lists can contain items of different types\n- Lists are ordered and indexed starting from 0\n- Lists are mutable (can be changed after creation)\n- Lists can be nested (contain other lists)\n\n## Creating Lists\n\n```python\n# Empty list\nempty_list = []\n\n# List of integers\nnumbers = [1, 2, 3, 4, 5]\n\n# List with mixed data types\nmixed = [1, \"Hello\", 3.14, True]\n\n# Nested list\nnested = [1, [2, 3], 4]\n```\n\n## Common List Operations\n\n- Accessing elements: `first_item = numbers[0]`\n- Slicing: `subset = numbers[1:3]` # Returns [2, 3]\n- Modifying elements: `numbers[0] = 10`\n- Adding elements: `numbers.append(6)` or `numbers.insert(0, 0)`\n- Removing elements: `numbers.remove(3)` or `del numbers[0]`\n- Finding length: `length = len(numbers)`\n- Checking if an item exists: `if 3 in numbers:`\n- Iterating through a list:\n  ```python\n  for item in numbers:\n      print(item)\n  ```\n\n## List Methods\n\nPython provides many built-in methods for lists:\n\n- `append()` - Add an item to the end of the list\n- `extend()` - Add all items from another iterable to the list\n- `insert()` - Insert an item at a given position\n- `remove()` - Remove the first occurrence of an item\n- `pop()` - Remove an item at a given position and return it\n- `clear()` - Remove all items from the list\n- `index()` - Return the index of the first occurrence of an item\n- `count()` - Return the number of occurrences of an item\n- `sort()` - Sort the items in the list\n- `reverse()` - Reverse the order of items in the list\n- `copy()` - Return a shallow copy of the list\n\n## Exercise\n\nIn this exercise, you'll implement a function that reverses a list. The function should take a list as input and return a new list with the elements in reverse order.\n",
+  "template": "def reverse_array(arr):\n    \"\"\"\n    Reverses the given array.\n    \n    Args:\n        arr (list): The array to reverse\n        \n    Returns:\n        list: A new array with elements in reverse order\n    \"\"\"\n    # Write your code here\n    pass",
+  "createdAt": "2025-05-24T19:54:30.000Z",
+  "updatedAt": "2025-05-24T19:57:34.298Z",
+  "language": "python",
+  "order": 1,
+  "testConfig": {
+    "timeoutMs": 15000,
+    "memoryLimitMb": 512,
+    "testTemplate": "import pytest\nfrom solution import reverse_array\n\ndef test_reverse_array_1():\n    \"\"\"Test reversing [1, 2, 3]\"\"\"\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n\ndef test_reverse_array_2():\n    \"\"\"Test reversing [4, 5, 6]\"\"\"\n    assert reverse_array([4, 5, 6]) == [6, 5, 4]\n\ndef test_reverse_array_3():\n    \"\"\"Test reversing [7, 8, 9]\"\"\"\n    assert reverse_array([7, 8, 9]) == [9, 8, 7]\n\ndef test_reverse_array_empty():\n    \"\"\"Test reversing an empty array\"\"\"\n    assert reverse_array([]) == []\n\ndef test_reverse_array_single():\n    \"\"\"Test reversing an array with a single element\"\"\"\n    assert reverse_array([1]) == [1]",
+    "testCases": [
+      {
+        "input": [1, 2, 3],
+        "expected": [3, 2, 1]
+      },
+      {
+        "input": [4, 5, 6],
+        "expected": [6, 5, 4]
+      },
+      {
+        "input": [7, 8, 9],
+        "expected": [9, 8, 7]
+      },
+      {
+        "input": [],
+        "expected": []
+      },
+      {
+        "input": [1],
+        "expected": [1]
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "Python Lists Documentation",
+      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+    }
+  ],
+  "tags": ["python", "lists", "arrays"],
+  "status": "draft"
+}

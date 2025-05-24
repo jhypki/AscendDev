@@ -1,9 +1,23 @@
 {
-  "id": "csharp_course",
-  "title": "C# Programming Fundamentals",
-  "description": "Learn the basics of C# programming language",
+  "title": "C# Course",
+  "slug": "csharp-course",
   "language": "csharp",
-  "difficulty": "beginner",
-  "tags": ["csharp", "dotnet", "programming"],
-  "lessons": ["basic_math"]
+  "description": "Learn C# programming from scratch.",
+  "createdAt": "2025-05-24T19:51:00.000Z",
+  "featuredImage": "",
+  "tags": [
+    "csharp",
+    "dotnet"
+  ],
+  "status": "draft",
+  "createdBy": "",
+  "lessonSummaries": [
+    {
+      "lessonId": "csharp_course_arrays",
+      "title": "Arrays",
+      "slug": "arrays",
+      "order": 1
+    }
+  ],
+  "updatedAt": "2025-05-24T19:57:34.297Z"
 }

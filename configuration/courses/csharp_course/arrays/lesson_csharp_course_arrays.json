@@ -1,0 +1,37 @@
+{
+  "title": "Arrays",
+  "slug": "arrays",
+  "content": "# Arrays in C#\n\nThis lesson introduces arrays in C#, a fundamental data structure for storing collections of elements.\n\n## What are Arrays?\n\nIn C#, an array is a collection of elements of the same type stored at contiguous memory locations. Arrays are used to store multiple values in a single variable, instead of declaring separate variables for each value.\n\n## Key Concepts\n\n- Arrays in C# are zero-indexed, meaning the first element is at index 0\n- Arrays have a fixed size that is defined when the array is created\n- Array elements can be accessed using their index\n- Arrays can be single-dimensional, multidimensional, or jagged\n\n## Creating Arrays\n\n```csharp\n// Declare and initialize an array\nint[] numbers = new int[5]; // Creates an array of 5 integers\n\n// Initialize with values\nint[] numbers = new int[] { 1, 2, 3, 4, 5 };\n\n// Shorthand syntax\nint[] numbers = { 1, 2, 3, 4, 5 };\n```\n\n## Common Array Operations\n\n- Accessing elements: `int firstNumber = numbers[0];`\n- Modifying elements: `numbers[0] = 10;`\n- Getting array length: `int length = numbers.Length;`\n- Iterating through an array:\n  ```csharp\n  foreach (int number in numbers)\n  {\n      Console.WriteLine(number);\n  }\n  ```\n\n## Exercise\n\nIn this exercise, you'll implement a function that reverses an array of integers. The function should take an array as input and return a new array with the elements in reverse order.\n",
+  "template": "using System;\nusing System.Collections.Generic;\n\npublic class ArraySolution\n{\n    public int[] ReverseArray(int[] array)\n    {\n        // Write your code here\n        return null;\n    }\n}",
+  "createdAt": "2025-05-24T19:53:00.000Z",
+  "updatedAt": "2025-05-24T19:57:34.296Z",
+  "language": "csharp",
+  "order": 1,
+  "testConfig": {
+    "timeoutMs": 15000,
+    "memoryLimitMb": 512,
+    "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class ArrayTests\n{\n    [Fact]\n    public void Test1()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var expected = new int[] { 3, 2, 1 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void Test2()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 4, 5, 6 };\n        var expected = new int[] { 6, 5, 4 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void Test3()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 7, 8, 9 };\n        var expected = new int[] { 9, 8, 7 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n}",
+    "testCases": [
+      {
+        "input": [1, 2, 3],
+        "expected": [3, 2, 1]
+      },
+      {
+        "input": [4, 5, 6],
+        "expected": [6, 5, 4]
+      },
+      {
+        "input": [7, 8, 9],
+        "expected": [9, 8, 7]
+      }
+    ]
+  },
+  "additionalResources": [
+    {
+      "title": "C# Arrays Documentation",
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/"
+    }
+  ],
+  "tags": ["csharp", "arrays", "dotnet"],
+  "status": "draft"
+}

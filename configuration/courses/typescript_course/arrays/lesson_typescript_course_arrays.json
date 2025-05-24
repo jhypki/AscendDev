@@ -4,7 +4,7 @@
   "content": "# Lesson 1: Introduction\n\nThis is the content of the lesson, written in Markdown.\n\n- Point 1\n- Point 2\n",
   "template": "function reverseArray(array: number[]): number[] {\n  // Write your code here\n}\n",
   "createdAt": "2025-03-31T21:08:56.246Z",
-  "updatedAt": "2025-04-16T18:29:31.900Z",
+  "updatedAt": "2025-05-24T19:57:34.300Z",
   "language": "typescript",
   "order": 2,
   "testConfig": {
