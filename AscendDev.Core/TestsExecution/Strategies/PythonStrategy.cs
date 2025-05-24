@@ -11,7 +11,7 @@ namespace AscendDev.Core.CodeExecution.Strategies;
 
 public class PythonStrategy(ILogger<PythonStrategy> logger) : ILanguageStrategy
 {
-    private const string BaseImageName = DockerImages.Python;
+    private const string BaseImageName = DockerImages.PythonTester;
     private readonly ILogger<PythonStrategy> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public bool SupportsLanguage(string language)

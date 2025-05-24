@@ -11,7 +11,7 @@ namespace AscendDev.Core.CodeExecution.Strategies;
 
 public class CSharpStrategy(ILogger<CSharpStrategy> logger) : ILanguageStrategy
 {
-    private const string BaseImageName = DockerImages.CSharp;
+    private const string BaseImageName = DockerImages.CSharpTester;
     private readonly ILogger<CSharpStrategy> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public bool SupportsLanguage(string language)

@@ -19,14 +19,18 @@ public static class ServiceExtensions
         services.AddScoped<ILessonService, LessonService>();
         services.AddScoped<ICachingService, CachingService>();
         services.AddScoped<ICodeTestService, CodeTestService>();
+        services.AddScoped<ICodeExecutionService, CodeExecutionService>();
 
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtHelper, JwtHelper>();
-        services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
 
-        // Register language strategies
-        services.AddLanguageStrategies();
+        // Register executors
+        services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
+        services.AddScoped<ICodeExecutor, DockerCodeExecutor>();
+
+        // Register code execution services
+        services.AddCodeExecutionServices();
 
         return services;
     }

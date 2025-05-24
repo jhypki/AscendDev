@@ -11,7 +11,7 @@ namespace AscendDev.Core.CodeExecution.Strategies;
 
 public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageStrategy
 {
-    private const string BaseImageName = DockerImages.TypeScript;
+    private const string BaseImageName = DockerImages.TypeScriptTester;
     private readonly ILogger<TypeScriptStrategy> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public bool SupportsLanguage(string language)
