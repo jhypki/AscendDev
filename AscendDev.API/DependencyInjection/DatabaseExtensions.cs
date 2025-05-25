@@ -32,6 +32,7 @@ public static class DatabaseExtensions
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<ILessonRepository, LessonRepository>();
+        services.AddScoped<IUserProgressRepository, UserProgressRepository>();
 
         return services;
     }

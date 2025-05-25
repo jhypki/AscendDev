@@ -4,5 +4,5 @@ namespace AscendDev.Core.Interfaces.Services;
 
 public interface ICodeTestService
 {
-    Task<TestResult> RunTestsAsync(string lessonId, string userCode);
+    Task<TestResult> RunTestsAsync(string lessonId, string userCode, Guid? userId = null);
 }

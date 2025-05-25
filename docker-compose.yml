@@ -116,25 +116,24 @@
     profiles:
       - production
 
-  #TODO: upload config files in github actions
-  # upload-config-files:
-  #   build: ./configuration # Assumes Dockerfile is in ./configuration subdir
-  #   container_name: ${UPLOAD_CONFIG_CONTAINER_NAME:-upload-config-files} # Optional: Define container name
-  #   depends_on:
-  #     postgres: # Use service_healthy condition
-  #       condition: service_healthy
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRES_USER:-postgres}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-  #     POSTGRES_DB: ${POSTGRES_DB:-ascenddev}
-  #     POSTGRES_HOST: ${POSTGRES_HOST:-postgres} # Typically the service name: 'postgres'
-  #   networks:
-  #     - elearning_network
-  #   restart: "no"
-  #   command: >
-  #     sh -c "
-  #       node /app/upload-to-db.js
-  #     "
+  upload-config-files:
+    build: ./configuration # Assumes Dockerfile is in ./configuration subdir
+    container_name: ${UPLOAD_CONFIG_CONTAINER_NAME:-upload-config-files} # Optional: Define container name
+    depends_on:
+      postgres: # Use service_healthy condition
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-ascenddev}
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres} # Typically the service name: 'postgres'
+    networks:
+      - elearning_network
+    restart: "no"
+    command: >
+      sh -c "
+        node /app/upload-to-db.js
+      "
 
 volumes:
   postgres_data:

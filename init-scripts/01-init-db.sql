@@ -47,5 +47,18 @@ CREATE TABLE lessons (
     status VARCHAR(50) NOT NULL DEFAULT 'draft'
 );
 
+CREATE TABLE user_progress (
+    id SERIAL PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    completed_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    code_solution TEXT,
+    UNIQUE(user_id, lesson_id)
+);
+
+-- Indexes for faster lookups
+CREATE INDEX idx_user_progress_user_id ON user_progress(user_id);
+CREATE INDEX idx_user_progress_lesson_id ON user_progress(lesson_id);
+
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);

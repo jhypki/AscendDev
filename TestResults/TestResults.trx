@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a6310770-1ab6-4e8d-9d8e-4f0894846759" name="@d0359bfaee90 2025-05-25 06:25:32" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-05-25T06:25:32.4217302+00:00" queuing="2025-05-25T06:25:32.4217302+00:00" start="2025-05-25T06:25:31.5481448+00:00" finish="2025-05-25T06:25:34.5019777+00:00" />
+  <TestSettings name="default" id="e42ed209-9397-4531-aeaa-3ed569e7396d">
+    <Deployment runDeploymentRoot="_d0359bfaee90_2025-05-25_06_25_32" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="925cc6fb-b95a-42cc-ac47-3841f97a16be" testId="3f154533-e50f-bccb-250b-bb013c1acd0f" testName="Verify_WhenCalledWithIncorrectPassword_ReturnsFalse" computerName="d0359bfaee90" duration="00:00:00.4485060" startTime="2025-05-25T06:25:33.5755691+00:00" endTime="2025-05-25T06:25:34.0240742+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="925cc6fb-b95a-42cc-ac47-3841f97a16be" />
+    <UnitTestResult executionId="3758244d-f3b7-43c7-8e27-e916a32e5138" testId="f3ee654d-fc3e-8066-8782-5036ee3a53d6" testName="RevokeRefreshTokenAsync_WhenTokenExists_RevokesToken" computerName="d0359bfaee90" duration="00:00:00.0013930" startTime="2025-05-25T06:25:32.3797587+00:00" endTime="2025-05-25T06:25:32.3811515+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3758244d-f3b7-43c7-8e27-e916a32e5138" />
+    <UnitTestResult executionId="dd3af77a-087d-4b7f-b588-efe2dc3b8f83" testId="42d4f192-07cb-d87b-bba6-959f86c5490e" testName="RevokeRefreshTokenAsync_WhenRepositoryThrowsException_LogsAndRethrows" computerName="d0359bfaee90" duration="00:00:00.0065890" startTime="2025-05-25T06:25:32.3731435+00:00" endTime="2025-05-25T06:25:32.3797325+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd3af77a-087d-4b7f-b588-efe2dc3b8f83" />
+    <UnitTestResult executionId="6bbbf280-db41-4d27-9909-c37aee3c3085" testId="adbb0ade-6585-2ba2-415f-89a1ad482334" testName="RefreshTokenAsync_WhenTokenIsExpired_ThrowsUnauthorizedException" computerName="d0359bfaee90" duration="00:00:00.0013200" startTime="2025-05-25T06:25:32.3578635+00:00" endTime="2025-05-25T06:25:32.3591833+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6bbbf280-db41-4d27-9909-c37aee3c3085" />
+    <UnitTestResult executionId="473fc675-c9dc-4e8a-ac1d-6eadc5937e7d" testId="c85280c9-6896-81a6-6130-0f9a3aee9e16" testName="LoginAsync_WhenCredentialsAreValid_ReturnsAuthResult" computerName="d0359bfaee90" duration="00:00:00.0687460" startTime="2025-05-25T06:25:32.2814673+00:00" endTime="2025-05-25T06:25:32.3501691+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="473fc675-c9dc-4e8a-ac1d-6eadc5937e7d" />
+    <UnitTestResult executionId="0ec821d9-83a3-4656-a484-1fdb1446a26f" testId="2d950a99-02bf-9428-03d0-de17f6b54689" testName="Verify_WhenCalledWithIncorrectHash_ReturnsFalse" computerName="d0359bfaee90" duration="00:00:00.4323390" startTime="2025-05-25T06:25:33.1429782+00:00" endTime="2025-05-25T06:25:33.5753164+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ec821d9-83a3-4656-a484-1fdb1446a26f" />
+    <UnitTestResult executionId="d58c9e5a-2662-47d6-bf41-e962e6916125" testId="17f769ae-0244-ed20-64a5-aeb5644dbbfd" testName="LoginAsync_WhenUserDoesNotExist_ThrowsBadRequestException" computerName="d0359bfaee90" duration="00:00:00.0007900" startTime="2025-05-25T06:25:32.3570666+00:00" endTime="2025-05-25T06:25:32.3578561+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d58c9e5a-2662-47d6-bf41-e962e6916125" />
+    <UnitTestResult executionId="764d1430-45ad-442e-a9f0-1f8a05fe1061" testId="f9c5ca21-8212-d11c-3047-a4cc26c87627" testName="LoginAsync_WhenPasswordIsIncorrect_ThrowsBadRequestException" computerName="d0359bfaee90" duration="00:00:00.0057720" startTime="2025-05-25T06:25:32.3512657+00:00" endTime="2025-05-25T06:25:32.3570373+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="764d1430-45ad-442e-a9f0-1f8a05fe1061" />
+    <UnitTestResult executionId="588a4f24-a9bc-4818-b961-7d9296079567" testId="1c8895f2-8374-a033-9a35-556896ba3834" testName="RemoveAsync_CallsCacheRemove" computerName="d0359bfaee90" duration="00:00:00.0011480" startTime="2025-05-25T06:25:32.3888197+00:00" endTime="2025-05-25T06:25:32.3899673+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="588a4f24-a9bc-4818-b961-7d9296079567" />
+    <UnitTestResult executionId="58b2e024-3f64-412c-8945-79309a310eec" testId="60284d50-dd06-bf69-eacd-0f82fcc64001" testName="RegisterAsync_WhenUserAlreadyExists_ThrowsConflictException" computerName="d0359bfaee90" duration="00:00:00.0010550" startTime="2025-05-25T06:25:32.3695863+00:00" endTime="2025-05-25T06:25:32.3706411+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58b2e024-3f64-412c-8945-79309a310eec" />
+    <UnitTestResult executionId="99fdce40-63ac-4633-add6-9f1ccd135aeb" testId="3cd2fff9-4ca7-3dd5-8509-7bea552f2fa2" testName="GetOrCreateAsync_WhenFactoryReturnsNull_DoesNotCache" computerName="d0359bfaee90" duration="00:00:00.0018180" startTime="2025-05-25T06:25:32.3869825+00:00" endTime="2025-05-25T06:25:32.3888006+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="99fdce40-63ac-4633-add6-9f1ccd135aeb" />
+    <UnitTestResult executionId="027cdc4c-053a-4594-a84e-223bb1e55843" testId="b2fa75f2-46f5-bb16-0c2e-29066e2d6c17" testName="Verify_ShouldLogError_WhenBCryptFails" computerName="d0359bfaee90" duration="00:00:00.0010860" startTime="2025-05-25T06:25:32.7023587+00:00" endTime="2025-05-25T06:25:32.7034442+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="027cdc4c-053a-4594-a84e-223bb1e55843" />
+    <UnitTestResult executionId="5a4b4764-02e7-4c70-95b0-da0a18a1b906" testId="2d6d4075-b785-7aaf-c8fd-4a3b1ec58c9c" testName="RegisterAsync_WhenUserDoesNotExist_CreatesUserAndReturnsAuthResult" computerName="d0359bfaee90" duration="00:00:00.0024610" startTime="2025-05-25T06:25:32.3706604+00:00" endTime="2025-05-25T06:25:32.3731210+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5a4b4764-02e7-4c70-95b0-da0a18a1b906" />
+    <UnitTestResult executionId="5644a551-00b4-4dd0-ae66-f3965d9804a0" testId="16d2275e-0f8d-f761-5c8d-3fbd2b832d0a" testName="Hash_WhenCalled_ReturnsHashAndSalt" computerName="d0359bfaee90" duration="00:00:00.3087250" startTime="2025-05-25T06:25:32.3935980+00:00" endTime="2025-05-25T06:25:32.7023227+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5644a551-00b4-4dd0-ae66-f3965d9804a0" />
+    <UnitTestResult executionId="6418eb9e-bd53-4c0e-9d6f-7dfd92076fbd" testId="b84a5b5e-92b5-a17e-6cf4-d40017e5580d" testName="Verify_WhenCalledWithCorrectPassword_ReturnsTrue" computerName="d0359bfaee90" duration="00:00:00.4394520" startTime="2025-05-25T06:25:32.7034615+00:00" endTime="2025-05-25T06:25:33.1429127+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6418eb9e-bd53-4c0e-9d6f-7dfd92076fbd" />
+    <UnitTestResult executionId="240d0f6e-d061-47e8-82b7-c7b2df777c51" testId="6edcd8c6-3df4-9e09-4b9d-7100b08f1ec0" testName="RefreshTokenAsync_WhenTokenIsValidAndUserExists_ReturnsNewAuthResult" computerName="d0359bfaee90" duration="00:00:00.0046870" startTime="2025-05-25T06:25:32.3626195+00:00" endTime="2025-05-25T06:25:32.3673061+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="240d0f6e-d061-47e8-82b7-c7b2df777c51" />
+    <UnitTestResult executionId="9c00f43d-309d-4e7a-bf1d-cb03c91aac89" testId="acf88976-04bb-37cb-31ff-c9f887f25142" testName="Hash_ShouldLogError_WhenBCryptFails" computerName="d0359bfaee90" duration="00:00:00.0035020" startTime="2025-05-25T06:25:32.3900819+00:00" endTime="2025-05-25T06:25:32.3935841+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c00f43d-309d-4e7a-bf1d-cb03c91aac89" />
+    <UnitTestResult executionId="18f1b50f-fcc1-429f-bba1-92dbafac9cb1" testId="017ac1bb-b477-f1c8-ccee-d8128625b474" testName="RevokeRefreshTokenAsync_WhenTokenNotFound_ThrowsNotFoundException" computerName="d0359bfaee90" duration="00:00:00.0005800" startTime="2025-05-25T06:25:32.3811635+00:00" endTime="2025-05-25T06:25:32.3817434+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18f1b50f-fcc1-429f-bba1-92dbafac9cb1" />
+    <UnitTestResult executionId="b6af062c-cf72-410f-9a43-d68076145397" testId="f5296790-33ad-eb6c-617c-0f556a6c5653" testName="RefreshTokenAsync_WhenUserNotFound_ThrowsNotFoundException" computerName="d0359bfaee90" duration="00:00:00.0022350" startTime="2025-05-25T06:25:32.3673295+00:00" endTime="2025-05-25T06:25:32.3695641+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b6af062c-cf72-410f-9a43-d68076145397" />
+    <UnitTestResult executionId="fda33c9a-6e90-4a45-a041-aef0dca39ea1" testId="388ce4e7-1cd0-7736-20d4-e1432374f864" testName="RefreshTokenAsync_WhenTokenIsInvalid_ThrowsUnauthorizedException" computerName="d0359bfaee90" duration="00:00:00.0007700" startTime="2025-05-25T06:25:32.3618436+00:00" endTime="2025-05-25T06:25:32.3626142+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fda33c9a-6e90-4a45-a041-aef0dca39ea1" />
+    <UnitTestResult executionId="14e48225-d112-4913-8d53-83ab8631d66b" testId="f04e14ec-5ddf-ac27-1b2d-575a6757b7a2" testName="Verify_WhenCalledWithIncorrectPasswordAndHash_ReturnsFalse" computerName="d0359bfaee90" duration="00:00:00.4453110" startTime="2025-05-25T06:25:34.0241332+00:00" endTime="2025-05-25T06:25:34.4694437+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14e48225-d112-4913-8d53-83ab8631d66b" />
+    <UnitTestResult executionId="4fef7999-f8ff-4abe-83f0-08a086e667f8" testId="ec9f8d8d-2c21-c8bb-b1d5-66f03abd2cd4" testName="ExistsAsync_WhenKeyExists_ReturnsTrue" computerName="d0359bfaee90" duration="00:00:00.0040800" startTime="2025-05-25T06:25:32.3828903+00:00" endTime="2025-05-25T06:25:32.3869705+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4fef7999-f8ff-4abe-83f0-08a086e667f8" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Verify_ShouldLogError_WhenBCryptFails" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="b2fa75f2-46f5-bb16-0c2e-29066e2d6c17">
+      <Execution id="027cdc4c-053a-4594-a84e-223bb1e55843" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Verify_ShouldLogError_WhenBCryptFails" />
+    </UnitTest>
+    <UnitTest name="RegisterAsync_WhenUserDoesNotExist_CreatesUserAndReturnsAuthResult" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="2d6d4075-b785-7aaf-c8fd-4a3b1ec58c9c">
+      <Execution id="5a4b4764-02e7-4c70-95b0-da0a18a1b906" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RegisterAsync_WhenUserDoesNotExist_CreatesUserAndReturnsAuthResult" />
+    </UnitTest>
+    <UnitTest name="ExistsAsync_WhenKeyExists_ReturnsTrue" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="ec9f8d8d-2c21-c8bb-b1d5-66f03abd2cd4">
+      <Execution id="4fef7999-f8ff-4abe-83f0-08a086e667f8" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.CachingServiceTests" name="ExistsAsync_WhenKeyExists_ReturnsTrue" />
+    </UnitTest>
+    <UnitTest name="LoginAsync_WhenUserDoesNotExist_ThrowsBadRequestException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="17f769ae-0244-ed20-64a5-aeb5644dbbfd">
+      <Execution id="d58c9e5a-2662-47d6-bf41-e962e6916125" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="LoginAsync_WhenUserDoesNotExist_ThrowsBadRequestException" />
+    </UnitTest>
+    <UnitTest name="Verify_WhenCalledWithIncorrectPasswordAndHash_ReturnsFalse" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="f04e14ec-5ddf-ac27-1b2d-575a6757b7a2">
+      <Execution id="14e48225-d112-4913-8d53-83ab8631d66b" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Verify_WhenCalledWithIncorrectPasswordAndHash_ReturnsFalse" />
+    </UnitTest>
+    <UnitTest name="Verify_WhenCalledWithIncorrectPassword_ReturnsFalse" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="3f154533-e50f-bccb-250b-bb013c1acd0f">
+      <Execution id="925cc6fb-b95a-42cc-ac47-3841f97a16be" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Verify_WhenCalledWithIncorrectPassword_ReturnsFalse" />
+    </UnitTest>
+    <UnitTest name="GetOrCreateAsync_WhenFactoryReturnsNull_DoesNotCache" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="3cd2fff9-4ca7-3dd5-8509-7bea552f2fa2">
+      <Execution id="99fdce40-63ac-4633-add6-9f1ccd135aeb" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.CachingServiceTests" name="GetOrCreateAsync_WhenFactoryReturnsNull_DoesNotCache" />
+    </UnitTest>
+    <UnitTest name="RefreshTokenAsync_WhenUserNotFound_ThrowsNotFoundException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="f5296790-33ad-eb6c-617c-0f556a6c5653">
+      <Execution id="b6af062c-cf72-410f-9a43-d68076145397" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RefreshTokenAsync_WhenUserNotFound_ThrowsNotFoundException" />
+    </UnitTest>
+    <UnitTest name="RefreshTokenAsync_WhenTokenIsExpired_ThrowsUnauthorizedException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="adbb0ade-6585-2ba2-415f-89a1ad482334">
+      <Execution id="6bbbf280-db41-4d27-9909-c37aee3c3085" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RefreshTokenAsync_WhenTokenIsExpired_ThrowsUnauthorizedException" />
+    </UnitTest>
+    <UnitTest name="Hash_ShouldLogError_WhenBCryptFails" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="acf88976-04bb-37cb-31ff-c9f887f25142">
+      <Execution id="9c00f43d-309d-4e7a-bf1d-cb03c91aac89" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Hash_ShouldLogError_WhenBCryptFails" />
+    </UnitTest>
+    <UnitTest name="LoginAsync_WhenCredentialsAreValid_ReturnsAuthResult" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="c85280c9-6896-81a6-6130-0f9a3aee9e16">
+      <Execution id="473fc675-c9dc-4e8a-ac1d-6eadc5937e7d" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="LoginAsync_WhenCredentialsAreValid_ReturnsAuthResult" />
+    </UnitTest>
+    <UnitTest name="LoginAsync_WhenPasswordIsIncorrect_ThrowsBadRequestException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="f9c5ca21-8212-d11c-3047-a4cc26c87627">
+      <Execution id="764d1430-45ad-442e-a9f0-1f8a05fe1061" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="LoginAsync_WhenPasswordIsIncorrect_ThrowsBadRequestException" />
+    </UnitTest>
+    <UnitTest name="RevokeRefreshTokenAsync_WhenRepositoryThrowsException_LogsAndRethrows" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="42d4f192-07cb-d87b-bba6-959f86c5490e">
+      <Execution id="dd3af77a-087d-4b7f-b588-efe2dc3b8f83" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RevokeRefreshTokenAsync_WhenRepositoryThrowsException_LogsAndRethrows" />
+    </UnitTest>
+    <UnitTest name="RevokeRefreshTokenAsync_WhenTokenNotFound_ThrowsNotFoundException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="017ac1bb-b477-f1c8-ccee-d8128625b474">
+      <Execution id="18f1b50f-fcc1-429f-bba1-92dbafac9cb1" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RevokeRefreshTokenAsync_WhenTokenNotFound_ThrowsNotFoundException" />
+    </UnitTest>
+    <UnitTest name="RemoveAsync_CallsCacheRemove" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="1c8895f2-8374-a033-9a35-556896ba3834">
+      <Execution id="588a4f24-a9bc-4818-b961-7d9296079567" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.CachingServiceTests" name="RemoveAsync_CallsCacheRemove" />
+    </UnitTest>
+    <UnitTest name="RegisterAsync_WhenUserAlreadyExists_ThrowsConflictException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="60284d50-dd06-bf69-eacd-0f82fcc64001">
+      <Execution id="58b2e024-3f64-412c-8945-79309a310eec" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RegisterAsync_WhenUserAlreadyExists_ThrowsConflictException" />
+    </UnitTest>
+    <UnitTest name="RefreshTokenAsync_WhenTokenIsValidAndUserExists_ReturnsNewAuthResult" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="6edcd8c6-3df4-9e09-4b9d-7100b08f1ec0">
+      <Execution id="240d0f6e-d061-47e8-82b7-c7b2df777c51" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RefreshTokenAsync_WhenTokenIsValidAndUserExists_ReturnsNewAuthResult" />
+    </UnitTest>
+    <UnitTest name="RevokeRefreshTokenAsync_WhenTokenExists_RevokesToken" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="f3ee654d-fc3e-8066-8782-5036ee3a53d6">
+      <Execution id="3758244d-f3b7-43c7-8e27-e916a32e5138" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RevokeRefreshTokenAsync_WhenTokenExists_RevokesToken" />
+    </UnitTest>
+    <UnitTest name="Hash_WhenCalled_ReturnsHashAndSalt" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="16d2275e-0f8d-f761-5c8d-3fbd2b832d0a">
+      <Execution id="5644a551-00b4-4dd0-ae66-f3965d9804a0" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Hash_WhenCalled_ReturnsHashAndSalt" />
+    </UnitTest>
+    <UnitTest name="Verify_WhenCalledWithIncorrectHash_ReturnsFalse" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="2d950a99-02bf-9428-03d0-de17f6b54689">
+      <Execution id="0ec821d9-83a3-4656-a484-1fdb1446a26f" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Verify_WhenCalledWithIncorrectHash_ReturnsFalse" />
+    </UnitTest>
+    <UnitTest name="Verify_WhenCalledWithCorrectPassword_ReturnsTrue" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="b84a5b5e-92b5-a17e-6cf4-d40017e5580d">
+      <Execution id="6418eb9e-bd53-4c0e-9d6f-7dfd92076fbd" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Utils.PasswordHasherTest" name="Verify_WhenCalledWithCorrectPassword_ReturnsTrue" />
+    </UnitTest>
+    <UnitTest name="RefreshTokenAsync_WhenTokenIsInvalid_ThrowsUnauthorizedException" storage="/app/ascenddev.services.test/bin/release/net8.0/ascenddev.services.test.dll" id="388ce4e7-1cd0-7736-20d4-e1432374f864">
+      <Execution id="fda33c9a-6e90-4a45-a041-aef0dca39ea1" />
+      <TestMethod codeBase="/app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll" adapterTypeName="executor://nunit3testexecutor/" className="AscendDev.Services.Test.Services.AuthServiceTests" name="RefreshTokenAsync_WhenTokenIsInvalid_ThrowsUnauthorizedException" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="3f154533-e50f-bccb-250b-bb013c1acd0f" executionId="925cc6fb-b95a-42cc-ac47-3841f97a16be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3ee654d-fc3e-8066-8782-5036ee3a53d6" executionId="3758244d-f3b7-43c7-8e27-e916a32e5138" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42d4f192-07cb-d87b-bba6-959f86c5490e" executionId="dd3af77a-087d-4b7f-b588-efe2dc3b8f83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="adbb0ade-6585-2ba2-415f-89a1ad482334" executionId="6bbbf280-db41-4d27-9909-c37aee3c3085" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c85280c9-6896-81a6-6130-0f9a3aee9e16" executionId="473fc675-c9dc-4e8a-ac1d-6eadc5937e7d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2d950a99-02bf-9428-03d0-de17f6b54689" executionId="0ec821d9-83a3-4656-a484-1fdb1446a26f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17f769ae-0244-ed20-64a5-aeb5644dbbfd" executionId="d58c9e5a-2662-47d6-bf41-e962e6916125" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9c5ca21-8212-d11c-3047-a4cc26c87627" executionId="764d1430-45ad-442e-a9f0-1f8a05fe1061" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c8895f2-8374-a033-9a35-556896ba3834" executionId="588a4f24-a9bc-4818-b961-7d9296079567" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60284d50-dd06-bf69-eacd-0f82fcc64001" executionId="58b2e024-3f64-412c-8945-79309a310eec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3cd2fff9-4ca7-3dd5-8509-7bea552f2fa2" executionId="99fdce40-63ac-4633-add6-9f1ccd135aeb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b2fa75f2-46f5-bb16-0c2e-29066e2d6c17" executionId="027cdc4c-053a-4594-a84e-223bb1e55843" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2d6d4075-b785-7aaf-c8fd-4a3b1ec58c9c" executionId="5a4b4764-02e7-4c70-95b0-da0a18a1b906" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16d2275e-0f8d-f761-5c8d-3fbd2b832d0a" executionId="5644a551-00b4-4dd0-ae66-f3965d9804a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b84a5b5e-92b5-a17e-6cf4-d40017e5580d" executionId="6418eb9e-bd53-4c0e-9d6f-7dfd92076fbd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6edcd8c6-3df4-9e09-4b9d-7100b08f1ec0" executionId="240d0f6e-d061-47e8-82b7-c7b2df777c51" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="acf88976-04bb-37cb-31ff-c9f887f25142" executionId="9c00f43d-309d-4e7a-bf1d-cb03c91aac89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="017ac1bb-b477-f1c8-ccee-d8128625b474" executionId="18f1b50f-fcc1-429f-bba1-92dbafac9cb1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f5296790-33ad-eb6c-617c-0f556a6c5653" executionId="b6af062c-cf72-410f-9a43-d68076145397" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="388ce4e7-1cd0-7736-20d4-e1432374f864" executionId="fda33c9a-6e90-4a45-a041-aef0dca39ea1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f04e14ec-5ddf-ac27-1b2d-575a6757b7a2" executionId="14e48225-d112-4913-8d53-83ab8631d66b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ec9f8d8d-2c21-c8bb-b1d5-66f03abd2cd4" executionId="4fef7999-f8ff-4abe-83f0-08a086e667f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="22" executed="22" passed="22" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.5.0.0: Test execution started
+Running all tests in /app/AscendDev.Services.Test/bin/Release/net8.0/AscendDev.Services.Test.dll
+   NUnit3TestExecutor discovered 22 of 22 NUnit test cases using Current Discovery mode, Non-Explicit run
+NUnit Adapter 4.5.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

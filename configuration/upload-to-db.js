@@ -115,7 +115,9 @@ async function updateLessonConfig(client, lessonConfigPath) {
     const courseFolder = pathParts[pathParts.length - 3] || "unknown_course";
 
     // Generate lesson slug if not provided
-    const lessonSlug = configData.slug || lessonFolder;
+    // Make the slug unique by prefixing it with the course folder
+    const lessonBaseSlug = configData.slug || lessonFolder;
+    const lessonSlug = `${courseFolder}-${lessonBaseSlug}`;
 
     // Generate lesson ID as course_folder_lesson_folder
     const lessonId = `${courseFolder}_${lessonFolder}`;
@@ -130,10 +132,10 @@ async function updateLessonConfig(client, lessonConfigPath) {
       return;
     }
 
-    // Check if lesson already exists by slug
+    // Check if lesson already exists by ID
     const existingLesson = await client.query(
-      "SELECT id FROM lessons WHERE slug = $1",
-      [lessonSlug]
+      "SELECT id FROM lessons WHERE id = $1",
+      [lessonId]
     );
 
     let postgresId;
@@ -155,8 +157,9 @@ async function updateLessonConfig(client, lessonConfigPath) {
              additional_resources = $8,
              tags = $9,
              status = $10,
-             course_id = $11
-         WHERE id = $12`,
+             course_id = $11,
+             slug = $12
+         WHERE id = $13`,
         [
           configData.title,
           configData.content || "",
@@ -169,6 +172,7 @@ async function updateLessonConfig(client, lessonConfigPath) {
           JSON.stringify(configData.tags || []),
           configData.status || "draft",
           mappedCourseId,
+          lessonSlug,
           postgresId,
         ]
       );
@@ -203,8 +207,8 @@ async function updateLessonConfig(client, lessonConfigPath) {
       console.log(`Inserted lesson: ${configData.title} (${postgresId})`);
     }
 
-    // Store the mapping for reference
-    idMappings.lessons[lessonFolder] = postgresId;
+    // Store the mapping using a combined key of course and lesson folder
+    idMappings.lessons[`${courseFolder}_${lessonFolder}`] = postgresId;
 
     return postgresId;
   } catch (err) {
@@ -249,40 +253,66 @@ async function traverseAndUpdateConfigs(rootDir) {
           path.join(courseDir, courseConfigFile)
         );
       } else {
+        // Try to find any JSON file that might be a course config
+        const jsonFiles = courseFiles.filter((file) => file.endsWith(".json"));
+        let foundCourseConfig = false;
+
+        for (const jsonFile of jsonFiles) {
+          try {
+            const filePath = path.join(courseDir, jsonFile);
+            const content = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+            // Check if this looks like a course config
+            if (content.title && content.slug && content.language) {
+              console.log(`Found potential course config: ${jsonFile}`);
+              await updateCourseConfig(client, filePath);
+              foundCourseConfig = true;
+              break;
+            }
+          } catch (e) {
+            console.warn(`Error parsing ${jsonFile}: ${e.message}`);
+          }
+        }
+
         // If no course config found, use directory name to create a minimal course
-        const courseDirName = path.basename(courseDir);
-        const courseSlug = courseDirName
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-");
+        if (!foundCourseConfig) {
+          const courseDirName = path.basename(courseDir);
+          const courseSlug = courseDirName
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-");
 
-        // Generate a minimal course config
-        const minimalCourseConfig = {
-          title: courseDirName
-            .replace(/-/g, " ")
-            .replace(/\b\w/g, (c) => c.toUpperCase()), // Convert to title case
-          slug: courseSlug,
-          language: "en",
-          status: "draft",
-          tags: [],
-        };
+          // Generate a minimal course config
+          const minimalCourseConfig = {
+            title: courseDirName
+              .replace(/-/g, " ")
+              .replace(/\b\w/g, (c) => c.toUpperCase()), // Convert to title case
+            slug: courseSlug,
+            language: "en",
+            status: "draft",
+            tags: [],
+          };
 
-        // Write temporary file
-        const tempConfigPath = path.join(courseDir, "temp_course_config.json");
-        fs.writeFileSync(
-          tempConfigPath,
-          JSON.stringify(minimalCourseConfig, null, 2)
-        );
-
-        // Process the temporary file
-        await updateCourseConfig(client, tempConfigPath);
-
-        // Clean up
-        try {
-          fs.unlinkSync(tempConfigPath);
-        } catch (e) {
-          console.warn(
-            `Could not delete temp file ${tempConfigPath}: ${e.message}`
+          // Write temporary file
+          const tempConfigPath = path.join(
+            courseDir,
+            "temp_course_config.json"
           );
+          fs.writeFileSync(
+            tempConfigPath,
+            JSON.stringify(minimalCourseConfig, null, 2)
+          );
+
+          // Process the temporary file
+          await updateCourseConfig(client, tempConfigPath);
+
+          // Clean up
+          try {
+            fs.unlinkSync(tempConfigPath);
+          } catch (e) {
+            console.warn(
+              `Could not delete temp file ${tempConfigPath}: ${e.message}`
+            );
+          }
         }
       }
     }
@@ -308,6 +338,31 @@ async function traverseAndUpdateConfigs(rootDir) {
             client,
             path.join(lessonDir, lessonConfigFile)
           );
+        } else {
+          // Try to find any JSON file that might be a lesson config
+          const jsonFiles = lessonFiles.filter((file) =>
+            file.endsWith(".json")
+          );
+
+          for (const jsonFile of jsonFiles) {
+            try {
+              const filePath = path.join(lessonDir, jsonFile);
+              const content = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+              // Check if this looks like a lesson config
+              if (
+                content.title &&
+                content.language &&
+                (content.content || content.template)
+              ) {
+                console.log(`Found potential lesson config: ${jsonFile}`);
+                await updateLessonConfig(client, filePath);
+                break;
+              }
+            } catch (e) {
+              console.warn(`Error parsing ${jsonFile}: ${e.message}`);
+            }
+          }
         }
       }
     }
@@ -402,7 +457,7 @@ async function main() {
     // Check if database connection credentials are provided
     if (!process.env.POSTGRES_HOST || !process.env.POSTGRES_PASSWORD) {
       console.warn(
-        "Database credentials notv provided in environment variables."
+        "Database credentials not provided in environment variables."
       );
       console.warn(
         "Required variables: POSTGRES_USER, POSTGRES_HOST, POSTGRES_DB, POSTGRES_PASSWORD"

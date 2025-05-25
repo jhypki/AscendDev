@@ -20,6 +20,7 @@ public static class ServiceExtensions
         services.AddScoped<ICachingService, CachingService>();
         services.AddScoped<ICodeTestService, CodeTestService>();
         services.AddScoped<ICodeExecutionService, CodeExecutionService>();
+        services.AddScoped<IUserProgressService, UserProgressService>();
 
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();

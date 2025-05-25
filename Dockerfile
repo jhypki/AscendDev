@@ -10,6 +10,8 @@ COPY ["AscendDev.Services/AscendDev.Services.csproj", "AscendDev.Services/"]
 COPY ["AscendDev.API/AscendDev.API.csproj", "AscendDev.API/"]
 COPY ["AscendDev.Services.Test/AscendDev.Services.Test.csproj", "AscendDev.Services.Test/"]
 COPY ["AscendDev.Data.Test/AscendDev.Data.Test.csproj", "AscendDev.Data.Test/"]
+COPY ["AscendDev.Core.Test/AscendDev.Core.Test.csproj", "AscendDev.Core.Test/"]
+COPY ["AscendDev.API.Test/AscendDev.API.Test.csproj", "AscendDev.API.Test/"]
 
 # Restore NuGet packages
 RUN dotnet restore
