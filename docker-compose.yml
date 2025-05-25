@@ -91,6 +91,8 @@
       - /tmp:/tmp
       # Mount volume for ASP.NET Data Protection Keys persistence
       - data_protection_keys:/root/.aspnet/DataProtection-Keys # Path depends on user (root vs appuser)
+      # Mount volume for Docker images
+      - docker_images:/var/lib/docker/images
     user: "root" # TODO: Replace with non-root user ("appuser") and adjust volume paths/permissions
     logging:
       driver: "json-file"
@@ -139,6 +141,8 @@ volumes:
   postgres_data:
   redis_data:
   data_protection_keys:
+  docker_images:
+    driver: local
 
 networks:
   elearning_network:
