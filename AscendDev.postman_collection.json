@@ -1,0 +1,483 @@
+{
+  "info": {
+    "name": "AscendDev API",
+    "description": "API collection for AscendDev platform focusing on lessons, solutions, and playground requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "Endpoints for authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"your_password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "login"]
+            },
+            "description": "Login to get authentication token"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lessons",
+      "description": "Endpoints for accessing lessons",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses"]
+            },
+            "description": "Get all available courses"
+          }
+        },
+        {
+          "name": "Get C# Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/csharp-course",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "csharp-course"]
+            },
+            "description": "Get C# course details"
+          }
+        },
+        {
+          "name": "Get Python Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/python-course",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "python-course"]
+            },
+            "description": "Get Python course details"
+          }
+        },
+        {
+          "name": "Get TypeScript Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/typescript-course",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "typescript-course"]
+            },
+            "description": "Get TypeScript course details"
+          }
+        },
+        {
+          "name": "Get C# Course Lessons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/csharp-course/lessons",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "csharp-course", "lessons"]
+            },
+            "description": "Get all lessons for C# course"
+          }
+        },
+        {
+          "name": "Get Python Course Lessons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/python-course/lessons",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "python-course", "lessons"]
+            },
+            "description": "Get all lessons for Python course"
+          }
+        },
+        {
+          "name": "Get TypeScript Course Lessons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Courses", "typescript-course", "lessons"]
+            },
+            "description": "Get all lessons for TypeScript course"
+          }
+        },
+        {
+          "name": "Get C# Arrays Lesson",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/csharp-course/lessons/csharp_course_arrays",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "Courses",
+                "csharp-course",
+                "lessons",
+                "csharp_course_arrays"
+              ]
+            },
+            "description": "Get C# Arrays lesson details"
+          }
+        },
+        {
+          "name": "Get Python Arrays Lesson",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/python-course/lessons/python_course_arrays",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "Courses",
+                "python-course",
+                "lessons",
+                "python_course_arrays"
+              ]
+            },
+            "description": "Get Python Arrays lesson details"
+          }
+        },
+        {
+          "name": "Get TypeScript Basic Math Lesson",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons/typescript_course_basic_math",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "Courses",
+                "typescript-course",
+                "lessons",
+                "typescript_course_basic_math"
+              ]
+            },
+            "description": "Get TypeScript Basic Math lesson details"
+          }
+        },
+        {
+          "name": "Get TypeScript Arrays Lesson",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons/typescript_course_arrays",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "Courses",
+                "typescript-course",
+                "lessons",
+                "typescript_course_arrays"
+              ]
+            },
+            "description": "Get TypeScript Arrays lesson details"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Solutions",
+      "description": "Endpoints for running lesson solutions",
+      "item": [
+        {
+          "name": "Run C# Arrays Solution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"lesson_id\": \"csharp_course_arrays\",\n    \"code\": \"// Your C# solution code here\\npublic class Solution {\\n    public int[] ReverseArray(int[] arr) {\\n        int[] result = new int[arr.Length];\\n        for (int i = 0; i < arr.Length; i++) {\\n            result[i] = arr[arr.Length - 1 - i];\\n        }\\n        return result;\\n    }\\n}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Tests/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Tests", "run"]
+            },
+            "description": "Run tests for C# Arrays lesson"
+          }
+        },
+        {
+          "name": "Run Python Arrays Solution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"lesson_id\": \"python_course_arrays\",\n    \"code\": \"# Your Python solution code here\\ndef reverse_array(arr):\\n    return arr[::-1]\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Tests/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Tests", "run"]
+            },
+            "description": "Run tests for Python Arrays lesson"
+          }
+        },
+        {
+          "name": "Run TypeScript Basic Math Solution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"lesson_id\": \"typescript_course_basic_math\",\n    \"code\": \"// Your TypeScript solution code here\\nexport function add(a: number, b: number): number {\\n    return a + b;\\n}\\n\\nexport function subtract(a: number, b: number): number {\\n    return a - b;\\n}\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Tests/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Tests", "run"]
+            },
+            "description": "Run tests for TypeScript Basic Math lesson"
+          }
+        },
+        {
+          "name": "Run TypeScript Arrays Solution",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"lesson_id\": \"typescript_course_arrays\",\n    \"code\": \"// Your TypeScript solution code here\\nexport function reverseArray<T>(arr: T[]): T[] {\\n    return [...arr].reverse();\\n}\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Tests/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Tests", "run"]
+            },
+            "description": "Run tests for TypeScript Arrays lesson"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playground",
+      "description": "Endpoints for running code in different languages",
+      "item": [
+        {
+          "name": "Run C# Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"language\": \"csharp\",\n    \"code\": \"using System;\\n\\nclass Program {\\n    static void Main() {\\n        Console.WriteLine(\\\"Hello from C#!\\\");\\n        \\n        // Example array operations\\n        int[] numbers = { 1, 2, 3, 4, 5 };\\n        Console.WriteLine(\\\"Original array: [\\\" + string.Join(\\\", \\\", numbers) + \\\"]\\\");\\n        \\n        // Reverse the array\\n        Array.Reverse(numbers);\\n        Console.WriteLine(\\\"Reversed array: [\\\" + string.Join(\\\", \\\", numbers) + \\\"]\\\");\\n    }\\n}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/CodeExecution/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "CodeExecution", "run"]
+            },
+            "description": "Run C# code in the playground"
+          }
+        },
+        {
+          "name": "Run Python Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"language\": \"python\",\n    \"code\": \"print(\\\"Hello from Python!\\\")\\n\\n# Example array operations\\nnumbers = [1, 2, 3, 4, 5]\\nprint(f\\\"Original array: {numbers}\\\")\\n\\n# Reverse the array\\nreversed_numbers = numbers[::-1]\\nprint(f\\\"Reversed array: {reversed_numbers}\\\")\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/CodeExecution/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "CodeExecution", "run"]
+            },
+            "description": "Run Python code in the playground"
+          }
+        },
+        {
+          "name": "Run TypeScript Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"language\": \"typescript\",\n    \"code\": \"console.log(\\\"Hello from TypeScript!\\\");\\n\\n// Example array operations\\nconst numbers: number[] = [1, 2, 3, 4, 5];\\nconsole.log(`Original array: ${numbers}`);\\n\\n// Reverse the array\\nconst reversedNumbers: number[] = [...numbers].reverse();\\nconsole.log(`Reversed array: ${reversedNumbers}`);\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/CodeExecution/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "CodeExecution", "run"]
+            },
+            "description": "Run TypeScript code in the playground"
+          }
+        },
+        {
+          "name": "Run JavaScript Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"language\": \"javascript\",\n    \"code\": \"console.log(\\\"Hello from JavaScript!\\\");\\n\\n// Example array operations\\nconst numbers = [1, 2, 3, 4, 5];\\nconsole.log(`Original array: ${numbers}`);\\n\\n// Reverse the array\\nconst reversedNumbers = [...numbers].reverse();\\nconsole.log(`Reversed array: ${reversedNumbers}`);\\n\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/CodeExecution/run",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "CodeExecution", "run"]
+            },
+            "description": "Run JavaScript code in the playground"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string",
+      "description": "Base URL for the API"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string",
+      "description": "Authentication token received after login"
+    }
+  ]
+}
