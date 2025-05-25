@@ -10,7 +10,7 @@
   "testConfig": {
     "timeoutMs": 3000,
     "memoryLimitMb": 512,
-    "testTemplate": "describe(\"Lesson 1\", () => {\n  test(\"Test 1\", () => {\n    expect(square(2)).toBe(4);\n  });\n  test(\"Test 2\", () => {\n    expect(square(3)).toBe(9);\n  });\n  test(\"Test 3\", () => {\n    expect(square(4)).toBe(16);\n  });\n});\n",
+    "testTemplate": "__USER_CODE__;\ndescribe(\"Lesson 1\", () => {\n  test(\"Test 1\", () => {\n    expect(square(2)).toBe(4);\n  });\n  test(\"Test 2\", () => {\n    expect(square(3)).toBe(9);\n  });\n  test(\"Test 3\", () => {\n    expect(square(4)).toBe(16);\n  });\n});\n",
     "testCases": [
       {
         "input": 2,
@@ -32,9 +32,6 @@
       "url": "https://www.example.com"
     }
   ],
-  "tags": [
-    "typescript",
-    "math"
-  ],
+  "tags": ["typescript", "math"],
   "status": "draft"
 }

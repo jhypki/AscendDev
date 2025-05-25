@@ -10,43 +10,19 @@
   "testConfig": {
     "timeoutMs": 3000,
     "memoryLimitMb": 512,
-    "testTemplate": "describe(\"Reverse array\", () => {\n  test(\"Test 1\", () => {\n    expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n  });\n  test(\"Test 2\", () => {\n    expect(reverseArray([4, 5, 6])).toEqual([6, 5, 4]);\n  });\n  test(\"Test 3\", () => {\n    expect(reverseArray([7, 8, 9])).toEqual([9, 8, 7]);\n  });\n});\n",
+    "testTemplate": "__USER_CODE__;\ndescribe(\"Reverse array\", () => {\n  test(\"Test 1\", () => {\n    expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n  });\n  test(\"Test 2\", () => {\n    expect(reverseArray([4, 5, 6])).toEqual([6, 5, 4]);\n  });\n  test(\"Test 3\", () => {\n    expect(reverseArray([7, 8, 9])).toEqual([9, 8, 7]);\n  });\n});\n",
     "testCases": [
       {
-        "input": [
-          1,
-          2,
-          3
-        ],
-        "expected": [
-          3,
-          2,
-          1
-        ]
+        "input": [1, 2, 3],
+        "expected": [3, 2, 1]
       },
       {
-        "input": [
-          4,
-          5,
-          6
-        ],
-        "expected": [
-          6,
-          5,
-          4
-        ]
+        "input": [4, 5, 6],
+        "expected": [6, 5, 4]
       },
       {
-        "input": [
-          7,
-          8,
-          9
-        ],
-        "expected": [
-          9,
-          8,
-          7
-        ]
+        "input": [7, 8, 9],
+        "expected": [9, 8, 7]
       }
     ]
   },
@@ -56,9 +32,6 @@
       "url": "https://www.example.com"
     }
   ],
-  "tags": [
-    "typescript",
-    "arrays"
-  ],
+  "tags": ["typescript", "arrays"],
   "status": "draft"
 }

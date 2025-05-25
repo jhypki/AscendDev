@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AscendDev.Functions.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TestsController(ICodeTestService codeTestService, ILogger<TestsController> logger) : ControllerBase

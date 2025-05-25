@@ -2,7 +2,9 @@ using AscendDev.Core.DTOs;
 using AscendDev.Core.DTOs.Auth;
 using AscendDev.Core.Filters;
 using AscendDev.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace AscendDev.Functions.Controllers;
 
