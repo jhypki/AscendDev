@@ -86,6 +86,16 @@ This documentation folder contains comprehensive analysis and planning documents
 - Parallel development tracks
 - Success metrics and milestones
 
+### 📊 [09-metrics-service-architecture.md](./09-metrics-service-architecture.md)
+**Event-driven metrics and analytics microservice**
+
+- Kafka-based event streaming architecture
+- ClickHouse for time-series analytics data
+- Real-time dashboard and reporting APIs
+- User behavior and platform performance tracking
+- Scalable data processing and aggregation
+- Privacy-compliant analytics implementation
+
 ## Quick Start Guide
 
 ### For Project Managers

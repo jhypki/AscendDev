@@ -35,7 +35,7 @@ public class UserRepositoryExternalIdTest
             .ReturnsAsync(expectedUser);
 
         // Act
-        var result = await _userRepository.GetByExternalIdAndProviderAsync(externalId, provider);
+        var result = await _userRepository.GetByExternalIdAsync(externalId, provider);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -63,7 +63,7 @@ public class UserRepositoryExternalIdTest
             .ReturnsAsync((User)null!);
 
         // Act
-        var result = await _userRepository.GetByExternalIdAndProviderAsync(externalId, provider);
+        var result = await _userRepository.GetByExternalIdAsync(externalId, provider);
 
         // Assert
         Assert.That(result, Is.Null);
@@ -91,7 +91,7 @@ public class UserRepositoryExternalIdTest
 
         // Act & Assert
         var ex = Assert.ThrowsAsync<Exception>(async () =>
-            await _userRepository.GetByExternalIdAndProviderAsync(externalId, provider));
+            await _userRepository.GetByExternalIdAsync(externalId, provider));
         Assert.That(ex.Message, Is.EqualTo("Database error"));
 
         _mockLogger.Verify(

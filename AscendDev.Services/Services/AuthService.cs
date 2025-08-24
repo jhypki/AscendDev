@@ -76,12 +76,7 @@ public class AuthService(
         logger.LogInformation("Rotated refresh token for user {UserId}. Old token: {OldToken}, New token: {NewToken}",
             user.Id, token, newRefreshToken.Token);
 
-        return new AuthResult
-        {
-            User = MapToUserDto(user),
-            AccessToken = accessToken,
-            RefreshToken = newRefreshToken.Token
-        };
+        return AuthResult.Success(accessToken, newRefreshToken.Token, MapToUserDto(user));
     }
 
     public async Task RevokeRefreshTokenAsync(string token)
@@ -102,17 +97,12 @@ public class AuthService(
         }
     }
 
-    private async Task<AuthResult> GenerateAuthResultAsync(User user)
+    public async Task<AuthResult> GenerateAuthResultAsync(User user)
     {
         var (accessToken, refreshToken) = await GenerateTokensAsync(user);
         await refreshTokenRepository.SaveAsync(refreshToken);
 
-        return new AuthResult
-        {
-            User = MapToUserDto(user),
-            AccessToken = accessToken,
-            RefreshToken = refreshToken.Token
-        };
+        return AuthResult.Success(accessToken, refreshToken.Token, MapToUserDto(user));
     }
 
     private Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(User user)

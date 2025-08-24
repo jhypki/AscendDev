@@ -13,10 +13,6 @@ public static class MvcExtensions
         // Configure MVC
         services.AddControllers(options => { }).AddNewtonsoftJson(options =>
         {
-            options.SerializerSettings.ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            };
             options.SerializerSettings.Formatting = Formatting.Indented;
         });
 

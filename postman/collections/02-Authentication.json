@@ -1,0 +1,260 @@
+{
+    "info": {
+        "_postman_id": "authentication-collection",
+        "name": "02 - Authentication",
+        "description": "Authentication endpoints for user registration, login, and token management",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Register User",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 201\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has access token\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('accessToken');",
+                            "    pm.expect(jsonData).to.have.property('refreshToken');",
+                            "    ",
+                            "    // Store tokens for future requests",
+                            "    pm.environment.set('accessToken', jsonData.accessToken);",
+                            "    pm.environment.set('refreshToken', jsonData.refreshToken);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Email\": \"{{testUserEmail}}\",\n    \"Password\": \"{{testUserPassword}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/register",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "register"
+                    ]
+                },
+                "description": "Register a new user account"
+            },
+            "response": []
+        },
+        {
+            "name": "Login User",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has access token\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('accessToken');",
+                            "    pm.expect(jsonData).to.have.property('refreshToken');",
+                            "    ",
+                            "    // Store tokens for future requests",
+                            "    pm.environment.set('accessToken', jsonData.accessToken);",
+                            "    pm.environment.set('refreshToken', jsonData.refreshToken);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Email\": \"{{testUserEmail}}\",\n    \"Password\": \"{{testUserPassword}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/login",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "login"
+                    ]
+                },
+                "description": "Login with email and password"
+            },
+            "response": []
+        },
+        {
+            "name": "Refresh Token",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has new access token\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('accessToken');",
+                            "    ",
+                            "    // Update stored access token",
+                            "    pm.environment.set('accessToken', jsonData.accessToken);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"RefreshToken\": \"{{refreshToken}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/refresh-token",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "refresh-token"
+                    ]
+                },
+                "description": "Refresh access token using refresh token"
+            },
+            "response": []
+        },
+        {
+            "name": "Revoke Token",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Token revoked successfully\", function () {",
+                            "    pm.expect(pm.response.text()).to.include('Token revoked successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"RefreshToken\": \"{{refreshToken}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/revoke-token",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "revoke-token"
+                    ]
+                },
+                "description": "Revoke a refresh token"
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Auto-refresh token if expired",
+                    "const accessToken = pm.environment.get('accessToken');",
+                    "const refreshToken = pm.environment.get('refreshToken');",
+                    "",
+                    "if (accessToken && refreshToken && pm.request.url.path.join('/') !== 'api/auth/refresh-token') {",
+                    "    try {",
+                    "        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));",
+                    "        const currentTime = Math.floor(Date.now() / 1000);",
+                    "        ",
+                    "        if (tokenPayload.exp && tokenPayload.exp < currentTime) {",
+                    "            console.log('Token expired, attempting refresh...');",
+                    "            ",
+                    "            pm.sendRequest({",
+                    "                url: pm.environment.get('baseUrl') + '/api/auth/refresh-token',",
+                    "                method: 'POST',",
+                    "                header: {",
+                    "                    'Content-Type': 'application/json'",
+                    "                },",
+                    "                body: {",
+                    "                    mode: 'raw',",
+                    "                    raw: JSON.stringify({",
+                    "                        RefreshToken: refreshToken",
+                    "                    })",
+                    "                }",
+                    "            }, function (err, response) {",
+                    "                if (err) {",
+                    "                    console.log('Token refresh failed:', err);",
+                    "                } else if (response.code === 200) {",
+                    "                    const newToken = response.json().accessToken;",
+                    "                    pm.environment.set('accessToken', newToken);",
+                    "                    console.log('Token refreshed successfully');",
+                    "                } else {",
+                    "                    console.log('Token refresh failed with status:', response.code);",
+                    "                }",
+                    "            });",
+                    "        }",
+                    "    } catch (e) {",
+                    "        console.log('Error parsing token:', e);",
+                    "    }",
+                    "}"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,316 @@
+{
+    "info": {
+        "_postman_id": "code-execution-collection",
+        "name": "05 - Code Execution",
+        "description": "Code execution endpoints for running code in various languages",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Run Python Code",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has execution result\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('output');",
+                            "    pm.expect(jsonData).to.have.property('isSuccess');",
+                            "    ",
+                            "    console.log('Python execution result:');",
+                            "    console.log('Success:', jsonData.isSuccess);",
+                            "    console.log('Output:', jsonData.output);",
+                            "    if (jsonData.error) {",
+                            "        console.log('Error:', jsonData.error);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Language\": \"python\",\n    \"Code\": \"print('Hello, World!')\\nprint('Python is working!')\\nresult = 2 + 2\\nprint(f'2 + 2 = {result}')\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/codeexecution/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "codeexecution",
+                        "run"
+                    ]
+                },
+                "description": "Execute Python code. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Run JavaScript Code",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has execution result\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('output');",
+                            "    pm.expect(jsonData).to.have.property('isSuccess');",
+                            "    ",
+                            "    console.log('JavaScript execution result:');",
+                            "    console.log('Success:', jsonData.isSuccess);",
+                            "    console.log('Output:', jsonData.output);",
+                            "    if (jsonData.error) {",
+                            "        console.log('Error:', jsonData.error);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Language\": \"javascript\",\n    \"Code\": \"console.log('Hello, World!');\\nconsole.log('JavaScript is working!');\\nconst result = 2 + 2;\\nconsole.log(`2 + 2 = ${result}`);\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/codeexecution/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "codeexecution",
+                        "run"
+                    ]
+                },
+                "description": "Execute JavaScript code. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Run C# Code",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has execution result\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('output');",
+                            "    pm.expect(jsonData).to.have.property('isSuccess');",
+                            "    ",
+                            "    console.log('C# execution result:');",
+                            "    console.log('Success:', jsonData.isSuccess);",
+                            "    console.log('Output:', jsonData.output);",
+                            "    if (jsonData.error) {",
+                            "        console.log('Error:', jsonData.error);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Language\": \"csharp\",\n    \"Code\": \"using System;\\n\\nclass Program\\n{\\n    static void Main()\\n    {\\n        Console.WriteLine(\\\"Hello, World!\\\");\\n        Console.WriteLine(\\\"C# is working!\\\");\\n        int result = 2 + 2;\\n        Console.WriteLine($\\\"2 + 2 = {result}\\\");\\n    }\\n}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/codeexecution/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "codeexecution",
+                        "run"
+                    ]
+                },
+                "description": "Execute C# code. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Run TypeScript Code",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has execution result\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('output');",
+                            "    pm.expect(jsonData).to.have.property('isSuccess');",
+                            "    ",
+                            "    console.log('TypeScript execution result:');",
+                            "    console.log('Success:', jsonData.isSuccess);",
+                            "    console.log('Output:', jsonData.output);",
+                            "    if (jsonData.error) {",
+                            "        console.log('Error:', jsonData.error);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Language\": \"typescript\",\n    \"Code\": \"console.log('Hello, World!');\\nconsole.log('TypeScript is working!');\\nconst result: number = 2 + 2;\\nconsole.log(`2 + 2 = ${result}`);\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/codeexecution/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "codeexecution",
+                        "run"
+                    ]
+                },
+                "description": "Execute TypeScript code. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Run Code with Error",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response shows execution failure\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('output');",
+                            "    pm.expect(jsonData).to.have.property('isSuccess');",
+                            "    pm.expect(jsonData.isSuccess).to.be.false;",
+                            "    ",
+                            "    console.log('Error execution result:');",
+                            "    console.log('Success:', jsonData.isSuccess);",
+                            "    console.log('Output:', jsonData.output);",
+                            "    if (jsonData.error) {",
+                            "        console.log('Error:', jsonData.error);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Language\": \"python\",\n    \"Code\": \"print('This will work')\\nundefined_variable = some_undefined_variable\\nprint('This will not execute')\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/codeexecution/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "codeexecution",
+                        "run"
+                    ]
+                },
+                "description": "Execute Python code with an error to test error handling. Requires authentication."
+            },
+            "response": []
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    }
+}

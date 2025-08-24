@@ -1,0 +1,283 @@
+{
+    "info": {
+        "_postman_id": "tests-collection",
+        "name": "06 - Tests",
+        "description": "Test execution endpoints for running lesson tests",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Run Tests",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has test results\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('testCases');",
+                            "    pm.expect(jsonData).to.have.property('passed');",
+                            "    pm.expect(jsonData).to.have.property('failed');",
+                            "    ",
+                            "    console.log('Test execution result:');",
+                            "    console.log('Passed:', jsonData.passed);",
+                            "    console.log('Failed:', jsonData.failed);",
+                            "    console.log('Total test cases:', jsonData.testCases ? jsonData.testCases.length : 0);",
+                            "    ",
+                            "    if (jsonData.testCases) {",
+                            "        jsonData.testCases.forEach((testCase, index) => {",
+                            "            console.log(`Test ${index + 1}: ${testCase.passed ? 'PASS' : 'FAIL'} - ${testCase.name || 'Unnamed'}`);",
+                            "            if (!testCase.passed && testCase.error) {",
+                            "                console.log(`  Error: ${testCase.error}`);",
+                            "            }",
+                            "        });",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"LessonId\": \"{{lessonId}}\",\n    \"Code\": \"def add_numbers(a, b):\\n    return a + b\\n\\ndef multiply_numbers(a, b):\\n    return a * b\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tests/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "tests",
+                        "run"
+                    ]
+                },
+                "description": "Run tests for a lesson with user code. This endpoint allows both authenticated and unauthenticated access."
+            },
+            "response": []
+        },
+        {
+            "name": "Run Tests Authenticated",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has test results\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('testCases');",
+                            "    pm.expect(jsonData).to.have.property('passed');",
+                            "    pm.expect(jsonData).to.have.property('failed');",
+                            "    ",
+                            "    console.log('Authenticated test execution result:');",
+                            "    console.log('Passed:', jsonData.passed);",
+                            "    console.log('Failed:', jsonData.failed);",
+                            "    console.log('Total test cases:', jsonData.testCases ? jsonData.testCases.length : 0);",
+                            "    ",
+                            "    if (jsonData.testCases) {",
+                            "        jsonData.testCases.forEach((testCase, index) => {",
+                            "            console.log(`Test ${index + 1}: ${testCase.passed ? 'PASS' : 'FAIL'} - ${testCase.name || 'Unnamed'}`);",
+                            "            if (!testCase.passed && testCase.error) {",
+                            "                console.log(`  Error: ${testCase.error}`);",
+                            "            }",
+                            "        });",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"LessonId\": \"{{lessonId}}\",\n    \"Code\": \"def add_numbers(a, b):\\n    return a + b\\n\\ndef multiply_numbers(a, b):\\n    return a * b\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tests/run-authenticated",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "tests",
+                        "run-authenticated"
+                    ]
+                },
+                "description": "Run tests for a lesson with authenticated user tracking. This endpoint requires authentication and tracks user progress."
+            },
+            "response": []
+        },
+        {
+            "name": "Run Tests - Python Arrays Lesson",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "// Set specific lesson ID for Python arrays",
+                            "pm.environment.set('lessonId', 'arrays');"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has test results\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('testCases');",
+                            "    pm.expect(jsonData).to.have.property('passed');",
+                            "    pm.expect(jsonData).to.have.property('failed');",
+                            "    ",
+                            "    console.log('Python Arrays lesson test result:');",
+                            "    console.log('Passed:', jsonData.passed);",
+                            "    console.log('Failed:', jsonData.failed);",
+                            "    console.log('Total test cases:', jsonData.testCases ? jsonData.testCases.length : 0);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"LessonId\": \"arrays\",\n    \"Code\": \"def find_max(arr):\\n    if not arr:\\n        return None\\n    return max(arr)\\n\\ndef sum_array(arr):\\n    return sum(arr)\\n\\ndef reverse_array(arr):\\n    return arr[::-1]\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tests/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "tests",
+                        "run"
+                    ]
+                },
+                "description": "Run tests for the Python arrays lesson with sample array manipulation functions."
+            },
+            "response": []
+        },
+        {
+            "name": "Run Tests - Failing Code",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response shows test failures\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('testCases');",
+                            "    pm.expect(jsonData).to.have.property('passed');",
+                            "    pm.expect(jsonData).to.have.property('failed');",
+                            "    ",
+                            "    console.log('Failing code test result:');",
+                            "    console.log('Passed:', jsonData.passed);",
+                            "    console.log('Failed:', jsonData.failed);",
+                            "    console.log('Total test cases:', jsonData.testCases ? jsonData.testCases.length : 0);",
+                            "    ",
+                            "    // Expect some failures",
+                            "    pm.expect(jsonData.failed).to.be.greaterThan(0);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"LessonId\": \"{{lessonId}}\",\n    \"Code\": \"def add_numbers(a, b):\\n    # This implementation is intentionally wrong\\n    return a - b\\n\\ndef multiply_numbers(a, b):\\n    # This implementation is also wrong\\n    return a + b\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tests/run",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "tests",
+                        "run"
+                    ]
+                },
+                "description": "Run tests with intentionally incorrect code to demonstrate test failures."
+            },
+            "response": []
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    }
+}

@@ -1,0 +1,511 @@
+{
+    "info": {
+        "_postman_id": "oauth-authentication-collection",
+        "name": "03 - OAuth Authentication",
+        "description": "OAuth authentication endpoints for GitHub and Google integration",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get GitHub Authorization URL",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has authorization URL and state\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('url');",
+                            "    pm.expect(jsonData).to.have.property('state');",
+                            "    ",
+                            "    // Store state for callback",
+                            "    pm.environment.set('oauthState', jsonData.state);",
+                            "    ",
+                            "    // Log the URL for manual OAuth flow",
+                            "    console.log('GitHub OAuth URL:', jsonData.url);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/github/authorize?redirectUri={{oauthRedirectUri}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "github",
+                        "authorize"
+                    ],
+                    "query": [
+                        {
+                            "key": "redirectUri",
+                            "value": "{{oauthRedirectUri}}"
+                        }
+                    ]
+                },
+                "description": "Get GitHub OAuth authorization URL. Copy the URL from the response and open it in a browser to complete OAuth flow."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Google Authorization URL",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has authorization URL and state\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('url');",
+                            "    pm.expect(jsonData).to.have.property('state');",
+                            "    ",
+                            "    // Store state for callback",
+                            "    pm.environment.set('oauthState', jsonData.state);",
+                            "    ",
+                            "    // Log the URL for manual OAuth flow",
+                            "    console.log('Google OAuth URL:', jsonData.url);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/google/authorize?redirectUri={{oauthRedirectUri}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "google",
+                        "authorize"
+                    ],
+                    "query": [
+                        {
+                            "key": "redirectUri",
+                            "value": "{{oauthRedirectUri}}"
+                        }
+                    ]
+                },
+                "description": "Get Google OAuth authorization URL. Copy the URL from the response and open it in a browser to complete OAuth flow."
+            },
+            "response": []
+        },
+        {
+            "name": "GitHub OAuth Callback",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has access token\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    if (jsonData.isSuccess) {",
+                            "        pm.expect(jsonData).to.have.property('accessToken');",
+                            "        pm.expect(jsonData).to.have.property('refreshToken');",
+                            "        ",
+                            "        // Store tokens for future requests",
+                            "        pm.environment.set('accessToken', jsonData.accessToken);",
+                            "        pm.environment.set('refreshToken', jsonData.refreshToken);",
+                            "        ",
+                            "        console.log('GitHub OAuth login successful');",
+                            "    } else {",
+                            "        console.log('GitHub OAuth login failed:', jsonData.errorMessage);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "code",
+                            "value": "{{oauthCode}}",
+                            "description": "Authorization code from GitHub (set this manually after OAuth flow)"
+                        },
+                        {
+                            "key": "state",
+                            "value": "{{oauthState}}",
+                            "description": "State parameter for CSRF protection"
+                        },
+                        {
+                            "key": "redirectUri",
+                            "value": "{{oauthRedirectUri}}",
+                            "description": "Redirect URI used in authorization"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/github/callback",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "github",
+                        "callback"
+                    ]
+                },
+                "description": "Handle GitHub OAuth callback and login user. Set the 'oauthCode' environment variable with the code from the OAuth callback."
+            },
+            "response": []
+        },
+        {
+            "name": "Google OAuth Callback",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has access token\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    if (jsonData.isSuccess) {",
+                            "        pm.expect(jsonData).to.have.property('accessToken');",
+                            "        pm.expect(jsonData).to.have.property('refreshToken');",
+                            "        ",
+                            "        // Store tokens for future requests",
+                            "        pm.environment.set('accessToken', jsonData.accessToken);",
+                            "        pm.environment.set('refreshToken', jsonData.refreshToken);",
+                            "        ",
+                            "        console.log('Google OAuth login successful');",
+                            "    } else {",
+                            "        console.log('Google OAuth login failed:', jsonData.errorMessage);",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "code",
+                            "value": "{{oauthCode}}",
+                            "description": "Authorization code from Google (set this manually after OAuth flow)"
+                        },
+                        {
+                            "key": "state",
+                            "value": "{{oauthState}}",
+                            "description": "State parameter for CSRF protection"
+                        },
+                        {
+                            "key": "redirectUri",
+                            "value": "{{oauthRedirectUri}}",
+                            "description": "Redirect URI used in authorization"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/google/callback",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "google",
+                        "callback"
+                    ]
+                },
+                "description": "Handle Google OAuth callback and login user. Set the 'oauthCode' environment variable with the code from the OAuth callback."
+            },
+            "response": []
+        },
+        {
+            "name": "Link GitHub Account",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Account linked successfully\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.message).to.eql('Account linked successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"code\": \"{{oauthCode}}\",\n    \"state\": \"{{oauthState}}\",\n    \"redirectUri\": \"{{oauthRedirectUri}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/github/link",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "github",
+                        "link"
+                    ]
+                },
+                "description": "Link GitHub account to existing user account. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Link Google Account",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Account linked successfully\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.message).to.eql('Account linked successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"code\": \"{{oauthCode}}\",\n    \"state\": \"{{oauthState}}\",\n    \"redirectUri\": \"{{oauthRedirectUri}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/google/link",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "google",
+                        "link"
+                    ]
+                },
+                "description": "Link Google account to existing user account. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Unlink GitHub Account",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Account unlinked successfully\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.message).to.eql('Account unlinked successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/github/unlink",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "github",
+                        "unlink"
+                    ]
+                },
+                "description": "Unlink GitHub account from user account. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Unlink Google Account",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Account unlinked successfully\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.message).to.eql('Account unlinked successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/google/unlink",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "google",
+                        "unlink"
+                    ]
+                },
+                "description": "Unlink Google account from user account. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Linked Providers",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has providers array\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('providers');",
+                            "    pm.expect(jsonData.providers).to.be.an('array');",
+                            "    ",
+                            "    console.log('Linked providers:', jsonData.providers);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/oauth/linked",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "oauth",
+                        "linked"
+                    ]
+                },
+                "description": "Get linked OAuth providers for current user. Requires authentication."
+            },
+            "response": []
+        }
+    ]
+}

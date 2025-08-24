@@ -322,7 +322,7 @@ This document provides a prioritized implementation plan based on all the requir
 **Risk Level**: Low
 **Team**: Backend developers (2-3 people), DevOps (1 person)
 
-## Phase 4: Advanced Microservices (Weeks 13-16) - P3 Low Priority
+## Phase 4: Advanced Microservices (Weeks 13-20) - P3 Low Priority
 
 ### Week 13-16: Live Coding Collaboration Microservice
 **Goal**: Real-time collaborative coding capabilities
@@ -360,6 +360,44 @@ This document provides a prioritized implementation plan based on all the requir
 **Dependencies**: Main backend completion
 **Risk Level**: Very High
 **Team**: Backend developers (3-4 people), DevOps (1 person)
+
+### Week 17-20: Metrics Service Microservice
+**Goal**: Event-driven analytics and metrics collection
+
+**Tasks**:
+1. **Infrastructure Setup** (Week 17)
+   - Set up Kafka cluster and topics
+   - Set up ClickHouse database
+   - Create event publishing in main API
+   - Implement basic event consumers
+
+2. **Core Analytics** (Week 18)
+   - Implement aggregation service
+   - Create basic analytics APIs
+   - Set up Redis caching
+   - Create dashboard metrics endpoints
+
+3. **Advanced Features** (Week 19)
+   - Implement real-time SignalR hub
+   - Add batch processing jobs
+   - Create reporting system
+   - Add advanced analytics queries
+
+4. **Integration and Optimization** (Week 20)
+   - Integrate with admin panel
+   - Performance optimization
+   - Monitoring and alerting
+   - Documentation and testing
+
+**Deliverables**:
+- Complete metrics service microservice
+- Real-time analytics dashboard
+- Event-driven data collection
+- Performance and user behavior analytics
+
+**Dependencies**: Basic admin panel, user activity data
+**Risk Level**: Medium
+**Team**: Backend developers (2-3 people), Data engineer (1 person), DevOps (1 person)
 
 ## Parallel Development Tracks
 
@@ -434,6 +472,10 @@ This document provides a prioritized implementation plan based on all the requir
 - [ ] Multiple users can code together simultaneously
 - [ ] Session recording and playback works
 - [ ] System scales to support 100+ concurrent collaboration sessions
+- [ ] Metrics service processes 10,000+ events per day
+- [ ] Real-time analytics dashboard updates within 1 second
+- [ ] Historical analytics queries complete within 5 seconds
+- [ ] Event-driven architecture maintains 99.9% uptime
 
 ## Resource Requirements
 
@@ -460,4 +502,4 @@ This roadmap provides a structured approach to implementing the AscendDev backen
 4. **Maintain focus on core learning features** in Phases 1-2 before adding advanced social features
 5. **Implement comprehensive testing** throughout all phases to ensure quality
 
-The roadmap is designed to deliver a fully functional e-learning platform by Week 12, with advanced collaboration features available by Week 16 if resources permit.
+The roadmap is designed to deliver a fully functional e-learning platform by Week 12, with advanced collaboration features available by Week 16, and comprehensive analytics capabilities by Week 20 if resources permit.

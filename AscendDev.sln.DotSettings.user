@@ -7,7 +7,7 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/jakubhypki/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.3.0/lib/netstandard2.0/Microsoft.AspNetCore.Authentication.Abstractions.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/jakubhypki/Library/Caches/JetBrains/Rider2025.1/resharper-host/temp/Rider/vAny/CoverageData/_AscendDev.-685003858/Snapshot/snapshot.utdcvr</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b1580850_002D7a96_002D446e_002Dae8f_002Dd3cd7fc3074f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Hash_WhenCalled_ReturnsHashAndSalt" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
     &lt;Project Location="/Users/jakubhypki/Dev/UZ/ElearningPlatform/ElearningPlatform.Services.Test" Presentation="&amp;lt;ElearningPlatform.Services.Test&amp;gt;" /&gt;

@@ -1,0 +1,221 @@
+{
+    "info": {
+        "_postman_id": "courses-collection",
+        "name": "04 - Courses",
+        "description": "Course and lesson management endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get All Courses",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response is an array\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.be.an('array');",
+                            "    ",
+                            "    // Store first course ID for other requests",
+                            "    if (jsonData.length > 0) {",
+                            "        pm.environment.set('courseId', jsonData[0].id);",
+                            "        console.log('Available courses:', jsonData.map(c => c.id).join(', '));",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/courses",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "courses"
+                    ]
+                },
+                "description": "Get all available courses. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Course by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has course details\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "    pm.expect(jsonData).to.have.property('title');",
+                            "    ",
+                            "    console.log('Course details:', {",
+                            "        id: jsonData.id,",
+                            "        title: jsonData.title,",
+                            "        description: jsonData.description",
+                            "    });",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/courses/{{courseId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "courses",
+                        "{{courseId}}"
+                    ]
+                },
+                "description": "Get course details by ID. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Course Lessons",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response is an array of lessons\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.be.an('array');",
+                            "    ",
+                            "    // Store first lesson ID for other requests",
+                            "    if (jsonData.length > 0) {",
+                            "        pm.environment.set('lessonId', jsonData[0].id);",
+                            "        console.log('Available lessons:', jsonData.map(l => l.id).join(', '));",
+                            "    }",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "courses",
+                        "{{courseId}}",
+                        "lessons"
+                    ]
+                },
+                "description": "Get all lessons for a specific course. Requires authentication."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Lesson by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has lesson details\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "    pm.expect(jsonData).to.have.property('title');",
+                            "    ",
+                            "    console.log('Lesson details:', {",
+                            "        id: jsonData.id,",
+                            "        title: jsonData.title,",
+                            "        description: jsonData.description,",
+                            "        language: jsonData.language",
+                            "    });",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{lessonId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "courses",
+                        "{{courseId}}",
+                        "lessons",
+                        "{{lessonId}}"
+                    ]
+                },
+                "description": "Get lesson details by ID. Requires authentication."
+            },
+            "response": []
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    }
+}
