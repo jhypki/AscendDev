@@ -1,0 +1,447 @@
+{
+    "info": {
+        "_postman_id": "admin-user-management-collection",
+        "name": "09 - Admin User Management",
+        "description": "Collection for admin user management endpoints including user CRUD operations, role management, bulk operations, and activity monitoring.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User Management",
+            "item": [
+                {
+                    "name": "Search Users",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"searchTerm\": \"alice\",\n  \"roles\": [\"User\"],\n  \"isActive\": true,\n  \"page\": 1,\n  \"pageSize\": 20,\n  \"sortBy\": \"CreatedAt\",\n  \"sortDirection\": \"desc\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/search",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "search"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"newuser@ascenddev.com\",\n  \"username\": \"newuser\",\n  \"firstName\": \"New\",\n  \"lastName\": \"User\",\n  \"password\": \"TempPassword123!\",\n  \"roles\": [\"User\"],\n  \"isActive\": true,\n  \"sendWelcomeEmail\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\",\n  \"isActive\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{super_admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Activate User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}/activate",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}",
+                                "activate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Deactivate User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}/deactivate",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}",
+                                "deactivate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Lock User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}/lock?lockUntil=2024-12-31T23:59:59Z",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}",
+                                "lock"
+                            ],
+                            "query": [
+                                {
+                                    "key": "lockUntil",
+                                    "value": "2024-12-31T23:59:59Z"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Unlock User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}/unlock",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}",
+                                "unlock"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Activity Monitoring",
+            "item": [
+                {
+                    "name": "Get User Activity",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/{{user_id}}/activity?limit=50",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "{{user_id}}",
+                                "activity"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "50"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Recent Activity",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/activity/recent?limit=100",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "activity",
+                                "recent"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "100"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bulk Operations",
+            "item": [
+                {
+                    "name": "Bulk Activate Users",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userIds\": [\"{{user_id_1}}\", \"{{user_id_2}}\"],\n  \"operation\": \"activate\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/bulk-operation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "bulk-operation"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Bulk Assign Role",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userIds\": [\"{{user_id_1}}\", \"{{user_id_2}}\"],\n  \"operation\": \"assign_role\",\n  \"parameters\": {\n    \"roleName\": \"Instructor\"\n  }\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/bulk-operation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "bulk-operation"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Bulk Operation Result",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/usermanagement/bulk-operation/{{operation_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "usermanagement",
+                                "bulk-operation",
+                                "{{operation_id}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "user_id",
+            "value": "33333333-3333-3333-3333-333333333333",
+            "description": "Sample user ID for testing"
+        },
+        {
+            "key": "user_id_1",
+            "value": "33333333-3333-3333-3333-333333333333",
+            "description": "First user ID for bulk operations"
+        },
+        {
+            "key": "user_id_2",
+            "value": "44444444-4444-4444-4444-444444444444",
+            "description": "Second user ID for bulk operations"
+        },
+        {
+            "key": "operation_id",
+            "value": "",
+            "description": "Bulk operation ID returned from bulk operation request"
+        }
+    ]
+}

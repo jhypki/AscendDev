@@ -19,10 +19,32 @@ public class DapperSqlExecutor<T>(IConnectionManager<T> connectionManager) : ISq
         return await connection.QueryFirstAsync<T1>(sql, parameters);
     }
 
+    public async Task<T1> QuerySingleAsync<T1>(string sql, object? parameters = null)
+    {
+        using var connection = connectionManager.GetConnection();
+        return await connection.QuerySingleAsync<T1>(sql, parameters);
+    }
+
+    public async Task<T1?> QuerySingleOrDefaultAsync<T1>(string sql, object? parameters = null)
+    {
+        using var connection = connectionManager.GetConnection();
+        return await connection.QuerySingleOrDefaultAsync<T1>(sql, parameters);
+    }
+
     public async Task<IEnumerable<T1>> QueryAsync<T1>(string sql, object? parameters = null)
     {
         using var connection = connectionManager.GetConnection();
         return await connection.QueryAsync<T1>(sql, parameters);
+    }
+
+    public async Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(
+        string sql,
+        Func<TFirst, TSecond, TReturn> map,
+        object? parameters = null,
+        string splitOn = "Id")
+    {
+        using var connection = connectionManager.GetConnection();
+        return await connection.QueryAsync(sql, map, parameters, splitOn: splitOn);
     }
 
     public async Task<int> ExecuteAsync(string sql, object? parameters = null)

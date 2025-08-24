@@ -13,6 +13,7 @@ namespace AscendDev.Services.Services;
 public class AuthService(
     IUserRepository userRepository,
     IRefreshTokenRepository refreshTokenRepository,
+    IUserRoleRepository userRoleRepository,
     JwtSettings jwtSettings,
     IPasswordHasher passwordHasher,
     IJwtHelper jwtHelper,
@@ -105,9 +106,13 @@ public class AuthService(
         return AuthResult.Success(accessToken, refreshToken.Token, MapToUserDto(user));
     }
 
-    private Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(User user)
+    private async Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(User user)
     {
-        var accessToken = jwtHelper.GenerateToken(user.Id, user.Email);
+        // Get user roles
+        var userRoles = await userRoleRepository.GetRolesByUserIdAsync(user.Id);
+        var roleNames = userRoles.Select(r => r.Name).ToList();
+
+        var accessToken = jwtHelper.GenerateToken(user.Id, user.Email, roleNames);
         var refreshTokenString = GenerateRefreshToken();
 
         var refreshToken = new RefreshToken
@@ -122,7 +127,7 @@ public class AuthService(
             RevokedByIp = null
         };
 
-        return Task.FromResult((accessToken, refreshToken));
+        return (accessToken, refreshToken);
     }
 
     private static UserDto MapToUserDto(User user)

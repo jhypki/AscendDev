@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISqlExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISqlExecutor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Utilities/IJwtHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Utilities/IJwtHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/DapperSqlExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/DapperSqlExecutor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services.Test/Services/AuthServiceTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services.Test/Services/AuthServiceTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Utilities/JwtHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Utilities/JwtHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman/environments/AscendDev-Environment.json" beforeDir="false" afterPath="$PROJECT_DIR$/postman/environments/AscendDev-Environment.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="31kafwxp3IF8xGwM9GyOLvHDfqQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Kuba/Desktop/AscendDev"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="" />
+      <created>1756070630917</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756070630917</updated>
+    </task>
+    <servers />
+  </component>
+</project>

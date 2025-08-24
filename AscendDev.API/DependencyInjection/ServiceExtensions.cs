@@ -1,8 +1,10 @@
 using AscendDev.Core.CodeExecution;
 using AscendDev.Core.Interfaces.CodeExecution;
+using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Interfaces.Utils;
 using AscendDev.Core.TestsExecution;
+using AscendDev.Data.Repositories;
 using AscendDev.Services.Services;
 using AscendDev.Services.Utilities;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,10 @@ public static class ServiceExtensions
         services.AddScoped<ICodeTestService, CodeTestService>();
         services.AddScoped<ICodeExecutionService, CodeExecutionService>();
         services.AddScoped<IUserProgressService, UserProgressService>();
+
+        // Register admin services
+        services.AddScoped<IUserManagementService, UserManagementService>();
+        services.AddScoped<IAnalyticsService, AnalyticsService>();
 
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();

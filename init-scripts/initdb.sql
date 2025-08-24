@@ -306,6 +306,64 @@ CREATE TABLE study_group_members (
     UNIQUE(group_id, user_id)
 );
 
+-- User Activity Tracking Tables for Admin Analytics
+CREATE TABLE user_activity_logs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    activity_type VARCHAR(100) NOT NULL, -- login, logout, lesson_start, lesson_complete, course_start, course_complete, discussion_post, code_review, etc.
+    activity_description TEXT,
+    metadata JSONB, -- Additional activity-specific data
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    session_id VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+-- System Performance Metrics for Admin Dashboard
+CREATE TABLE system_metrics (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    metric_name VARCHAR(100) NOT NULL, -- api_response_time, active_users, concurrent_sessions, error_rate, etc.
+    metric_value DECIMAL(10,4) NOT NULL,
+    metric_unit VARCHAR(50), -- ms, count, percentage, etc.
+    tags JSONB, -- Additional metric tags/dimensions
+    recorded_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+-- Admin Dashboard Statistics Cache
+CREATE TABLE dashboard_statistics (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    statistic_key VARCHAR(100) NOT NULL UNIQUE, -- total_users, active_users_today, lessons_completed_today, etc.
+    statistic_value JSONB NOT NULL, -- Can store numbers, objects, arrays
+    last_updated TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    expires_at TIMESTAMP WITH TIME ZONE
+);
+
+-- User Session Tracking for Admin Analytics
+CREATE TABLE user_sessions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    session_token VARCHAR(500) NOT NULL UNIQUE,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    started_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    last_activity TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    ended_at TIMESTAMP WITH TIME ZONE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Bulk Operations Log for Admin Tracking
+CREATE TABLE bulk_operations (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    operation_type VARCHAR(100) NOT NULL, -- bulk_user_update, bulk_user_delete, bulk_role_assign, etc.
+    performed_by UUID NOT NULL REFERENCES users(id),
+    target_count INTEGER NOT NULL, -- Number of records affected
+    operation_data JSONB, -- Details of the operation
+    status VARCHAR(50) NOT NULL DEFAULT 'pending', -- pending, in_progress, completed, failed
+    started_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    completed_at TIMESTAMP WITH TIME ZONE,
+    error_message TEXT
+);
+
 -- Additional Indexes for Performance
 CREATE INDEX idx_discussions_lesson_id ON discussions(lesson_id);
 CREATE INDEX idx_discussions_user_id ON discussions(user_id);
@@ -370,6 +428,33 @@ CREATE INDEX idx_courses_has_draft_version ON courses(has_draft_version);
 -- Enhanced Lesson Indexes
 CREATE INDEX idx_lessons_status ON lessons(status);
 CREATE INDEX idx_lessons_course_id_order ON lessons(course_id, "order");
+
+-- User Activity Logs Indexes
+CREATE INDEX idx_user_activity_logs_user_id ON user_activity_logs(user_id);
+CREATE INDEX idx_user_activity_logs_activity_type ON user_activity_logs(activity_type);
+CREATE INDEX idx_user_activity_logs_created_at ON user_activity_logs(created_at DESC);
+CREATE INDEX idx_user_activity_logs_session_id ON user_activity_logs(session_id);
+
+-- System Metrics Indexes
+CREATE INDEX idx_system_metrics_metric_name ON system_metrics(metric_name);
+CREATE INDEX idx_system_metrics_recorded_at ON system_metrics(recorded_at DESC);
+CREATE INDEX idx_system_metrics_metric_name_recorded_at ON system_metrics(metric_name, recorded_at DESC);
+
+-- Dashboard Statistics Indexes
+CREATE INDEX idx_dashboard_statistics_statistic_key ON dashboard_statistics(statistic_key);
+CREATE INDEX idx_dashboard_statistics_expires_at ON dashboard_statistics(expires_at);
+
+-- User Sessions Indexes
+CREATE INDEX idx_user_sessions_user_id ON user_sessions(user_id);
+CREATE INDEX idx_user_sessions_session_token ON user_sessions(session_token);
+CREATE INDEX idx_user_sessions_is_active ON user_sessions(is_active);
+CREATE INDEX idx_user_sessions_last_activity ON user_sessions(last_activity DESC);
+
+-- Bulk Operations Indexes
+CREATE INDEX idx_bulk_operations_performed_by ON bulk_operations(performed_by);
+CREATE INDEX idx_bulk_operations_operation_type ON bulk_operations(operation_type);
+CREATE INDEX idx_bulk_operations_status ON bulk_operations(status);
+CREATE INDEX idx_bulk_operations_started_at ON bulk_operations(started_at DESC);
 
 -- Insert Default Roles
 INSERT INTO roles (id, name, description) VALUES

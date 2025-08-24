@@ -1,0 +1,171 @@
+{
+    "info": {
+        "_postman_id": "admin-role-management-collection",
+        "name": "10 - Admin Role Management",
+        "description": "Collection for admin role management endpoints including role assignment, removal, and user role updates.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Role Operations",
+            "item": [
+                {
+                    "name": "Get All Roles",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/rolemanagement",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "rolemanagement"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Roles",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/rolemanagement/user/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "rolemanagement",
+                                "user",
+                                "{{user_id}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Assign Role to User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roleName\": \"Instructor\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/rolemanagement/user/{{user_id}}/assign",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "rolemanagement",
+                                "user",
+                                "{{user_id}}",
+                                "assign"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Remove Role from User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roleName\": \"Instructor\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/rolemanagement/user/{{user_id}}/remove",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "rolemanagement",
+                                "user",
+                                "{{user_id}}",
+                                "remove"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Roles",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"roles\": [\"User\", \"Instructor\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/admin/rolemanagement/user/{{user_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "admin",
+                                "rolemanagement",
+                                "user",
+                                "{{user_id}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "user_id",
+            "value": "33333333-3333-3333-3333-333333333333",
+            "description": "Sample user ID for role management testing"
+        }
+    ]
+}

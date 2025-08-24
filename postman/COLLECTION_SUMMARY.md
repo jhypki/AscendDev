@@ -86,6 +86,42 @@
   - Navigation helpers (next/previous lesson)
   - Comprehensive test validation
 
+#### 9. Admin User Management Collection ⭐ WEEK 4
+- **File**: `09-Admin-User-Management.json`
+- **Endpoints**: 15
+- **Purpose**: Complete admin user management with CRUD operations, bulk operations, and activity monitoring
+- **Features**:
+  - Advanced user search and filtering with pagination
+  - Full user CRUD operations (Create, Read, Update, Delete)
+  - User activation/deactivation and lock/unlock functionality
+  - Bulk operations (activate, assign roles, etc.)
+  - User activity logging and monitoring
+  - User statistics and engagement tracking
+
+#### 10. Admin Role Management Collection ⭐ WEEK 4
+- **File**: `10-Admin-Role-Management.json`
+- **Endpoints**: 5
+- **Purpose**: Complete role-based access control management
+- **Features**:
+  - Get all available system roles
+  - Get user roles by user ID
+  - Assign and remove roles from users
+  - Update user roles (replace all existing roles)
+  - Role-based access control testing
+
+#### 11. Admin Analytics & Dashboard Collection ⭐ WEEK 4
+- **File**: `11-Admin-Analytics-Dashboard.json`
+- **Endpoints**: 18
+- **Purpose**: Comprehensive admin analytics, dashboard statistics, and reporting
+- **Features**:
+  - Dashboard statistics and real-time metrics
+  - User engagement reports and activity trends
+  - Course analytics and popular courses tracking
+  - Lesson completion trends and performance metrics
+  - System health monitoring and active sessions
+  - Custom report generation (PDF, Excel, CSV)
+  - Advanced analytics queries (SuperAdmin only)
+
 ## 🔧 Key Features Implemented
 
 ### Automation Features
@@ -110,15 +146,18 @@
 
 | Category | Count | Details |
 |----------|-------|---------|
-| **Collections** | 8 | Organized by functionality |
-| **Endpoints** | 50+ | Complete API coverage including enhanced CRUD |
-| **Test Scripts** | 80+ | Comprehensive validation with new endpoints |
-| **Environment Variables** | 16 | Full automation support with enhanced variables |
+| **Collections** | 11 | Organized by functionality including admin features |
+| **Endpoints** | 88+ | Complete API coverage including admin management |
+| **Test Scripts** | 120+ | Comprehensive validation with admin endpoints |
+| **Environment Variables** | 22 | Full automation support with admin tokens |
 | **Languages Supported** | 4 | Python, JS, C#, TypeScript |
 | **OAuth Providers** | 2 | GitHub and Google |
 | **CRUD Operations** | ✅ | Full Create, Read, Update, Delete support |
 | **Publishing Workflow** | ✅ | Complete course publishing lifecycle |
-| **Analytics** | ✅ | Course statistics and performance metrics |
+| **Analytics** | ✅ | Course statistics and admin dashboard metrics |
+| **Admin Management** | ✅ | User management, roles, bulk operations |
+| **Activity Monitoring** | ✅ | User activity tracking and logging |
+| **Role-Based Access** | ✅ | Admin, SuperAdmin, User role management |
 
 ## 🚀 Ready-to-Use Features
 
@@ -139,6 +178,13 @@
 8. **Lesson Organization**: Ordering, reordering, and navigation
 9. **Preview System**: Real-time content preview without caching
 10. **Validation Framework**: Comprehensive content validation with detailed errors
+11. **Admin User Management**: Complete user CRUD with search and filtering
+12. **Bulk Operations**: Mass user operations (activate, roles, etc.)
+13. **Role Management**: Role-based access control with assignment
+14. **Activity Monitoring**: User activity logging and tracking
+15. **Dashboard Analytics**: Real-time admin dashboard statistics
+16. **Custom Reporting**: PDF, Excel, CSV report generation
+17. **System Health**: Active sessions and system monitoring
 
 ## 🔐 Security Features
 
@@ -147,6 +193,8 @@
 - OAuth 2.0 integration with state validation
 - Secure token storage in environment variables
 - Account linking and unlinking capabilities
+- Role-based access control (User, Admin, SuperAdmin)
+- Admin token management for elevated operations
 
 ### Request Security
 - HTTPS-only configuration
@@ -234,12 +282,23 @@
 
 **Complete, production-ready Postman collection suite for the AscendDev E-Learning Platform API with 50+ endpoints, 80+ test assertions, full CRUD operations, publishing workflows, analytics, and comprehensive documentation.**
 
-### ⭐ New Enhanced Features (Week 3 Implementation)
+### ⭐ Enhanced Features (Week 3 Implementation)
 - **Complete Course Management**: Full CRUD operations with versioning
 - **Publishing Workflow**: Draft → Published lifecycle with validation
 - **Content Analytics**: Statistics, counts, and performance metrics
 - **Lesson Organization**: Ordering, reordering, and navigation helpers
 - **Preview System**: Real-time content preview functionality
 - **Validation Framework**: Comprehensive content validation with detailed error reporting
+
+### ⭐ NEW Admin Features (Week 4 Implementation)
+- **Admin User Management**: Complete user CRUD operations with advanced search and filtering
+- **Bulk Operations**: Mass user operations (activate, deactivate, role assignment, etc.)
+- **Role Management**: Full role-based access control with assignment and removal
+- **Activity Monitoring**: Comprehensive user activity logging and tracking
+- **Dashboard Analytics**: Real-time admin dashboard with statistics and metrics
+- **System Health**: Active sessions monitoring and system health checks
+- **Custom Reporting**: Generate PDF, Excel, and CSV reports with custom queries
+- **User Engagement**: Track user engagement, streaks, and learning progress
+- **Advanced Analytics**: Course analytics, lesson completion trends, and popular courses
 
 Ready for immediate use by development, QA, and DevOps teams! 🚀

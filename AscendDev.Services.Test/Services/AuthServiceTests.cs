@@ -19,6 +19,7 @@ namespace AscendDev.Services.Test.Services
     {
         private Mock<IUserRepository> _userRepositoryMock;
         private Mock<IRefreshTokenRepository> _refreshTokenRepositoryMock;
+        private Mock<IUserRoleRepository> _userRoleRepositoryMock;
         private Mock<IPasswordHasher> _passwordHasherMock;
         private Mock<IJwtHelper> _jwtHelperMock;
         private Mock<IHttpContextAccessor> _httpContextAccessorMock;
@@ -32,6 +33,7 @@ namespace AscendDev.Services.Test.Services
         {
             _userRepositoryMock = new Mock<IUserRepository>();
             _refreshTokenRepositoryMock = new Mock<IRefreshTokenRepository>();
+            _userRoleRepositoryMock = new Mock<IUserRoleRepository>();
             _passwordHasherMock = new Mock<IPasswordHasher>();
             _jwtHelperMock = new Mock<IJwtHelper>();
             _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -52,6 +54,7 @@ namespace AscendDev.Services.Test.Services
             _authService = new AuthService(
                 _userRepositoryMock.Object,
                 _refreshTokenRepositoryMock.Object,
+                _userRoleRepositoryMock.Object,
                 _jwtSettings,
                 _passwordHasherMock.Object,
                 _jwtHelperMock.Object,
@@ -103,8 +106,11 @@ namespace AscendDev.Services.Test.Services
                 .ReturnsAsync(true);
 
             var accessToken = "test_access_token";
-            _jwtHelperMock.Setup(x => x.GenerateToken(It.IsAny<Guid>(), request.Email))
+            _jwtHelperMock.Setup(x => x.GenerateToken(It.IsAny<Guid>(), request.Email, It.IsAny<IEnumerable<string>>()))
                 .Returns(accessToken);
+
+            _userRoleRepositoryMock.Setup(x => x.GetRolesByUserIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new List<Role>());
 
             _refreshTokenRepositoryMock.Setup(x => x.SaveAsync(It.IsAny<RefreshToken>()))
                 .Returns(Task.CompletedTask);
@@ -205,8 +211,11 @@ namespace AscendDev.Services.Test.Services
                 .ReturnsAsync(true);
 
             var accessToken = "test_access_token";
-            _jwtHelperMock.Setup(x => x.GenerateToken(user.Id, user.Email))
+            _jwtHelperMock.Setup(x => x.GenerateToken(user.Id, user.Email, It.IsAny<IEnumerable<string>>()))
                 .Returns(accessToken);
+
+            _userRoleRepositoryMock.Setup(x => x.GetRolesByUserIdAsync(user.Id))
+                .ReturnsAsync(new List<Role>());
 
             _refreshTokenRepositoryMock.Setup(x => x.SaveAsync(It.IsAny<RefreshToken>()))
                 .Returns(Task.CompletedTask);
@@ -319,8 +328,11 @@ namespace AscendDev.Services.Test.Services
                 .ReturnsAsync(user);
 
             var accessToken = "new_access_token";
-            _jwtHelperMock.Setup(x => x.GenerateToken(user.Id, user.Email))
+            _jwtHelperMock.Setup(x => x.GenerateToken(user.Id, user.Email, It.IsAny<IEnumerable<string>>()))
                 .Returns(accessToken);
+
+            _userRoleRepositoryMock.Setup(x => x.GetRolesByUserIdAsync(user.Id))
+                .ReturnsAsync(new List<Role>());
 
             _refreshTokenRepositoryMock.Setup(x => x.SaveAsync(It.IsAny<RefreshToken>()))
                 .Returns(Task.CompletedTask);
