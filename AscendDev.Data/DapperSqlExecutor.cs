@@ -13,6 +13,12 @@ public class DapperSqlExecutor<T>(IConnectionManager<T> connectionManager) : ISq
         return await connection.QueryFirstOrDefaultAsync<T1>(sql, parameters);
     }
 
+    public async Task<T1> QueryFirstAsync<T1>(string sql, object? parameters = null)
+    {
+        using var connection = connectionManager.GetConnection();
+        return await connection.QueryFirstAsync<T1>(sql, parameters);
+    }
+
     public async Task<IEnumerable<T1>> QueryAsync<T1>(string sql, object? parameters = null)
     {
         using var connection = connectionManager.GetConnection();

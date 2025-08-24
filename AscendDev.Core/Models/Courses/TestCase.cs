@@ -6,7 +6,7 @@ public class TestCase
 {
     [JsonPropertyName("input")] public object Input { get; set; } = null!;
 
-    [JsonPropertyName("expected")] public object Expected { get; set; } = null!;
+    [JsonPropertyName("expectedOutput")] public object ExpectedOutput { get; set; } = null!;
 
     [JsonPropertyName("description")] public string? Description { get; set; } = null!;
 }

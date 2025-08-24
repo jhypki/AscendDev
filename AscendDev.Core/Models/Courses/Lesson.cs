@@ -2,7 +2,7 @@ namespace AscendDev.Core.Models.Courses;
 
 public class Lesson
 {
-    public string Id { get; set; } = null!;
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public string CourseId { get; set; } = null!;
 

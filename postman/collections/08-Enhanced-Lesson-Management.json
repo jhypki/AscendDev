@@ -1,0 +1,509 @@
+{
+    "info": {
+        "_postman_id": "enhanced-lesson-management",
+        "name": "08 - Enhanced Lesson Management",
+        "description": "Enhanced lesson CRUD operations, ordering, validation, and preview functionality",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Lesson CRUD Operations",
+            "item": [
+                {
+                    "name": "Create Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lesson created successfully\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('id');",
+                                    "    pm.expect(jsonData).to.have.property('title');",
+                                    "    pm.expect(jsonData).to.have.property('courseId');",
+                                    "    ",
+                                    "    // Store the new lesson ID for other requests",
+                                    "    pm.environment.set('newLessonId', jsonData.id);",
+                                    "    console.log('Created lesson ID:', jsonData.id);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Advanced Functions\",\n    \"slug\": \"advanced-functions\",\n    \"content\": \"Learn about advanced function concepts including closures, higher-order functions, and async/await patterns.\",\n    \"template\": \"// Write a higher-order function\\nfunction createMultiplier(factor) {\\n    // Your code here\\n}\",\n    \"language\": \"javascript\",\n    \"order\": 5,\n    \"tags\": [\"functions\", \"closures\", \"advanced\"],\n    \"status\": \"draft\",\n    \"testConfig\": {\n        \"timeoutMs\": 5000,\n        \"memoryLimitMb\": 128,\n        \"testTemplate\": \"const { createMultiplier } = require('./solution');\\n\\ntest('createMultiplier function', () => {\\n    expect(createMultiplier(2)(5)).toBe(10);\\n});\",\n        \"testCases\": [\n            {\n                \"input\": \"createMultiplier(2)(5)\",\n                \"expectedOutput\": \"10\",\n                \"description\": \"Should create a multiplier function\"\n            }\n        ]\n    },\n    \"additionalResources\": [\n        {\n            \"title\": \"MDN Functions Guide\",\n            \"url\": \"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions\",\n            \"type\": \"documentation\"\n        }\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons"
+                            ]
+                        },
+                        "description": "Create a new lesson in a course"
+                    }
+                },
+                {
+                    "name": "Update Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lesson updated successfully\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('id');",
+                                    "    pm.expect(jsonData).to.have.property('title');",
+                                    "    console.log('Updated lesson:', jsonData.title);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Advanced Functions - Updated\",\n    \"slug\": \"advanced-functions-updated\",\n    \"content\": \"Learn about advanced function concepts including closures, higher-order functions, async/await patterns, and function composition.\",\n    \"template\": \"// Write a higher-order function with composition\\nfunction createMultiplier(factor) {\\n    return function(value) {\\n        return value * factor;\\n    };\\n}\",\n    \"language\": \"javascript\",\n    \"order\": 5,\n    \"tags\": [\"functions\", \"closures\", \"advanced\", \"composition\"],\n    \"status\": \"draft\",\n    \"testConfig\": {\n        \"timeoutMs\": 5000,\n        \"memoryLimitMb\": 128,\n        \"testTemplate\": \"const { createMultiplier } = require('./solution');\\n\\ntest('createMultiplier function', () => {\\n    expect(createMultiplier(2)(5)).toBe(10);\\n    expect(createMultiplier(3)(4)).toBe(12);\\n});\",\n        \"testCases\": [\n            {\n                \"input\": \"createMultiplier(2)(5)\",\n                \"expectedOutput\": \"10\",\n                \"description\": \"Should create a multiplier function\"\n            },\n            {\n                \"input\": \"createMultiplier(3)(4)\",\n                \"expectedOutput\": \"12\",\n                \"description\": \"Should work with different factors\"\n            }\n        ]\n    },\n    \"additionalResources\": [\n        {\n            \"title\": \"MDN Functions Guide\",\n            \"url\": \"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions\",\n            \"type\": \"documentation\"\n        },\n        {\n            \"title\": \"Function Composition\",\n            \"url\": \"https://example.com/function-composition\",\n            \"type\": \"tutorial\"\n        }\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{newLessonId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "{{newLessonId}}"
+                            ]
+                        },
+                        "description": "Update an existing lesson"
+                    }
+                },
+                {
+                    "name": "Delete Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 204\", function () {",
+                                    "    pm.response.to.have.status(204);",
+                                    "});",
+                                    "",
+                                    "console.log('Lesson deleted successfully');"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{newLessonId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "{{newLessonId}}"
+                            ]
+                        },
+                        "description": "Delete a lesson"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Lesson Organization & Ordering",
+            "item": [
+                {
+                    "name": "Get Lessons Ordered",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lessons retrieved in order\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.be.an('array');",
+                                    "    ",
+                                    "    // Check if lessons are ordered",
+                                    "    if (jsonData.length > 1) {",
+                                    "        for (let i = 1; i < jsonData.length; i++) {",
+                                    "            pm.expect(jsonData[i].order).to.be.at.least(jsonData[i-1].order);",
+                                    "        }",
+                                    "    }",
+                                    "    ",
+                                    "    console.log('Ordered lessons:', jsonData.map(l => `${l.order}: ${l.title}`));",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/ordered",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "ordered"
+                            ]
+                        },
+                        "description": "Get lessons in order"
+                    }
+                },
+                {
+                    "name": "Reorder Lessons",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lessons reordered successfully\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('message');",
+                                    "    pm.expect(jsonData.message).to.include('reordered');",
+                                    "    console.log('Reorder result:', jsonData.message);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[\"lesson-id-3\", \"lesson-id-1\", \"lesson-id-2\"]"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{lessonId}}/reorder",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "{{lessonId}}",
+                                "reorder"
+                            ]
+                        },
+                        "description": "Reorder lessons in a course"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Lesson Preview & Validation",
+            "item": [
+                {
+                    "name": "Preview Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lesson preview retrieved\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('id');",
+                                    "    pm.expect(jsonData).to.have.property('title');",
+                                    "    pm.expect(jsonData).to.have.property('content');",
+                                    "    console.log('Preview for lesson:', jsonData.title);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/{{lessonId}}/preview",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "{{lessonId}}",
+                                "preview"
+                            ]
+                        },
+                        "description": "Preview a lesson (fresh data, no cache)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Lesson Status Management",
+            "item": [
+                {
+                    "name": "Get Lessons by Status",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Lessons filtered by status\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.be.an('array');",
+                                    "    console.log('Lessons with status draft:', jsonData.length);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/lessons/status/draft",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "lessons",
+                                "status",
+                                "draft"
+                            ]
+                        },
+                        "description": "Get lessons by status (Note: This would need a separate lessons controller endpoint)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Lesson Navigation",
+            "item": [
+                {
+                    "name": "Get Next Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Next lesson retrieved or null\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData) {",
+                                    "        pm.expect(jsonData).to.have.property('id');",
+                                    "        pm.expect(jsonData).to.have.property('title');",
+                                    "        console.log('Next lesson:', jsonData.title);",
+                                    "    } else {",
+                                    "        console.log('No next lesson available');",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/next?currentOrder=1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "next"
+                            ],
+                            "query": [
+                                {
+                                    "key": "currentOrder",
+                                    "value": "1"
+                                }
+                            ]
+                        },
+                        "description": "Get next lesson in sequence (Note: This would need additional controller endpoint)"
+                    }
+                },
+                {
+                    "name": "Get Previous Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Previous lesson retrieved or null\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData) {",
+                                    "        pm.expect(jsonData).to.have.property('id');",
+                                    "        pm.expect(jsonData).to.have.property('title');",
+                                    "        console.log('Previous lesson:', jsonData.title);",
+                                    "    } else {",
+                                    "        console.log('No previous lesson available');",
+                                    "    }",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/courses/{{courseId}}/lessons/previous?currentOrder=3",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "courses",
+                                "{{courseId}}",
+                                "lessons",
+                                "previous"
+                            ],
+                            "query": [
+                                {
+                                    "key": "currentOrder",
+                                    "value": "3"
+                                }
+                            ]
+                        },
+                        "description": "Get previous lesson in sequence (Note: This would need additional controller endpoint)"
+                    }
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    }
+}

@@ -1,0 +1,3 @@
+### use context7 for getting latest documentations
+### update postman collections when making changes to api, make sure to use shared variables from environment
+### when db changes are needed, initdb.sql script should be modified instead of creating migrations

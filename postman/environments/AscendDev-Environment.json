@@ -61,6 +61,42 @@
             "value": "",
             "type": "default",
             "enabled": true
+        },
+        {
+            "key": "courseSlug",
+            "value": "python-course",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "courseStatus",
+            "value": "published",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "courseTag",
+            "value": "programming",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "courseLanguage",
+            "value": "python",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "newCourseId",
+            "value": "",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "newLessonId",
+            "value": "",
+            "type": "default",
+            "enabled": true
         }
     ],
     "_postman_variable_scope": "environment",

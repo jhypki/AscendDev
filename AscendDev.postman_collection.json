@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "AscendDev API",
-    "description": "API collection for AscendDev platform focusing on lessons, solutions, and playground requests",
+    "description": "API collection for AscendDev platform focusing on enhanced course and lesson management, solutions, and playground requests",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -25,8 +25,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/Auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
             },
             "description": "Login to get authentication token"
           }
@@ -34,8 +40,8 @@
       ]
     },
     {
-      "name": "Lessons",
-      "description": "Endpoints for accessing lessons",
+      "name": "Course Management",
+      "description": "Enhanced endpoints for course CRUD operations",
       "item": [
         {
           "name": "Get All Courses",
@@ -49,12 +55,722 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses"
+              ]
             },
             "description": "Get all available courses"
           }
         },
+        {
+          "name": "Get Course by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Get course details by ID"
+          }
+        },
+        {
+          "name": "Get Course by Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/slug/{{courseSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "slug",
+                "{{courseSlug}}"
+              ]
+            },
+            "description": "Get course details by slug"
+          }
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"New Course Title\",\n    \"slug\": \"new-course-slug\",\n    \"description\": \"Course description\",\n    \"language\": \"csharp\",\n    \"tags\": [\"programming\", \"beginner\"],\n    \"featuredImage\": \"https://example.com/image.jpg\",\n    \"status\": \"draft\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses"
+              ]
+            },
+            "description": "Create a new course"
+          }
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Course Title\",\n    \"slug\": \"updated-course-slug\",\n    \"description\": \"Updated course description\",\n    \"language\": \"csharp\",\n    \"tags\": [\"programming\", \"intermediate\"],\n    \"featuredImage\": \"https://example.com/updated-image.jpg\",\n    \"status\": \"draft\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Update an existing course"
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Delete a course"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Publishing",
+      "description": "Endpoints for course publishing workflow",
+      "item": [
+        {
+          "name": "Publish Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/publish",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "publish"
+              ]
+            },
+            "description": "Publish a course"
+          }
+        },
+        {
+          "name": "Unpublish Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/unpublish",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "unpublish"
+              ]
+            },
+            "description": "Unpublish a course"
+          }
+        },
+        {
+          "name": "Preview Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "preview"
+              ]
+            },
+            "description": "Preview a course (fresh data, no cache)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Filtering",
+      "description": "Endpoints for filtering and searching courses",
+      "item": [
+        {
+          "name": "Get Published Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/published",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "published"
+              ]
+            },
+            "description": "Get all published courses"
+          }
+        },
+        {
+          "name": "Get Courses by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/status/{{status}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "status",
+                "{{status}}"
+              ]
+            },
+            "description": "Get courses by status (draft, published, archived)"
+          }
+        },
+        {
+          "name": "Get Courses by Tag",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/tag/{{tag}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "tag",
+                "{{tag}}"
+              ]
+            },
+            "description": "Get courses by tag"
+          }
+        },
+        {
+          "name": "Get Courses by Language",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/language/{{language}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "language",
+                "{{language}}"
+              ]
+            },
+            "description": "Get courses by programming language"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Analytics",
+      "description": "Endpoints for course analytics and statistics",
+      "item": [
+        {
+          "name": "Get Total Course Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/analytics/count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "analytics",
+                "count"
+              ]
+            },
+            "description": "Get total number of courses"
+          }
+        },
+        {
+          "name": "Get Course Count by Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/analytics/count/status/{{status}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "analytics",
+                "count",
+                "status",
+                "{{status}}"
+              ]
+            },
+            "description": "Get course count by status"
+          }
+        },
+        {
+          "name": "Get Course Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/analytics/statistics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "analytics",
+                "statistics"
+              ]
+            },
+            "description": "Get comprehensive course statistics"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Validation",
+      "description": "Endpoints for course validation",
+      "item": [
+        {
+          "name": "Validate Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "validate"
+              ]
+            },
+            "description": "Validate a course"
+          }
+        },
+        {
+          "name": "Get Course Validation Errors",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/validation-errors",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "validation-errors"
+              ]
+            },
+            "description": "Get validation errors for a course"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lesson Management",
+      "description": "Enhanced endpoints for lesson CRUD operations",
+      "item": [
+        {
+          "name": "Get Course Lessons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons"
+              ]
+            },
+            "description": "Get all lessons for a course"
+          }
+        },
+        {
+          "name": "Get Course Lessons Ordered",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/ordered",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "ordered"
+              ]
+            },
+            "description": "Get all lessons for a course in order"
+          }
+        },
+        {
+          "name": "Get Lesson by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/{{lessonId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "{{lessonId}}"
+              ]
+            },
+            "description": "Get lesson details by ID"
+          }
+        },
+        {
+          "name": "Create Lesson",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"New Lesson Title\",\n    \"slug\": \"new-lesson-slug\",\n    \"content\": \"Lesson content here\",\n    \"template\": \"// Code template here\",\n    \"language\": \"csharp\",\n    \"order\": 1,\n    \"tags\": [\"arrays\", \"beginner\"],\n    \"status\": \"draft\",\n    \"testConfig\": {\n        \"testCases\": []\n    },\n    \"additionalResources\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons"
+              ]
+            },
+            "description": "Create a new lesson"
+          }
+        },
+        {
+          "name": "Update Lesson",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Lesson Title\",\n    \"slug\": \"updated-lesson-slug\",\n    \"content\": \"Updated lesson content\",\n    \"template\": \"// Updated code template\",\n    \"language\": \"csharp\",\n    \"order\": 1,\n    \"tags\": [\"arrays\", \"intermediate\"],\n    \"status\": \"draft\",\n    \"testConfig\": {\n        \"testCases\": []\n    },\n    \"additionalResources\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/{{lessonId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "{{lessonId}}"
+              ]
+            },
+            "description": "Update an existing lesson"
+          }
+        },
+        {
+          "name": "Delete Lesson",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/{{lessonId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "{{lessonId}}"
+              ]
+            },
+            "description": "Delete a lesson"
+          }
+        },
+        {
+          "name": "Reorder Lessons",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\"lesson-id-1\", \"lesson-id-2\", \"lesson-id-3\"]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/{{lessonId}}/reorder",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "{{lessonId}}",
+                "reorder"
+              ]
+            },
+            "description": "Reorder lessons in a course"
+          }
+        },
+        {
+          "name": "Preview Lesson",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Courses/{{courseId}}/lessons/{{lessonId}}/preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "{{courseId}}",
+                "lessons",
+                "{{lessonId}}",
+                "preview"
+              ]
+            },
+            "description": "Preview a lesson (fresh data, no cache)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Legacy Lessons",
+      "description": "Legacy endpoints for accessing specific lessons",
+      "item": [
         {
           "name": "Get C# Course",
           "request": {
@@ -67,8 +783,14 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/csharp-course",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "csharp-course"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "csharp-course"
+              ]
             },
             "description": "Get C# course details"
           }
@@ -85,8 +807,14 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/python-course",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "python-course"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "python-course"
+              ]
             },
             "description": "Get Python course details"
           }
@@ -103,8 +831,14 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/typescript-course",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "typescript-course"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "typescript-course"
+              ]
             },
             "description": "Get TypeScript course details"
           }
@@ -121,8 +855,15 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/csharp-course/lessons",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "csharp-course", "lessons"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "csharp-course",
+                "lessons"
+              ]
             },
             "description": "Get all lessons for C# course"
           }
@@ -139,8 +880,15 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/python-course/lessons",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "python-course", "lessons"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "python-course",
+                "lessons"
+              ]
             },
             "description": "Get all lessons for Python course"
           }
@@ -157,8 +905,15 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Courses", "typescript-course", "lessons"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Courses",
+                "typescript-course",
+                "lessons"
+              ]
             },
             "description": "Get all lessons for TypeScript course"
           }
@@ -175,7 +930,9 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/csharp-course/lessons/csharp_course_arrays",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "api",
                 "Courses",
@@ -199,7 +956,9 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/python-course/lessons/python_course_arrays",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "api",
                 "Courses",
@@ -223,7 +982,9 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons/typescript_course_basic_math",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "api",
                 "Courses",
@@ -247,7 +1008,9 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/api/Courses/typescript-course/lessons/typescript_course_arrays",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "path": [
                 "api",
                 "Courses",
@@ -285,8 +1048,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/Tests/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Tests", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Tests",
+                "run"
+              ]
             },
             "description": "Run tests for C# Arrays lesson"
           }
@@ -311,8 +1080,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/Tests/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Tests", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Tests",
+                "run"
+              ]
             },
             "description": "Run tests for Python Arrays lesson"
           }
@@ -337,8 +1112,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/Tests/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Tests", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Tests",
+                "run"
+              ]
             },
             "description": "Run tests for TypeScript Basic Math lesson"
           }
@@ -363,8 +1144,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/Tests/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "Tests", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Tests",
+                "run"
+              ]
             },
             "description": "Run tests for TypeScript Arrays lesson"
           }
@@ -391,8 +1178,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/CodeExecution/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "CodeExecution", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "CodeExecution",
+                "run"
+              ]
             },
             "description": "Run C# code in the playground"
           }
@@ -413,8 +1206,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/CodeExecution/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "CodeExecution", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "CodeExecution",
+                "run"
+              ]
             },
             "description": "Run Python code in the playground"
           }
@@ -435,8 +1234,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/CodeExecution/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "CodeExecution", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "CodeExecution",
+                "run"
+              ]
             },
             "description": "Run TypeScript code in the playground"
           }
@@ -457,8 +1262,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/CodeExecution/run",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "CodeExecution", "run"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "CodeExecution",
+                "run"
+              ]
             },
             "description": "Run JavaScript code in the playground"
           }
@@ -478,6 +1289,42 @@
       "value": "",
       "type": "string",
       "description": "Authentication token received after login"
+    },
+    {
+      "key": "courseId",
+      "value": "",
+      "type": "string",
+      "description": "Course ID for API requests"
+    },
+    {
+      "key": "courseSlug",
+      "value": "",
+      "type": "string",
+      "description": "Course slug for API requests"
+    },
+    {
+      "key": "lessonId",
+      "value": "",
+      "type": "string",
+      "description": "Lesson ID for API requests"
+    },
+    {
+      "key": "status",
+      "value": "published",
+      "type": "string",
+      "description": "Status filter (draft, published, archived)"
+    },
+    {
+      "key": "tag",
+      "value": "programming",
+      "type": "string",
+      "description": "Tag filter for courses"
+    },
+    {
+      "key": "language",
+      "value": "csharp",
+      "type": "string",
+      "description": "Programming language filter"
     }
   ]
 }

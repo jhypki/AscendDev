@@ -1,8 +1,12 @@
 namespace AscendDev.Core.Models.Courses;
 
-public class Course
+public class CourseVersion
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = null!;
+
+    public string CourseId { get; set; } = null!;
+
+    public int VersionNumber { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -10,11 +14,9 @@ public class Course
 
     public string Description { get; set; } = null!;
 
-    public DateTime CreatedAt { get; set; }
-
     public string Language { get; set; } = null!;
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public string? FeaturedImage { get; set; }
 
@@ -24,12 +26,9 @@ public class Course
 
     public string Status { get; set; } = "draft";
 
-    // Versioning properties
-    public int CurrentVersion { get; set; } = 1;
+    public string CreatedBy { get; set; } = null!;
 
-    public string? CreatedBy { get; set; }
+    public string? ChangeLog { get; set; }
 
-    public string? LastModifiedBy { get; set; }
-
-    public bool HasDraftVersion { get; set; } = false;
+    public bool IsActive { get; set; } = false;
 }

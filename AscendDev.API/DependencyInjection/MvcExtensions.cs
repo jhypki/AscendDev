@@ -14,6 +14,9 @@ public static class MvcExtensions
         services.AddControllers(options => { }).AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.Formatting = Formatting.Indented;
+            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
         });
 
         // Configure Dapper naming convention

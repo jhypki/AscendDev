@@ -30,6 +30,21 @@ public static class CacheKeys
         return $"{CoursePrefix}s_tag_{tag}";
     }
 
+    public static string CourseByTag(string tag)
+    {
+        return $"{CoursePrefix}_tag_{tag}";
+    }
+
+    public static string CourseByStatus(string status)
+    {
+        return $"{CoursePrefix}_status_{status}";
+    }
+
+    public static string PublishedCourses()
+    {
+        return $"{CoursePrefix}s_published";
+    }
+
     public static string CoursePattern()
     {
         return $"{CoursePrefix}*";

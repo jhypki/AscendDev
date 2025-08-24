@@ -58,8 +58,31 @@ CREATE TABLE courses (
     featured_image TEXT,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
     lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
-    status VARCHAR(50) NOT NULL DEFAULT 'draft'
-    -- created_by UUID NOT NULL REFERENCES users(id)
+    status VARCHAR(50) NOT NULL DEFAULT 'draft',
+    current_version INTEGER NOT NULL DEFAULT 1,
+    created_by UUID REFERENCES users(id),
+    last_modified_by UUID REFERENCES users(id),
+    has_draft_version BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+-- Course Versions Table for versioning system
+CREATE TABLE course_versions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+    version_number INTEGER NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL,
+    description TEXT,
+    language VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    featured_image TEXT,
+    tags JSONB NOT NULL DEFAULT '[]'::jsonb,
+    lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
+    status VARCHAR(50) NOT NULL DEFAULT 'draft',
+    created_by UUID NOT NULL REFERENCES users(id),
+    change_log TEXT,
+    is_active BOOLEAN NOT NULL DEFAULT FALSE,
+    UNIQUE(course_id, version_number)
 );
 
 CREATE TABLE lessons (
@@ -328,6 +351,25 @@ CREATE INDEX idx_lesson_content_order_index ON lesson_content(order_index);
 CREATE INDEX idx_user_statistics_user_id ON user_statistics(user_id);
 CREATE INDEX idx_user_statistics_total_points ON user_statistics(total_points DESC);
 CREATE INDEX idx_user_statistics_current_streak ON user_statistics(current_streak DESC);
+
+-- Course Versioning Indexes
+CREATE INDEX idx_course_versions_course_id ON course_versions(course_id);
+CREATE INDEX idx_course_versions_version_number ON course_versions(version_number);
+CREATE INDEX idx_course_versions_is_active ON course_versions(is_active);
+CREATE INDEX idx_course_versions_created_at ON course_versions(created_at DESC);
+CREATE INDEX idx_course_versions_created_by ON course_versions(created_by);
+
+-- Enhanced Course Indexes
+CREATE INDEX idx_courses_status ON courses(status);
+CREATE INDEX idx_courses_language ON courses(language);
+CREATE INDEX idx_courses_created_by ON courses(created_by);
+CREATE INDEX idx_courses_last_modified_by ON courses(last_modified_by);
+CREATE INDEX idx_courses_current_version ON courses(current_version);
+CREATE INDEX idx_courses_has_draft_version ON courses(has_draft_version);
+
+-- Enhanced Lesson Indexes
+CREATE INDEX idx_lessons_status ON lessons(status);
+CREATE INDEX idx_lessons_course_id_order ON lessons(course_id, "order");
 
 -- Insert Default Roles
 INSERT INTO roles (id, name, description) VALUES
