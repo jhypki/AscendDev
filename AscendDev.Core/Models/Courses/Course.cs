@@ -23,27 +23,4 @@ public class Course
     public List<LessonSummary> LessonSummaries { get; set; } = [];
 
     public string Status { get; set; } = "draft";
-
-    // Versioning support
-    public int Version { get; set; } = 1;
-    public string? ParentCourseId { get; set; }
-    public bool IsPublished { get; set; } = false;
-    public DateTime? PublishedAt { get; set; }
-    public Guid? PublishedBy { get; set; }
-
-    // Audit fields
-    public Guid? CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
-
-    // Analytics fields
-    public int ViewCount { get; set; } = 0;
-    public int EnrollmentCount { get; set; } = 0;
-    public double Rating { get; set; } = 0.0;
-    public int RatingCount { get; set; } = 0;
-
-    // Content validation
-    public bool IsValidated { get; set; } = false;
-    public DateTime? ValidatedAt { get; set; }
-    public Guid? ValidatedBy { get; set; }
-    public List<string> ValidationErrors { get; set; } = [];
 }

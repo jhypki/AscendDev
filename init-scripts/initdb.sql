@@ -58,32 +58,8 @@ CREATE TABLE courses (
     featured_image TEXT,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
     lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
-    status VARCHAR(50) NOT NULL DEFAULT 'draft',
-    
-    -- Versioning support
-    version INTEGER DEFAULT 1,
-    parent_course_id TEXT REFERENCES courses(id),
-    
-    -- Publishing workflow
-    is_published BOOLEAN DEFAULT FALSE,
-    published_at TIMESTAMP WITH TIME ZONE,
-    published_by UUID REFERENCES users(id),
-    
-    -- Audit fields
-    created_by UUID REFERENCES users(id),
-    updated_by UUID REFERENCES users(id),
-    
-    -- Analytics fields
-    view_count INTEGER DEFAULT 0,
-    enrollment_count INTEGER DEFAULT 0,
-    rating DECIMAL(3,2) DEFAULT 0.0,
-    rating_count INTEGER DEFAULT 0,
-    
-    -- Content validation
-    is_validated BOOLEAN DEFAULT FALSE,
-    validated_at TIMESTAMP WITH TIME ZONE,
-    validated_by UUID REFERENCES users(id),
-    validation_errors JSONB DEFAULT '[]'::jsonb
+    status VARCHAR(50) NOT NULL DEFAULT 'draft'
+    -- created_by UUID NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE lessons (
@@ -100,80 +76,24 @@ CREATE TABLE lessons (
     test_config JSONB NOT NULL DEFAULT '{}'::jsonb,
     additional_resources JSONB NOT NULL DEFAULT '[]'::jsonb,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
-    status VARCHAR(50) NOT NULL DEFAULT 'draft',
-    
-    -- Audit fields
-    created_by UUID REFERENCES users(id),
-    updated_by UUID REFERENCES users(id),
-    
-    -- Analytics fields
-    view_count INTEGER DEFAULT 0,
-    completion_count INTEGER DEFAULT 0,
-    average_time_spent DECIMAL(10,2) DEFAULT 0.0,
-    
-    -- Validation fields
-    is_validated BOOLEAN DEFAULT FALSE,
-    validated_at TIMESTAMP WITH TIME ZONE,
-    validated_by UUID REFERENCES users(id),
-    validation_errors JSONB DEFAULT '[]'::jsonb,
-    
-    -- Preview and publishing
-    is_published BOOLEAN DEFAULT FALSE,
-    published_at TIMESTAMP WITH TIME ZONE,
-    published_by UUID REFERENCES users(id),
-    
-    -- Difficulty and estimated time
-    difficulty VARCHAR(50) DEFAULT 'beginner',
-    estimated_time_minutes INTEGER DEFAULT 30,
-    
-    -- Prerequisites
-    prerequisites JSONB DEFAULT '[]'::jsonb
+    status VARCHAR(50) NOT NULL DEFAULT 'draft'
 );
 
 CREATE TABLE user_progress (
     id SERIAL PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
-    course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
-    status VARCHAR(50) DEFAULT 'not_started', -- not_started, in_progress, completed
-    progress_percentage DECIMAL(5,2) DEFAULT 0.0,
-    started_at TIMESTAMP WITH TIME ZONE,
-    completed_at TIMESTAMP WITH TIME ZONE,
-    last_accessed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    time_spent_minutes DECIMAL(10,2) DEFAULT 0.0,
+    completed_at TIMESTAMP WITH TIME ZONE NOT NULL,
     code_solution TEXT,
-    attempts_count INTEGER DEFAULT 0,
-    best_score DECIMAL(5,2) DEFAULT 0.0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(user_id, lesson_id)
 );
 
 -- Indexes for faster lookups
 CREATE INDEX idx_user_progress_user_id ON user_progress(user_id);
 CREATE INDEX idx_user_progress_lesson_id ON user_progress(lesson_id);
-CREATE INDEX idx_user_progress_course_id ON user_progress(course_id);
-CREATE INDEX idx_user_progress_status ON user_progress(status);
-CREATE INDEX idx_user_progress_last_accessed ON user_progress(last_accessed_at DESC);
 
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
-
--- Additional indexes for enhanced course/lesson management
-CREATE INDEX idx_courses_status ON courses(status);
-CREATE INDEX idx_courses_is_published ON courses(is_published);
-CREATE INDEX idx_courses_created_by ON courses(created_by);
-CREATE INDEX idx_courses_language ON courses(language);
-CREATE INDEX idx_courses_version ON courses(version);
-CREATE INDEX idx_courses_parent_course_id ON courses(parent_course_id);
-CREATE INDEX idx_courses_published_at ON courses(published_at DESC);
-
-CREATE INDEX idx_lessons_status ON lessons(status);
-CREATE INDEX idx_lessons_is_published ON lessons(is_published);
-CREATE INDEX idx_lessons_created_by ON lessons(created_by);
-CREATE INDEX idx_lessons_difficulty ON lessons(difficulty);
-CREATE INDEX idx_lessons_order ON lessons("order");
-CREATE INDEX idx_lessons_course_id_order ON lessons(course_id, "order");
 
 -- Roles and User Roles Tables
 CREATE TABLE roles (

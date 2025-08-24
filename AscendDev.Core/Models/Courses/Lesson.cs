@@ -29,31 +29,4 @@ public class Lesson
     public List<string> Tags { get; set; } = [];
 
     public string Status { get; set; } = "draft";
-
-    // Audit fields
-    public Guid? CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
-
-    // Analytics fields
-    public int ViewCount { get; set; } = 0;
-    public int CompletionCount { get; set; } = 0;
-    public double AverageTimeSpent { get; set; } = 0.0;
-
-    // Validation fields
-    public bool IsValidated { get; set; } = false;
-    public DateTime? ValidatedAt { get; set; }
-    public Guid? ValidatedBy { get; set; }
-    public List<string> ValidationErrors { get; set; } = [];
-
-    // Preview and publishing
-    public bool IsPublished { get; set; } = false;
-    public DateTime? PublishedAt { get; set; }
-    public Guid? PublishedBy { get; set; }
-
-    // Difficulty and estimated time
-    public string Difficulty { get; set; } = "beginner"; // beginner, intermediate, advanced
-    public int EstimatedTimeMinutes { get; set; } = 30;
-
-    // Prerequisites
-    public List<string> Prerequisites { get; set; } = []; // Lesson IDs that should be completed first
 }
