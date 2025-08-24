@@ -1,0 +1,550 @@
+{
+    "info": {
+        "name": "07 - Enhanced Course Management",
+        "description": "Enhanced course management endpoints including CRUD operations, versioning, publishing, validation, and analytics",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Course CRUD Operations",
+            "item": [
+                {
+                    "name": "Create Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Advanced C# Programming\",\n  \"slug\": \"advanced-csharp-programming\",\n  \"description\": \"Learn advanced C# programming concepts including LINQ, async/await, and design patterns\",\n  \"language\": \"csharp\",\n  \"featuredImage\": \"https://example.com/csharp-advanced.jpg\",\n  \"tags\": [\"csharp\", \"advanced\", \"programming\"],\n  \"status\": \"draft\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses"
+                            ]
+                        },
+                        "description": "Create a new course"
+                    }
+                },
+                {
+                    "name": "Update Course",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Advanced C# Programming - Updated\",\n  \"description\": \"Updated description with more comprehensive content\",\n  \"tags\": [\"csharp\", \"advanced\", \"programming\", \"enterprise\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}"
+                            ]
+                        },
+                        "description": "Update an existing course"
+                    }
+                },
+                {
+                    "name": "Delete Course",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}"
+                            ]
+                        },
+                        "description": "Delete a course (soft delete for published courses)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Search & Filtering",
+            "item": [
+                {
+                    "name": "Search Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/search?searchTerm=programming&language=csharp&tags=advanced&status=published",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "searchTerm",
+                                    "value": "programming"
+                                },
+                                {
+                                    "key": "language",
+                                    "value": "csharp"
+                                },
+                                {
+                                    "key": "tags",
+                                    "value": "advanced"
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "published"
+                                }
+                            ]
+                        },
+                        "description": "Search courses with multiple filters"
+                    }
+                },
+                {
+                    "name": "Get Paginated Courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/paginated?page=1&pageSize=10&sortBy=title&ascending=true",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "paginated"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "sortBy",
+                                    "value": "title"
+                                },
+                                {
+                                    "key": "ascending",
+                                    "value": "true"
+                                }
+                            ]
+                        },
+                        "description": "Get paginated courses with sorting"
+                    }
+                },
+                {
+                    "name": "Get Courses by Language",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/by-language/csharp",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "by-language",
+                                "csharp"
+                            ]
+                        },
+                        "description": "Get all courses for a specific programming language"
+                    }
+                },
+                {
+                    "name": "Get Courses by Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/by-status/published",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "by-status",
+                                "published"
+                            ]
+                        },
+                        "description": "Get courses by status (draft, published, archived)"
+                    }
+                },
+                {
+                    "name": "Get Courses by Creator",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/by-creator/{{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "by-creator",
+                                "{{userId}}"
+                            ]
+                        },
+                        "description": "Get all courses created by a specific user"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Versioning",
+            "item": [
+                {
+                    "name": "Create Course Version",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/versions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "versions"
+                            ]
+                        },
+                        "description": "Create a new version of an existing course"
+                    }
+                },
+                {
+                    "name": "Get Course Versions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/versions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "versions"
+                            ]
+                        },
+                        "description": "Get all versions of a course"
+                    }
+                },
+                {
+                    "name": "Get Latest Course Version",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/versions/latest",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "versions",
+                                "latest"
+                            ]
+                        },
+                        "description": "Get the latest version of a course"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Publishing Workflow",
+            "item": [
+                {
+                    "name": "Publish Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/publish",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "publish"
+                            ]
+                        },
+                        "description": "Publish a course (validates before publishing)"
+                    }
+                },
+                {
+                    "name": "Unpublish Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/unpublish",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "unpublish"
+                            ]
+                        },
+                        "description": "Unpublish a course"
+                    }
+                },
+                {
+                    "name": "Preview Course",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/preview",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "preview"
+                            ]
+                        },
+                        "description": "Preview a course (tracks view count)"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Validation",
+            "item": [
+                {
+                    "name": "Validate Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/validate",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "validate"
+                            ]
+                        },
+                        "description": "Validate a course for publishing"
+                    }
+                },
+                {
+                    "name": "Get Course Validation Errors",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/validation-errors",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "validation-errors"
+                            ]
+                        },
+                        "description": "Get validation errors for a course"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Course Analytics",
+            "item": [
+                {
+                    "name": "Get Course Analytics",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/analytics",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "analytics"
+                            ]
+                        },
+                        "description": "Get comprehensive analytics for a course"
+                    }
+                },
+                {
+                    "name": "Enroll in Course",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/Courses/{{courseId}}/enroll",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "Courses",
+                                "{{courseId}}",
+                                "enroll"
+                            ]
+                        },
+                        "description": "Enroll in a course (tracks enrollment count)"
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "courseId",
+            "value": "",
+            "type": "string",
+            "description": "Course ID for operations"
+        },
+        {
+            "key": "userId",
+            "value": "",
+            "type": "string",
+            "description": "User ID for creator-specific operations"
+        }
+    ]
+}
