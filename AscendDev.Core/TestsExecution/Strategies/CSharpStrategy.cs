@@ -183,15 +183,60 @@ public class CSharpStrategy(ILogger<CSharpStrategy> logger) : ILanguageStrategy
             });
         }
 
+        // If no test results were found, generate them from test cases
         if (result.TestResults.Count == 0)
         {
-            result.TestResults.Add(new TestCaseResult
+            _logger.LogWarning("No test case results were found, generating test cases from lesson configuration");
+
+            if (testConfig.TestCases?.Any() == true)
             {
-                Passed = false,
-                TestName = "Default Test",
-                Message = "Tests did not produce any results"
-            });
-            _logger.LogWarning("No test case results were found, adding default failure result");
+                // Generate test results from test cases
+                foreach (var testCase in testConfig.TestCases)
+                {
+                    result.TestResults.Add(new TestCaseResult
+                    {
+                        Passed = false,
+                        TestName = !string.IsNullOrEmpty(testCase.Name)
+                            ? testCase.Name
+                            : !string.IsNullOrEmpty(testCase.Description)
+                                ? testCase.Description
+                                : "Test Case",
+                        Message = "Test execution failed - no test results were produced"
+                    });
+                }
+                result.Success = false;
+            }
+            else
+            {
+                // Fallback to default test if no test cases are configured
+                result.TestResults.Add(new TestCaseResult
+                {
+                    Passed = false,
+                    TestName = "Default Test",
+                    Message = "Tests did not produce any results"
+                });
+                result.Success = false;
+            }
+        }
+        else
+        {
+            // Fallback: If test results don't have proper names, generate them from test cases
+            if (result.TestResults.Any(tr => string.IsNullOrEmpty(tr.TestName)) && testConfig.TestCases?.Any() == true)
+            {
+                _logger.LogInformation("Some test results are missing names, generating fallback names from test cases");
+                for (int i = 0; i < Math.Min(result.TestResults.Count, testConfig.TestCases.Count); i++)
+                {
+                    if (string.IsNullOrEmpty(result.TestResults[i].TestName))
+                    {
+                        var testCase = testConfig.TestCases[i];
+                        result.TestResults[i].TestName = !string.IsNullOrEmpty(testCase.Name)
+                            ? testCase.Name
+                            : !string.IsNullOrEmpty(testCase.Description)
+                                ? testCase.Description
+                                : $"Test Case {i + 1}";
+                    }
+                }
+            }
         }
 
         _logger.LogInformation("C# test processing complete. Success: {Success}, TestCases: {TestCaseCount}",

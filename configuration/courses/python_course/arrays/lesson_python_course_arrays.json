@@ -13,24 +13,62 @@
     "testTemplate": "import pytest\nfrom solution import reverse_array\n\ndef test_reverse_array_1():\n    \"\"\"Test reversing [1, 2, 3]\"\"\"\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n\ndef test_reverse_array_2():\n    \"\"\"Test reversing [4, 5, 6]\"\"\"\n    assert reverse_array([4, 5, 6]) == [6, 5, 4]\n\ndef test_reverse_array_3():\n    \"\"\"Test reversing [7, 8, 9]\"\"\"\n    assert reverse_array([7, 8, 9]) == [9, 8, 7]\n\ndef test_reverse_array_empty():\n    \"\"\"Test reversing an empty array\"\"\"\n    assert reverse_array([]) == []\n\ndef test_reverse_array_single():\n    \"\"\"Test reversing an array with a single element\"\"\"\n    assert reverse_array([1]) == [1]",
     "testCases": [
       {
-        "input": [1, 2, 3],
-        "expected": [3, 2, 1]
+        "name": "test_reverse_array_1",
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expected": [
+          3,
+          2,
+          1
+        ],
+        "description": "Test reversing [1, 2, 3]"
       },
       {
-        "input": [4, 5, 6],
-        "expected": [6, 5, 4]
+        "name": "test_reverse_array_2",
+        "input": [
+          4,
+          5,
+          6
+        ],
+        "expected": [
+          6,
+          5,
+          4
+        ],
+        "description": "Test reversing [4, 5, 6]"
       },
       {
-        "input": [7, 8, 9],
-        "expected": [9, 8, 7]
+        "name": "test_reverse_array_3",
+        "input": [
+          7,
+          8,
+          9
+        ],
+        "expected": [
+          9,
+          8,
+          7
+        ],
+        "description": "Test reversing [7, 8, 9]"
       },
       {
+        "name": "test_reverse_array_empty",
         "input": [],
-        "expected": []
+        "expected": [],
+        "description": "Test reversing an empty array"
       },
       {
-        "input": [1],
-        "expected": [1]
+        "name": "test_reverse_array_single",
+        "input": [
+          1
+        ],
+        "expected": [
+          1
+        ],
+        "description": "Test reversing an array with a single element"
       }
     ]
   },
@@ -40,6 +78,10 @@
       "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
     }
   ],
-  "tags": ["python", "lists", "arrays"],
+  "tags": [
+    "python",
+    "lists",
+    "arrays"
+  ],
   "status": "draft"
 }

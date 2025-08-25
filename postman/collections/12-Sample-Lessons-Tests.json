@@ -28,6 +28,17 @@
                                     "    console.log('Python Arrays test result:');",
                                     "    console.log('Success:', jsonData.success);",
                                     "    console.log('Test Results:', jsonData.testResults?.length || 0, 'tests');",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Test results have names\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.testResults && jsonData.testResults.length > 0) {",
+                                    "        jsonData.testResults.forEach((testResult, index) => {",
+                                    "            pm.expect(testResult).to.have.property('testName');",
+                                    "            pm.expect(testResult.testName).to.not.be.empty;",
+                                    "            console.log(`Test ${index + 1}: ${testResult.testName} - ${testResult.passed ? 'PASSED' : 'FAILED'}`);",
+                                    "        });",
+                                    "    }",
                                     "});"
                                 ],
                                 "type": "text/javascript"

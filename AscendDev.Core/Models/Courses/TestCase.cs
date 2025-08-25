@@ -4,6 +4,8 @@ namespace AscendDev.Core.Models.Courses;
 
 public class TestCase
 {
+    [JsonPropertyName("name")] public string? Name { get; set; }
+
     [JsonPropertyName("input")] public object Input { get; set; } = null!;
 
     [JsonPropertyName("expectedOutput")] public object ExpectedOutput { get; set; } = null!;

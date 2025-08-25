@@ -582,16 +582,19 @@ def sum_array(arr):
        "testTemplate": "import pytest\nfrom solution import reverse_array, find_max, sum_array\n\ndef test_reverse_array():\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n    assert reverse_array([]) == []\n    assert reverse_array([5]) == [5]\n\ndef test_find_max():\n    assert find_max([1, 5, 3]) == 5\n    assert find_max([10]) == 10\n    assert find_max([]) is None\n\ndef test_sum_array():\n    assert sum_array([1, 2, 3]) == 6\n    assert sum_array([]) == 0\n    assert sum_array([10]) == 10",
        "testCases": [
          {
+           "name": "test_reverse_array_1",
            "input": [1, 2, 3],
            "expectedOutput": [3, 2, 1],
            "description": "Test reversing array [1, 2, 3]"
          },
          {
+           "name": "test_find_max_1",
            "input": [1, 5, 3],
            "expectedOutput": 5,
            "description": "Test finding max in [1, 5, 3]"
          },
          {
+           "name": "test_sum_array_1",
            "input": [1, 2, 3],
            "expectedOutput": 6,
            "description": "Test summing array [1, 2, 3]"
@@ -665,16 +668,19 @@ def calculate_factorial(n):
        "testTemplate": "import pytest\nfrom solution import add_numbers, multiply_numbers, calculate_factorial\n\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5\n    assert add_numbers(0, 0) == 0\n    assert add_numbers(-1, 1) == 0\n\ndef test_multiply_numbers():\n    assert multiply_numbers(3, 4) == 12\n    assert multiply_numbers(0, 5) == 0\n    assert multiply_numbers(-2, 3) == -6\n\ndef test_calculate_factorial():\n    assert calculate_factorial(5) == 120\n    assert calculate_factorial(0) == 1\n    assert calculate_factorial(1) == 1",
        "testCases": [
          {
+           "name": "test_add_numbers_1",
            "input": [2, 3],
            "expectedOutput": 5,
            "description": "Test adding 2 + 3"
          },
          {
+           "name": "test_multiply_numbers_1",
            "input": [3, 4],
            "expectedOutput": 12,
            "description": "Test multiplying 3 * 4"
          },
          {
+           "name": "test_calculate_factorial_1",
            "input": 5,
            "expectedOutput": 120,
            "description": "Test factorial of 5"
@@ -730,16 +736,19 @@ function sumArray(arr) {
        "testTemplate": "__USER_CODE__\n\ndescribe(\"Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([5])).toEqual([5]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
        "testCases": [
          {
+           "name": "reverseArray should reverse arrays",
            "input": [1, 2, 3],
            "expectedOutput": [3, 2, 1],
            "description": "Test reversing array [1, 2, 3]"
          },
          {
+           "name": "findMax should find maximum element",
            "input": [1, 5, 3],
            "expectedOutput": 5,
            "description": "Test finding max in [1, 5, 3]"
          },
          {
+           "name": "sumArray should calculate sum",
            "input": [1, 2, 3],
            "expectedOutput": 6,
            "description": "Test summing array [1, 2, 3]"
@@ -791,16 +800,19 @@ function calculateFactorial(n) {
        "testTemplate": "__USER_CODE__\n\ndescribe(\"Math Functions\", () => {\n    test(\"addNumbers should add two numbers\", () => {\n        expect(addNumbers(2, 3)).toBe(5);\n        expect(addNumbers(0, 0)).toBe(0);\n        expect(addNumbers(-1, 1)).toBe(0);\n    });\n    \n    test(\"multiplyNumbers should multiply two numbers\", () => {\n        expect(multiplyNumbers(3, 4)).toBe(12);\n        expect(multiplyNumbers(0, 5)).toBe(0);\n        expect(multiplyNumbers(-2, 3)).toBe(-6);\n    });\n    \n    test(\"calculateFactorial should calculate factorial\", () => {\n        expect(calculateFactorial(5)).toBe(120);\n        expect(calculateFactorial(0)).toBe(1);\n        expect(calculateFactorial(1)).toBe(1);\n    });\n});",
        "testCases": [
          {
+           "name": "addNumbers should add two numbers",
            "input": [2, 3],
            "expectedOutput": 5,
            "description": "Test adding 2 + 3"
          },
          {
+           "name": "multiplyNumbers should multiply two numbers",
            "input": [3, 4],
            "expectedOutput": 12,
            "description": "Test multiplying 3 * 4"
          },
          {
+           "name": "calculateFactorial should calculate factorial",
            "input": 5,
            "expectedOutput": 120,
            "description": "Test factorial of 5"
@@ -856,16 +868,19 @@ function sumArray(arr: number[]): number {
        "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([\"a\", \"b\", \"c\"])).toEqual([\"c\", \"b\", \"a\"]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
        "testCases": [
          {
+           "name": "reverseArray should reverse arrays",
            "input": [1, 2, 3],
            "expectedOutput": [3, 2, 1],
            "description": "Test reversing number array [1, 2, 3]"
          },
          {
+           "name": "findMax should find maximum element",
            "input": [1, 5, 3],
            "expectedOutput": 5,
            "description": "Test finding max in [1, 5, 3]"
          },
          {
+           "name": "sumArray should calculate sum",
            "input": [1, 2, 3],
            "expectedOutput": 6,
            "description": "Test summing array [1, 2, 3]"
@@ -925,16 +940,19 @@ function calculateFactorial(n: number): number {
        "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Math Functions\", () => {\n    test(\"square should calculate square\", () => {\n        expect(square(2)).toBe(4);\n        expect(square(3)).toBe(9);\n        expect(square(4)).toBe(16);\n    });\n    \n    test(\"addNumbers should add two numbers\", () => {\n        expect(addNumbers(2, 3)).toBe(5);\n        expect(addNumbers(0, 0)).toBe(0);\n        expect(addNumbers(-1, 1)).toBe(0);\n    });\n    \n    test(\"calculateFactorial should calculate factorial\", () => {\n        expect(calculateFactorial(5)).toBe(120);\n        expect(calculateFactorial(0)).toBe(1);\n        expect(calculateFactorial(1)).toBe(1);\n    });\n});",
        "testCases": [
          {
+           "name": "square should calculate square",
            "input": 2,
            "expectedOutput": 4,
            "description": "Test square of 2"
          },
          {
+           "name": "addNumbers should add two numbers",
            "input": [2, 3],
            "expectedOutput": 5,
            "description": "Test adding 2 + 3"
          },
          {
+           "name": "calculateFactorial should calculate factorial",
            "input": 5,
            "expectedOutput": 120,
            "description": "Test factorial of 5"
@@ -1014,16 +1032,19 @@ public class ArraySolution
        "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class ArrayTests\n{\n    [Fact]\n    public void ReverseArray_ShouldReverseArray()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var expected = new int[] { 3, 2, 1 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void FindMax_ShouldFindMaximum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 5, 3 };\n        var result = solution.FindMax(input);\n        Assert.Equal(5, result);\n    }\n\n    [Fact]\n    public void SumArray_ShouldCalculateSum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var result = solution.SumArray(input);\n        Assert.Equal(6, result);\n    }\n}",
        "testCases": [
          {
+           "name": "ReverseArray_ShouldReverseArray",
            "input": [1, 2, 3],
            "expectedOutput": [3, 2, 1],
            "description": "Test reversing array [1, 2, 3]"
          },
          {
+           "name": "FindMax_ShouldFindMaximum",
            "input": [1, 5, 3],
            "expectedOutput": 5,
            "description": "Test finding max in [1, 5, 3]"
          },
          {
+           "name": "SumArray_ShouldCalculateSum",
            "input": [1, 2, 3],
            "expectedOutput": 6,
            "description": "Test summing array [1, 2, 3]"
@@ -1094,16 +1115,19 @@ public class MathSolution
        "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class MathTests\n{\n    [Fact]\n    public void AddNumbers_ShouldAddTwoNumbers()\n    {\n        var solution = new MathSolution();\n        var result = solution.AddNumbers(2, 3);\n        Assert.Equal(5, result);\n    }\n\n    [Fact]\n    public void MultiplyNumbers_ShouldMultiplyTwoNumbers()\n    {\n        var solution = new MathSolution();\n        var result = solution.MultiplyNumbers(3, 4);\n        Assert.Equal(12, result);\n    }\n\n    [Fact]\n    public void CalculateFactorial_ShouldCalculateFactorial()\n    {\n        var solution = new MathSolution();\n        var result = solution.CalculateFactorial(5);\n        Assert.Equal(120, result);\n    }\n}",
        "testCases": [
          {
+           "name": "AddNumbers_ShouldAddTwoNumbers",
            "input": [2, 3],
            "expectedOutput": 5,
            "description": "Test adding 2 + 3"
          },
          {
+           "name": "MultiplyNumbers_ShouldMultiplyTwoNumbers",
            "input": [3, 4],
            "expectedOutput": 12,
            "description": "Test multiplying 3 * 4"
          },
          {
+           "name": "CalculateFactorial_ShouldCalculateFactorial",
            "input": 5,
            "expectedOutput": 120,
            "description": "Test factorial of 5"
