@@ -34,25 +34,4 @@ public class TestsController(ICodeTestService codeTestService, ILogger<TestsCont
 
         return Ok(result);
     }
-
-    [Authorize]
-    [HttpPost("run-authenticated")]
-    public async Task<ActionResult<TestResult>> RunTestAuthenticated([FromBody] RunTestsRequest request)
-    {
-        if (string.IsNullOrEmpty(request.LessonId) || string.IsNullOrEmpty(request.Code))
-            return BadRequest("LessonId and Code are required");
-
-        // Get user ID from claims (this endpoint requires authentication)
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-        if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out var userId))
-        {
-            logger.LogWarning("User ID claim missing or invalid in authenticated request");
-            return BadRequest("Invalid user authentication");
-        }
-
-        logger.LogInformation("User {UserId} is running tests for lesson {LessonId}", userId, request.LessonId);
-        var result = await codeTestService.RunTestsAsync(request.LessonId, request.Code, userId);
-
-        return Ok(result);
-    }
 }

@@ -1,0 +1,481 @@
+{
+    "info": {
+        "_postman_id": "sample-lessons-tests",
+        "name": "12 - Sample Lessons Tests",
+        "description": "Comprehensive test collection for all language lessons (Python, JavaScript, TypeScript, C#) based on docker runners",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Python Tests",
+            "item": [
+                {
+                    "name": "Python Arrays - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('Python Arrays test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "    console.log('Test Results:', jsonData.testResults?.length || 0, 'tests');",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"python-arrays\",\n    \"Code\": \"def reverse_array(arr):\\n    return arr[::-1]\\n\\ndef find_max(arr):\\n    if not arr:\\n        return None\\n    return max(arr)\\n\\ndef sum_array(arr):\\n    return sum(arr)\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test Python arrays lesson with correct implementation"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Python Functions - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('Python Functions test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"python-functions\",\n    \"Code\": \"def add_numbers(a, b):\\n    return a + b\\n\\ndef multiply_numbers(a, b):\\n    return a * b\\n\\ndef calculate_factorial(n):\\n    if n <= 1:\\n        return 1\\n    result = 1\\n    for i in range(2, n + 1):\\n        result *= i\\n    return result\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test Python functions lesson with correct implementation"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "JavaScript Tests",
+            "item": [
+                {
+                    "name": "JavaScript Arrays - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('JavaScript Arrays test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"javascript-arrays\",\n    \"Code\": \"function reverseArray(arr) {\\n    return arr.slice().reverse();\\n}\\n\\nfunction findMax(arr) {\\n    if (arr.length === 0) return undefined;\\n    return Math.max(...arr);\\n}\\n\\nfunction sumArray(arr) {\\n    return arr.reduce((sum, num) => sum + num, 0);\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test JavaScript arrays lesson with correct implementation"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "JavaScript Functions - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('JavaScript Functions test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"javascript-functions\",\n    \"Code\": \"function addNumbers(a, b) {\\n    return a + b;\\n}\\n\\nfunction multiplyNumbers(a, b) {\\n    return a * b;\\n}\\n\\nfunction calculateFactorial(n) {\\n    if (n <= 1) return 1;\\n    let result = 1;\\n    for (let i = 2; i <= n; i++) {\\n        result *= i;\\n    }\\n    return result;\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test JavaScript functions lesson with correct implementation"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "TypeScript Tests",
+            "item": [
+                {
+                    "name": "TypeScript Arrays - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('TypeScript Arrays test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"typescript-arrays\",\n    \"Code\": \"function reverseArray<T>(arr: T[]): T[] {\\n    return arr.slice().reverse();\\n}\\n\\nfunction findMax(arr: number[]): number | undefined {\\n    if (arr.length === 0) return undefined;\\n    return Math.max(...arr);\\n}\\n\\nfunction sumArray(arr: number[]): number {\\n    return arr.reduce((sum, num) => sum + num, 0);\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test TypeScript arrays lesson with correct implementation"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "TypeScript Basic Math - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('TypeScript Basic Math test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"typescript-basic-math\",\n    \"Code\": \"function square(number: number): number {\\n    return number * number;\\n}\\n\\nfunction addNumbers(a: number, b: number): number {\\n    return a + b;\\n}\\n\\nfunction calculateFactorial(n: number): number {\\n    if (n <= 1) return 1;\\n    let result: number = 1;\\n    for (let i: number = 2; i <= n; i++) {\\n        result *= i;\\n    }\\n    return result;\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test TypeScript basic math lesson with correct implementation"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "C# Tests",
+            "item": [
+                {
+                    "name": "C# Arrays - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('C# Arrays test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"csharp-arrays\",\n    \"Code\": \"using System;\\nusing System.Collections.Generic;\\nusing System.Linq;\\n\\npublic class ArraySolution\\n{\\n    public int[] ReverseArray(int[] array)\\n    {\\n        if (array == null) return null;\\n        return array.Reverse().ToArray();\\n    }\\n\\n    public int? FindMax(int[] array)\\n    {\\n        if (array == null || array.Length == 0) return null;\\n        return array.Max();\\n    }\\n\\n    public int SumArray(int[] array)\\n    {\\n        if (array == null) return 0;\\n        return array.Sum();\\n    }\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test C# arrays lesson with correct implementation"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "C# Methods - Working Solution",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has test results\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success');",
+                                    "    pm.expect(jsonData).to.have.property('testResults');",
+                                    "    ",
+                                    "    console.log('C# Methods test result:');",
+                                    "    console.log('Success:', jsonData.success);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"LessonId\": \"csharp-methods\",\n    \"Code\": \"using System;\\n\\npublic class MathSolution\\n{\\n    public int AddNumbers(int a, int b)\\n    {\\n        return a + b;\\n    }\\n\\n    public int MultiplyNumbers(int a, int b)\\n    {\\n        return a * b;\\n    }\\n\\n    public int CalculateFactorial(int n)\\n    {\\n        if (n <= 1) return 1;\\n        int result = 1;\\n        for (int i = 2; i <= n; i++)\\n        {\\n            result *= i;\\n        }\\n        return result;\\n    }\\n}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/tests/run",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "tests",
+                                "run"
+                            ]
+                        },
+                        "description": "Test C# methods lesson with correct implementation"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    }
+}
