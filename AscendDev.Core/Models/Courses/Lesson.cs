@@ -1,5 +1,3 @@
-using AscendDev.Core.Models.TestsExecution.CodeTemplates;
-
 namespace AscendDev.Core.Models.Courses;
 
 public class Lesson
@@ -16,10 +14,7 @@ public class Lesson
 
     public string Language { get; set; } = null!;
 
-    /// <summary>
-    /// Code template with editable/non-editable regions
-    /// </summary>
-    public CodeTemplate CodeTemplate { get; set; } = null!;
+    public string Template { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
 
