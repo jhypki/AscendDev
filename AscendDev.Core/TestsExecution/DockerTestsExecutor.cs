@@ -44,6 +44,9 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
             TestResults = new List<TestCaseResult>()
         };
 
+        var overallStopwatch = Stopwatch.StartNew();
+        var performanceMetrics = new Models.TestsExecution.PerformanceMetrics();
+
         try
         {
             var strategy = _strategyFactory.GetStrategy(lesson.Language);
@@ -80,7 +83,7 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
 
                 await strategy.PrepareTestFilesAsync(executionDirectory, userCode, lesson);
 
-                var stopwatch = Stopwatch.StartNew();
+                var containerStopwatch = Stopwatch.StartNew();
 
                 try
                 {
@@ -97,23 +100,32 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                         await _dockerClient.Containers.CreateContainerAsync(containerConfig);
                     containerId = createContainerResponse.ID;
 
-                    // Rest of the method remains the same
+                    // Measure container startup time
+                    var containerStartupStopwatch = Stopwatch.StartNew();
                     var started = await _dockerClient.Containers.StartContainerAsync(containerId, null);
+                    containerStartupStopwatch.Stop();
+
                     if (!started)
                         throw new InvalidOperationException("Failed to start the container");
+
+                    performanceMetrics.ContainerStartupTimeMs = containerStartupStopwatch.ElapsedMilliseconds;
 
                     var executionTimeoutMs = lesson.TestConfig.TimeoutMs + 5000;
                     var executionResult = await ExecuteTestsInContainerAsync(containerId, executionTimeoutMs);
 
-                    stopwatch.Stop();
+                    containerStopwatch.Stop();
+                    performanceMetrics.TestFrameworkTimeMs = containerStopwatch.ElapsedMilliseconds;
 
                     result = await strategy.ProcessExecutionResultAsync(
                         executionResult.stdout,
                         executionResult.stderr,
                         executionResult.exitCode,
-                        stopwatch.ElapsedMilliseconds,
+                        containerStopwatch.ElapsedMilliseconds,
                         executionDirectory,
                         lesson.TestConfig);
+
+                    // Collect container performance metrics
+                    await CollectContainerMetricsAsync(containerId, performanceMetrics);
                 }
                 catch (TaskCanceledException)
                 {
@@ -140,6 +152,17 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
 
                 await CleanupAsync(containerId, executionDirectory);
 
+                // Finalize performance metrics
+                overallStopwatch.Stop();
+                performanceMetrics.ExecutionTimeMs = overallStopwatch.ElapsedMilliseconds;
+                performanceMetrics.TestCount = result.TestResults?.Count ?? 0;
+
+                if (performanceMetrics.TestCount > 0 && performanceMetrics.TestFrameworkTimeMs.HasValue)
+                {
+                    performanceMetrics.AverageTestTimeMs = (double)performanceMetrics.TestFrameworkTimeMs.Value / performanceMetrics.TestCount;
+                }
+
+                result.Performance = performanceMetrics;
                 return result;
             }
             catch (Exception ex)
@@ -177,6 +200,19 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                 Message = $"Unexpected error: {ex.Message}"
             });
             return result;
+        }
+        finally
+        {
+            // Ensure performance metrics are always set
+            if (result.Performance == null)
+            {
+                overallStopwatch.Stop();
+                result.Performance = new Models.TestsExecution.PerformanceMetrics
+                {
+                    ExecutionTimeMs = overallStopwatch.ElapsedMilliseconds,
+                    TestCount = result.TestResults?.Count ?? 0
+                };
+            }
         }
     }
 
@@ -313,6 +349,55 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Error during cleanup");
+        }
+    }
+
+    private async Task CollectContainerMetricsAsync(string containerId, Models.TestsExecution.PerformanceMetrics performanceMetrics)
+    {
+        try
+        {
+            // Get basic container information
+            var containerInspect = await _dockerClient.Containers.InspectContainerAsync(containerId);
+
+            // Add basic container information to metrics
+            if (containerInspect.State != null)
+            {
+                performanceMetrics.AdditionalMetrics["ContainerStatus"] = containerInspect.State.Status ?? "unknown";
+                performanceMetrics.AdditionalMetrics["ContainerExitCode"] = containerInspect.State.ExitCode;
+
+                // Parse container start/finish times if available
+                if (!string.IsNullOrEmpty(containerInspect.State.StartedAt) &&
+                    !string.IsNullOrEmpty(containerInspect.State.FinishedAt))
+                {
+                    if (DateTime.TryParse(containerInspect.State.StartedAt, out var startTime) &&
+                        DateTime.TryParse(containerInspect.State.FinishedAt, out var finishTime))
+                    {
+                        var containerRunTime = finishTime - startTime;
+                        performanceMetrics.AdditionalMetrics["ContainerRunTimeMs"] = containerRunTime.TotalMilliseconds;
+                    }
+                }
+            }
+
+            // Add basic resource limits from container config
+            if (containerInspect.HostConfig != null)
+            {
+                if (containerInspect.HostConfig.Memory > 0)
+                {
+                    performanceMetrics.AdditionalMetrics["MemoryLimitMb"] = containerInspect.HostConfig.Memory / (1024.0 * 1024.0);
+                }
+
+                if (containerInspect.HostConfig.CPUShares > 0)
+                {
+                    performanceMetrics.AdditionalMetrics["CpuShares"] = containerInspect.HostConfig.CPUShares;
+                }
+            }
+
+            _logger.LogDebug("Collected basic container metrics for {ContainerId}", containerId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to collect container metrics for container {ContainerId}", containerId);
+            // Don't fail the entire test execution if metrics collection fails
         }
     }
 
