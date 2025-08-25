@@ -2,8 +2,10 @@ using AscendDev.Core.CodeExecution;
 using AscendDev.Core.Interfaces.CodeExecution;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
+using AscendDev.Core.Interfaces.TestsExecution;
 using AscendDev.Core.Interfaces.Utils;
 using AscendDev.Core.TestsExecution;
+using AscendDev.Core.TestsExecution.KeywordValidation;
 using AscendDev.Data.Repositories;
 using AscendDev.Services.Services;
 using AscendDev.Services.Utilities;
@@ -35,6 +37,9 @@ public static class ServiceExtensions
         // Register executors
         services.AddScoped<ITestsExecutor, DockerTestsExecutor>();
         services.AddScoped<ICodeExecutor, DockerCodeExecutor>();
+
+        // Register keyword validation service
+        services.AddScoped<IKeywordValidationService, KeywordValidationService>();
 
         // Register code execution services
         services.AddCodeExecutionServices();
