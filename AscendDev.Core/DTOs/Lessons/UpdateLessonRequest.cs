@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using AscendDev.Core.Models.Courses;
+using AscendDev.Core.Models.TestsExecution.CodeTemplates;
 
 namespace AscendDev.Core.DTOs.Lessons;
 
@@ -22,8 +23,11 @@ public class UpdateLessonRequest
     [JsonPropertyName("language")]
     public string? Language { get; set; }
 
-    [JsonPropertyName("template")]
-    public string? Template { get; set; }
+    /// <summary>
+    /// Code template with editable/non-editable regions
+    /// </summary>
+    [JsonPropertyName("codeTemplate")]
+    public CodeTemplate? CodeTemplate { get; set; }
 
     [Range(1, int.MaxValue)]
     [JsonPropertyName("order")]

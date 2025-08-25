@@ -5,6 +5,7 @@ using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Interfaces.TestsExecution;
 using AscendDev.Core.Interfaces.Utils;
 using AscendDev.Core.TestsExecution;
+using AscendDev.Core.TestsExecution.CodeTemplates;
 using AscendDev.Core.TestsExecution.KeywordValidation;
 using AscendDev.Data.Repositories;
 using AscendDev.Services.Services;
@@ -40,6 +41,9 @@ public static class ServiceExtensions
 
         // Register keyword validation service
         services.AddScoped<IKeywordValidationService, KeywordValidationService>();
+
+        // Register code template service
+        services.AddScoped<ICodeTemplateService, CodeTemplateService>();
 
         // Register code execution services
         services.AddCodeExecutionServices();

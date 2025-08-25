@@ -1,0 +1,78 @@
+{
+    "lessonExample": {
+        "title": "JavaScript Function Implementation",
+        "slug": "js-function-implementation",
+        "content": "In this lesson, you'll implement a function that adds two numbers.",
+        "language": "javascript",
+        "codeTemplate": {
+            "id": "add-function-template",
+            "name": "Add Function Template",
+            "language": "javascript",
+            "description": "Template for implementing an add function",
+            "regions": [
+                {
+                    "id": "function_signature",
+                    "content": "function add(a, b) {",
+                    "isEditable": false,
+                    "displayName": "Function Signature",
+                    "order": 0
+                },
+                {
+                    "id": "function_body",
+                    "content": "",
+                    "isEditable": true,
+                    "displayName": "Function Implementation",
+                    "placeholder": "    // Your implementation here\n    return a + b;",
+                    "order": 1
+                },
+                {
+                    "id": "function_closing",
+                    "content": "}",
+                    "isEditable": false,
+                    "displayName": "Function Closing",
+                    "order": 2
+                }
+            ],
+            "version": "1.0.0"
+        },
+        "testConfig": {
+            "timeoutMs": 5000,
+            "memoryLimitMb": 128,
+            "testTemplate": "const { add } = require('./solution.js');\n\ntest('adds 1 + 2 to equal 3', () => {\n  expect(add(1, 2)).toBe(3);\n});",
+            "testCases": [
+                {
+                    "input": [
+                        1,
+                        2
+                    ],
+                    "expectedOutput": 3,
+                    "description": "Should add 1 + 2 = 3"
+                },
+                {
+                    "input": [
+                        5,
+                        7
+                    ],
+                    "expectedOutput": 12,
+                    "description": "Should add 5 + 7 = 12"
+                }
+            ]
+        }
+    },
+    "submissionExample": {
+        "templateBasedSubmission": {
+            "lessonId": "lesson-123",
+            "editableRegions": {
+                "function_body": "    return a + b;"
+            }
+        },
+        "directCodeSubmission": {
+            "lessonId": "lesson-456",
+            "code": "function add(a, b) {\n    return a + b;\n}"
+        }
+    },
+    "mergedResult": {
+        "description": "What the final code looks like after merging template with user input",
+        "finalCode": "function add(a, b) {\n    return a + b;\n}"
+    }
+}
