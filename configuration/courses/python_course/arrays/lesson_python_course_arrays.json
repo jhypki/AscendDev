@@ -1,16 +1,16 @@
 {
-  "title": "Arrays",
-  "slug": "arrays",
-  "content": "# Lists in Python\n\nThis lesson introduces lists in Python, which are used to store collections of items.\n\n## What are Lists?\n\nIn Python, lists are ordered collections of items that can be of different types. Lists are mutable, which means you can change their content without changing their identity. They are one of the most versatile and commonly used data structures in Python.\n\n## Key Concepts\n\n- Lists are created using square brackets `[]`\n- Lists can contain items of different types\n- Lists are ordered and indexed starting from 0\n- Lists are mutable (can be changed after creation)\n- Lists can be nested (contain other lists)\n\n## Creating Lists\n\n```python\n# Empty list\nempty_list = []\n\n# List of integers\nnumbers = [1, 2, 3, 4, 5]\n\n# List with mixed data types\nmixed = [1, \"Hello\", 3.14, True]\n\n# Nested list\nnested = [1, [2, 3], 4]\n```\n\n## Common List Operations\n\n- Accessing elements: `first_item = numbers[0]`\n- Slicing: `subset = numbers[1:3]` # Returns [2, 3]\n- Modifying elements: `numbers[0] = 10`\n- Adding elements: `numbers.append(6)` or `numbers.insert(0, 0)`\n- Removing elements: `numbers.remove(3)` or `del numbers[0]`\n- Finding length: `length = len(numbers)`\n- Checking if an item exists: `if 3 in numbers:`\n- Iterating through a list:\n  ```python\n  for item in numbers:\n      print(item)\n  ```\n\n## List Methods\n\nPython provides many built-in methods for lists:\n\n- `append()` - Add an item to the end of the list\n- `extend()` - Add all items from another iterable to the list\n- `insert()` - Insert an item at a given position\n- `remove()` - Remove the first occurrence of an item\n- `pop()` - Remove an item at a given position and return it\n- `clear()` - Remove all items from the list\n- `index()` - Return the index of the first occurrence of an item\n- `count()` - Return the number of occurrences of an item\n- `sort()` - Sort the items in the list\n- `reverse()` - Reverse the order of items in the list\n- `copy()` - Return a shallow copy of the list\n\n## Exercise\n\nIn this exercise, you'll implement a function that reverses a list. The function should take a list as input and return a new list with the elements in reverse order.\n",
-  "template": "def reverse_array(arr):\n    \"\"\"\n    Reverses the given array.\n    \n    Args:\n        arr (list): The array to reverse\n        \n    Returns:\n        list: A new array with elements in reverse order\n    \"\"\"\n    # Write your code here\n    pass",
-  "createdAt": "2025-05-24T19:54:30.000Z",
-  "updatedAt": "2025-05-24T19:57:34.298Z",
+  "title": "Working with Arrays",
+  "slug": "python-arrays",
+  "content": "# Working with Arrays in Python\n\nLearn how to manipulate arrays (lists) in Python.\n\n## What are Lists?\n\nIn Python, lists are ordered collections of items that can be of different types. Lists are mutable, which means you can change their content without changing their identity.\n\n## Exercise\n\nImplement functions to work with arrays:\n- `reverse_array(arr)`: Return a new array with elements in reverse order\n- `find_max(arr)`: Find the maximum element in the array\n- `sum_array(arr)`: Calculate the sum of all elements",
   "language": "python",
+  "template": "def reverse_array(arr):\n    \"\"\"\n    Reverse the given array.\n    Args:\n        arr (list): The array to reverse\n    Returns:\n        list: A new array with elements in reverse order\n    \"\"\"\n    # Write your code here\n    pass\n\ndef find_max(arr):\n    \"\"\"\n    Find the maximum element in the array.\n    Args:\n        arr (list): The array to search\n    Returns:\n        int/float: The maximum element, or None if array is empty\n    \"\"\"\n    # Write your code here\n    pass\n\ndef sum_array(arr):\n    \"\"\"\n    Calculate the sum of all elements in the array.\n    Args:\n        arr (list): The array to sum\n    Returns:\n        int/float: The sum of all elements\n    \"\"\"\n    # Write your code here\n    pass",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
   "order": 1,
   "testConfig": {
     "timeoutMs": 15000,
     "memoryLimitMb": 512,
-    "testTemplate": "import pytest\nfrom solution import reverse_array\n\ndef test_reverse_array_1():\n    \"\"\"Test reversing [1, 2, 3]\"\"\"\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n\ndef test_reverse_array_2():\n    \"\"\"Test reversing [4, 5, 6]\"\"\"\n    assert reverse_array([4, 5, 6]) == [6, 5, 4]\n\ndef test_reverse_array_3():\n    \"\"\"Test reversing [7, 8, 9]\"\"\"\n    assert reverse_array([7, 8, 9]) == [9, 8, 7]\n\ndef test_reverse_array_empty():\n    \"\"\"Test reversing an empty array\"\"\"\n    assert reverse_array([]) == []\n\ndef test_reverse_array_single():\n    \"\"\"Test reversing an array with a single element\"\"\"\n    assert reverse_array([1]) == [1]",
+    "testTemplate": "import pytest\nfrom solution import reverse_array, find_max, sum_array\n\ndef test_reverse_array():\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n    assert reverse_array([]) == []\n    assert reverse_array([5]) == [5]\n\ndef test_find_max():\n    assert find_max([1, 5, 3]) == 5\n    assert find_max([10]) == 10\n    assert find_max([]) is None\n\ndef test_sum_array():\n    assert sum_array([1, 2, 3]) == 6\n    assert sum_array([]) == 0\n    assert sum_array([10]) == 10",
     "testCases": [
       {
         "name": "test_reverse_array_1",
@@ -19,69 +19,55 @@
           2,
           3
         ],
-        "expected": [
+        "expectedOutput": [
           3,
           2,
           1
         ],
-        "description": "Test reversing [1, 2, 3]"
+        "description": "Test reversing array [1, 2, 3]"
       },
       {
-        "name": "test_reverse_array_2",
+        "name": "test_find_max_1",
         "input": [
-          4,
+          1,
           5,
-          6
+          3
         ],
-        "expected": [
-          6,
-          5,
-          4
-        ],
-        "description": "Test reversing [4, 5, 6]"
+        "expectedOutput": 5,
+        "description": "Test finding max in [1, 5, 3]"
       },
       {
-        "name": "test_reverse_array_3",
+        "name": "test_sum_array_1",
         "input": [
-          7,
-          8,
-          9
+          1,
+          2,
+          3
         ],
-        "expected": [
-          9,
-          8,
-          7
-        ],
-        "description": "Test reversing [7, 8, 9]"
-      },
+        "expectedOutput": 6,
+        "description": "Test summing array [1, 2, 3]"
+      }
+    ],
+    "keywordRequirements": [
       {
-        "name": "test_reverse_array_empty",
-        "input": [],
-        "expected": [],
-        "description": "Test reversing an empty array"
-      },
-      {
-        "name": "test_reverse_array_single",
-        "input": [
-          1
-        ],
-        "expected": [
-          1
-        ],
-        "description": "Test reversing an array with a single element"
+        "keyword": "def",
+        "description": "Must use function definitions",
+        "required": true,
+        "caseSensitive": true,
+        "allowPartialMatch": false,
+        "minOccurrences": 3
       }
     ]
   },
   "additionalResources": [
     {
-      "title": "Python Lists Documentation",
-      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+      "url": "https://docs.python.org/3/tutorial/datastructures.html",
+      "title": "Python Lists Documentation"
     }
   ],
   "tags": [
     "python",
-    "lists",
-    "arrays"
+    "arrays",
+    "lists"
   ],
-  "status": "draft"
+  "status": "published"
 }

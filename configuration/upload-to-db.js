@@ -367,9 +367,6 @@ async function traverseAndUpdateConfigs(rootDir) {
       }
     }
 
-    // Update lesson summaries in courses
-    await updateLessonSummaries(client);
-
     // Commit the transaction
     await client.query("COMMIT");
 
@@ -390,52 +387,6 @@ async function traverseAndUpdateConfigs(rootDir) {
   }
 }
 
-// Update lesson summaries for each course
-async function updateLessonSummaries(client) {
-  console.log("Updating lesson summaries for courses...");
-
-  try {
-    // Get all courses
-    const coursesResult = await client.query("SELECT id FROM courses");
-
-    for (const course of coursesResult.rows) {
-      const courseId = course.id;
-
-      // Get all lessons for this course, ordered by their order field
-      const lessonsResult = await client.query(
-        `SELECT id, title, slug, "order", status
-         FROM lessons
-         WHERE course_id = $1
-         ORDER BY "order" ASC`,
-        [courseId]
-      );
-
-      // Create lesson summaries array
-      const lessonSummaries = lessonsResult.rows.map((lesson) => ({
-        id: lesson.id,
-        title: lesson.title,
-        slug: lesson.slug,
-        order: lesson.order,
-        status: lesson.status,
-      }));
-
-      // Update the course with lesson summaries
-      await client.query(
-        `UPDATE courses
-         SET lesson_summaries = $1
-         WHERE id = $2`,
-        [JSON.stringify(lessonSummaries), courseId]
-      );
-
-      console.log(
-        `Updated lesson summaries for course ID: ${courseId} (${lessonSummaries.length} lessons)`
-      );
-    }
-  } catch (err) {
-    console.error("Error updating lesson summaries:", err);
-    throw err;
-  }
-}
 
 // Save ID mappings to a JSON file for reference
 async function saveIdMappings() {

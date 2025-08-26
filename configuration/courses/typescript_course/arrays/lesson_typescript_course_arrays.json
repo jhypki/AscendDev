@@ -1,37 +1,82 @@
 {
-  "title": "Arrays",
-  "slug": "arrays",
-  "content": "# Lesson 1: Introduction\n\nThis is the content of the lesson, written in Markdown.\n\n- Point 1\n- Point 2\n",
-  "template": "function reverseArray(array: number[]): number[] {\n  // Write your code here\n}\n",
-  "createdAt": "2025-03-31T21:08:56.246Z",
-  "updatedAt": "2025-05-24T19:57:34.300Z",
+  "title": "TypeScript Arrays",
+  "slug": "typescript-arrays",
+  "content": "# TypeScript Arrays\n\nLearn typed array manipulation in TypeScript.\n\n## Exercise\n\nImplement strongly-typed array functions:\n- `reverseArray<T>(arr: T[]): T[]`: Return a new array with elements in reverse order\n- `findMax(arr: number[]): number | undefined`: Find the maximum element\n- `sumArray(arr: number[]): number`: Calculate sum of all elements",
   "language": "typescript",
-  "order": 2,
+  "template": "function reverseArray<T>(arr: T[]): T[] {\n    // Reverse the given array\n    // Return a new array with elements in reverse order\n}\n\nfunction findMax(arr: number[]): number | undefined {\n    // Find the maximum element in the array\n    // Return the maximum element, or undefined if array is empty\n}\n\nfunction sumArray(arr: number[]): number {\n    // Calculate the sum of all elements in the array\n    // Return the sum of all elements\n}",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
+  "order": 1,
   "testConfig": {
-    "timeoutMs": 3000,
+    "timeoutMs": 12000,
     "memoryLimitMb": 512,
-    "testTemplate": "__USER_CODE__;\ndescribe(\"Reverse array\", () => {\n  test(\"Test 1\", () => {\n    expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n  });\n  test(\"Test 2\", () => {\n    expect(reverseArray([4, 5, 6])).toEqual([6, 5, 4]);\n  });\n  test(\"Test 3\", () => {\n    expect(reverseArray([7, 8, 9])).toEqual([9, 8, 7]);\n  });\n});\n",
+    "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([\"a\", \"b\", \"c\"])).toEqual([\"c\", \"b\", \"a\"]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
     "testCases": [
       {
-        "input": [1, 2, 3],
-        "expected": [3, 2, 1]
+        "name": "reverseArray should reverse arrays",
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expectedOutput": [
+          3,
+          2,
+          1
+        ],
+        "description": "Test reversing number array [1, 2, 3]"
       },
       {
-        "input": [4, 5, 6],
-        "expected": [6, 5, 4]
+        "name": "findMax should find maximum element",
+        "input": [
+          1,
+          5,
+          3
+        ],
+        "expectedOutput": 5,
+        "description": "Test finding max in [1, 5, 3]"
       },
       {
-        "input": [7, 8, 9],
-        "expected": [9, 8, 7]
+        "name": "sumArray should calculate sum",
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expectedOutput": 6,
+        "description": "Test summing array [1, 2, 3]"
+      }
+    ],
+    "keywordRequirements": [
+      {
+        "keyword": "function",
+        "description": "Must use function declarations",
+        "required": true,
+        "caseSensitive": true,
+        "allowPartialMatch": false,
+        "minOccurrences": 3
+      },
+      {
+        "keyword": ":",
+        "description": "Must use type annotations",
+        "required": true,
+        "caseSensitive": true,
+        "allowPartialMatch": false,
+        "minOccurrences": 5
       }
     ]
   },
   "additionalResources": [
     {
-      "title": "Additional resource title",
-      "url": "https://www.example.com"
+      "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays",
+      "title": "TypeScript Arrays Documentation"
     }
   ],
-  "tags": ["typescript", "arrays"],
-  "status": "draft"
+  "tags": [
+    "typescript",
+    "arrays",
+    "generics",
+    "types"
+  ],
+  "status": "published"
 }

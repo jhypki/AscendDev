@@ -1,37 +1,81 @@
 {
-  "title": "Arrays",
-  "slug": "arrays",
-  "content": "# Arrays in C#\n\nThis lesson introduces arrays in C#, a fundamental data structure for storing collections of elements.\n\n## What are Arrays?\n\nIn C#, an array is a collection of elements of the same type stored at contiguous memory locations. Arrays are used to store multiple values in a single variable, instead of declaring separate variables for each value.\n\n## Key Concepts\n\n- Arrays in C# are zero-indexed, meaning the first element is at index 0\n- Arrays have a fixed size that is defined when the array is created\n- Array elements can be accessed using their index\n- Arrays can be single-dimensional, multidimensional, or jagged\n\n## Creating Arrays\n\n```csharp\n// Declare and initialize an array\nint[] numbers = new int[5]; // Creates an array of 5 integers\n\n// Initialize with values\nint[] numbers = new int[] { 1, 2, 3, 4, 5 };\n\n// Shorthand syntax\nint[] numbers = { 1, 2, 3, 4, 5 };\n```\n\n## Common Array Operations\n\n- Accessing elements: `int firstNumber = numbers[0];`\n- Modifying elements: `numbers[0] = 10;`\n- Getting array length: `int length = numbers.Length;`\n- Iterating through an array:\n  ```csharp\n  foreach (int number in numbers)\n  {\n      Console.WriteLine(number);\n  }\n  ```\n\n## Exercise\n\nIn this exercise, you'll implement a function that reverses an array of integers. The function should take an array as input and return a new array with the elements in reverse order.\n",
-  "template": "using System;\nusing System.Collections.Generic;\n\npublic class ArraySolution\n{\n    public int[] ReverseArray(int[] array)\n    {\n        // Write your code here\n        return null;\n    }\n}",
-  "createdAt": "2025-05-24T19:53:00.000Z",
-  "updatedAt": "2025-05-24T19:57:34.296Z",
+  "title": "C# Arrays",
+  "slug": "csharp-arrays",
+  "content": "# Arrays in C#\n\nLearn array manipulation in C#.\n\n## What are Arrays?\n\nIn C#, an array is a collection of elements of the same type stored at contiguous memory locations. Arrays are used to store multiple values in a single variable.\n\n## Exercise\n\nImplement array manipulation methods:\n- `ReverseArray(int[] array)`: Return a new array with elements in reverse order\n- `FindMax(int[] array)`: Find the maximum element in the array\n- `SumArray(int[] array)`: Calculate the sum of all elements",
   "language": "csharp",
+  "template": "using System;\nusing System.Collections.Generic;\n\npublic class ArraySolution\n{\n    public int[] ReverseArray(int[] array)\n    {\n        // Reverse the given array\n        // Return a new array with elements in reverse order\n        return null;\n    }\n\n    public int? FindMax(int[] array)\n    {\n        // Find the maximum element in the array\n        // Return null if array is empty\n        return null;\n    }\n\n    public int SumArray(int[] array)\n    {\n        // Calculate the sum of all elements in the array\n        // Return the sum of all elements\n        return 0;\n    }\n}",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
   "order": 1,
   "testConfig": {
     "timeoutMs": 15000,
     "memoryLimitMb": 512,
-    "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class ArrayTests\n{\n    [Fact]\n    public void Test1()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var expected = new int[] { 3, 2, 1 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void Test2()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 4, 5, 6 };\n        var expected = new int[] { 6, 5, 4 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void Test3()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 7, 8, 9 };\n        var expected = new int[] { 9, 8, 7 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n}",
+    "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class ArrayTests\n{\n    [Fact]\n    public void ReverseArray_ShouldReverseArray()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var expected = new int[] { 3, 2, 1 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void FindMax_ShouldFindMaximum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 5, 3 };\n        var result = solution.FindMax(input);\n        Assert.Equal(5, result);\n    }\n\n    [Fact]\n    public void SumArray_ShouldCalculateSum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var result = solution.SumArray(input);\n        Assert.Equal(6, result);\n    }\n}",
     "testCases": [
       {
-        "input": [1, 2, 3],
-        "expected": [3, 2, 1]
+        "name": "ReverseArray_ShouldReverseArray",
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expectedOutput": [
+          3,
+          2,
+          1
+        ],
+        "description": "Test reversing array [1, 2, 3]"
       },
       {
-        "input": [4, 5, 6],
-        "expected": [6, 5, 4]
+        "name": "FindMax_ShouldFindMaximum",
+        "input": [
+          1,
+          5,
+          3
+        ],
+        "expectedOutput": 5,
+        "description": "Test finding max in [1, 5, 3]"
       },
       {
-        "input": [7, 8, 9],
-        "expected": [9, 8, 7]
+        "name": "SumArray_ShouldCalculateSum",
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expectedOutput": 6,
+        "description": "Test summing array [1, 2, 3]"
+      }
+    ],
+    "keywordRequirements": [
+      {
+        "keyword": "public",
+        "description": "Must use public access modifiers",
+        "required": true,
+        "caseSensitive": true,
+        "allowPartialMatch": false,
+        "minOccurrences": 3
+      },
+      {
+        "keyword": "int[]",
+        "description": "Must work with integer arrays",
+        "required": true,
+        "caseSensitive": true,
+        "allowPartialMatch": false,
+        "minOccurrences": 3
       }
     ]
   },
   "additionalResources": [
     {
-      "title": "C# Arrays Documentation",
-      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/"
+      "url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/",
+      "title": "C# Arrays Documentation"
     }
   ],
-  "tags": ["csharp", "arrays", "dotnet"],
-  "status": "draft"
+  "tags": [
+    "csharp",
+    "arrays",
+    "dotnet"
+  ],
+  "status": "published"
 }

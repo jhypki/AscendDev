@@ -15,9 +15,28 @@ public abstract class BaseLanguageKeywordAnalyzer : ILanguageKeywordAnalyzer
         var lines = preprocessedCode.Split('\n');
 
         var regexOptions = requirement.CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
-        var pattern = requirement.AllowPartialMatch
-            ? Regex.Escape(requirement.Keyword)
-            : $@"\b{Regex.Escape(requirement.Keyword)}\b";
+        var escapedKeyword = Regex.Escape(requirement.Keyword);
+
+        string pattern;
+        if (requirement.AllowPartialMatch)
+        {
+            pattern = escapedKeyword;
+        }
+        else
+        {
+            // Check if the keyword contains only word characters (letters, digits, underscore)
+            // If it does, use word boundaries. Otherwise, use exact match without word boundaries.
+            if (Regex.IsMatch(requirement.Keyword, @"^\w+$"))
+            {
+                pattern = $@"\b{escapedKeyword}\b";
+            }
+            else
+            {
+                // For special characters, we need to ensure they're not part of a larger token
+                // This is a more conservative approach that looks for the exact sequence
+                pattern = escapedKeyword;
+            }
+        }
 
         var regex = new Regex(pattern, regexOptions);
 

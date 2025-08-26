@@ -12,14 +12,36 @@ public class CourseRepository(
     public async Task<List<Course>?> GetAll()
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                        featured_image, lesson_summaries, status
-                                 FROM courses
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 ORDER BY c.created_at DESC, l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryAsync<Course>(query) as List<Course>;
+            var courseDictionary = new Dictionary<string, Course>();
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (course, lesson) =>
+            {
+                if (!courseDictionary.TryGetValue(course.Id, out var existingCourse))
+                {
+                    existingCourse = course;
+                    existingCourse.LessonSummaries = new List<LessonSummary>();
+                    courseDictionary.Add(course.Id, existingCourse);
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    existingCourse.LessonSummaries.Add(lesson);
+                }
+
+                return existingCourse;
+            }, splitOn: "Id");
+
+            return courseDictionary.Values.ToList();
         }
         catch (Exception ex)
         {
@@ -31,15 +53,36 @@ public class CourseRepository(
     public async Task<Course?> GetById(string courseId)
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status
-                                    FROM courses
-                                 WHERE id = @CourseId
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.id = @CourseId
+                                 ORDER BY l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryFirstOrDefaultAsync<Course>(query, new { CourseId = courseId });
+            Course? course = null;
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (c, lesson) =>
+            {
+                if (course == null)
+                {
+                    course = c;
+                    course.LessonSummaries = new List<LessonSummary>();
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    course.LessonSummaries.Add(lesson);
+                }
+
+                return course;
+            }, new { CourseId = courseId }, splitOn: "Id");
+
+            return course;
         }
         catch (Exception ex)
         {
@@ -51,15 +94,36 @@ public class CourseRepository(
     public async Task<Course?> GetBySlug(string slug)
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status
-                                    FROM courses
-                                 WHERE slug = @Slug
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.slug = @Slug
+                                 ORDER BY l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryFirstOrDefaultAsync<Course>(query, new { Slug = slug });
+            Course? course = null;
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (c, lesson) =>
+            {
+                if (course == null)
+                {
+                    course = c;
+                    course.LessonSummaries = new List<LessonSummary>();
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    course.LessonSummaries.Add(lesson);
+                }
+
+                return course;
+            }, new { Slug = slug }, splitOn: "Id");
+
+            return course;
         }
         catch (Exception ex)
         {
@@ -71,15 +135,36 @@ public class CourseRepository(
     public async Task<Course?> GetByLanguage(string language)
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                    featured_image, lesson_summaries, status
-                                    FROM courses
-                                 WHERE language = @Language
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.language = @Language
+                                 ORDER BY l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryFirstOrDefaultAsync<Course>(query, new { Language = language });
+            Course? course = null;
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (c, lesson) =>
+            {
+                if (course == null)
+                {
+                    course = c;
+                    course.LessonSummaries = new List<LessonSummary>();
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    course.LessonSummaries.Add(lesson);
+                }
+
+                return course;
+            }, new { Language = language }, splitOn: "Id");
+
+            return course;
         }
         catch (Exception ex)
         {
@@ -91,15 +176,37 @@ public class CourseRepository(
     public async Task<List<Course>?> GetByTag(string tag)
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                        featured_image, lesson_summaries, status
-                                 FROM courses
-                                 WHERE tags @> @Tag
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.tags @> @Tag
+                                 ORDER BY c.created_at DESC, l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryAsync<Course>(query, new { Tag = tag }) as List<Course>;
+            var courseDictionary = new Dictionary<string, Course>();
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (course, lesson) =>
+            {
+                if (!courseDictionary.TryGetValue(course.Id, out var existingCourse))
+                {
+                    existingCourse = course;
+                    existingCourse.LessonSummaries = new List<LessonSummary>();
+                    courseDictionary.Add(course.Id, existingCourse);
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    existingCourse.LessonSummaries.Add(lesson);
+                }
+
+                return existingCourse;
+            }, new { Tag = tag }, splitOn: "Id");
+
+            return courseDictionary.Values.ToList();
         }
         catch (Exception ex)
         {
@@ -111,15 +218,37 @@ public class CourseRepository(
     public async Task<List<Course>?> GetByStatus(string status)
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                        featured_image, lesson_summaries, status
-                                 FROM courses
-                                 WHERE status = @Status
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.status = @Status
+                                 ORDER BY c.created_at DESC, l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryAsync<Course>(query, new { Status = status }) as List<Course>;
+            var courseDictionary = new Dictionary<string, Course>();
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (course, lesson) =>
+            {
+                if (!courseDictionary.TryGetValue(course.Id, out var existingCourse))
+                {
+                    existingCourse = course;
+                    existingCourse.LessonSummaries = new List<LessonSummary>();
+                    courseDictionary.Add(course.Id, existingCourse);
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    existingCourse.LessonSummaries.Add(lesson);
+                }
+
+                return existingCourse;
+            }, new { Status = status }, splitOn: "Id");
+
+            return courseDictionary.Values.ToList();
         }
         catch (Exception ex)
         {
@@ -131,16 +260,37 @@ public class CourseRepository(
     public async Task<List<Course>?> GetPublishedCourses()
     {
         const string query = """
-                                 SELECT id, title, slug, description, language, created_at, updated_at, tags,
-                                        featured_image, lesson_summaries, status
-                                 FROM courses
-                                 WHERE status = 'published'
-                                 ORDER BY created_at DESC
+                                 SELECT c.id, c.title, c.slug, c.description, c.language, c.created_at, c.updated_at, c.tags,
+                                        c.featured_image, c.status,
+                                        l.id as Id, l.title as Title, l.slug as Slug, l."order" as Order
+                                 FROM courses c
+                                 LEFT JOIN lessons l ON c.id = l.course_id
+                                 WHERE c.status = 'published'
+                                 ORDER BY c.created_at DESC, l."order" ASC
                              """;
 
         try
         {
-            return await sql.QueryAsync<Course>(query) as List<Course>;
+            var courseDictionary = new Dictionary<string, Course>();
+
+            await sql.QueryAsync<Course, LessonSummary, Course>(query, (course, lesson) =>
+            {
+                if (!courseDictionary.TryGetValue(course.Id, out var existingCourse))
+                {
+                    existingCourse = course;
+                    existingCourse.LessonSummaries = new List<LessonSummary>();
+                    courseDictionary.Add(course.Id, existingCourse);
+                }
+
+                if (lesson != null && !string.IsNullOrEmpty(lesson.Id))
+                {
+                    existingCourse.LessonSummaries.Add(lesson);
+                }
+
+                return existingCourse;
+            }, splitOn: "Id");
+
+            return courseDictionary.Values.ToList();
         }
         catch (Exception ex)
         {
@@ -153,11 +303,11 @@ public class CourseRepository(
     {
         const string query = """
                                  INSERT INTO courses (id, title, slug, description, language, created_at, updated_at,
-                                                    tags, featured_image, lesson_summaries, status)
+                                                    tags, featured_image, status)
                                  VALUES (@Id, @Title, @Slug, @Description, @Language, @CreatedAt, @UpdatedAt,
-                                        @Tags, @FeaturedImage, @LessonSummaries, @Status)
+                                        @Tags, @FeaturedImage, @Status)
                                  RETURNING id, title, slug, description, language, created_at, updated_at, tags,
-                                          featured_image, lesson_summaries, status
+                                          featured_image, status
                              """;
 
         try
@@ -165,7 +315,9 @@ public class CourseRepository(
             course.CreatedAt = DateTime.UtcNow;
             course.UpdatedAt = DateTime.UtcNow;
 
-            return await sql.QueryFirstAsync<Course>(query, course);
+            var createdCourse = await sql.QueryFirstAsync<Course>(query, course);
+            createdCourse.LessonSummaries = new List<LessonSummary>();
+            return createdCourse;
         }
         catch (Exception ex)
         {
@@ -180,17 +332,19 @@ public class CourseRepository(
                                  UPDATE courses
                                  SET title = @Title, slug = @Slug, description = @Description,
                                      language = @Language, updated_at = @UpdatedAt, tags = @Tags,
-                                     featured_image = @FeaturedImage, lesson_summaries = @LessonSummaries,
+                                     featured_image = @FeaturedImage,
                                      status = @Status
                                  WHERE id = @Id
                                  RETURNING id, title, slug, description, language, created_at, updated_at, tags,
-                                          featured_image, lesson_summaries, status
+                                          featured_image, status
                              """;
 
         try
         {
             course.UpdatedAt = DateTime.UtcNow;
-            return await sql.QueryFirstAsync<Course>(query, course);
+            var createdCourse = await sql.QueryFirstAsync<Course>(query, course);
+            createdCourse.LessonSummaries = new List<LessonSummary>();
+            return createdCourse;
         }
         catch (Exception ex)
         {

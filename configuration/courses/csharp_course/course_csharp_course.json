@@ -1,23 +1,16 @@
 {
-  "title": "C# Course",
-  "slug": "csharp-course",
+  "title": "C# Development",
+  "slug": "csharp-development",
   "language": "csharp",
-  "description": "Learn C# programming from scratch.",
-  "createdAt": "2025-05-24T19:51:00.000Z",
+  "description": "Comprehensive C# programming course for .NET development",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
   "featuredImage": "",
   "tags": [
     "csharp",
-    "dotnet"
+    "dotnet",
+    "programming"
   ],
-  "status": "draft",
-  "createdBy": "",
-  "lessonSummaries": [
-    {
-      "lessonId": "csharp_course_arrays",
-      "title": "Arrays",
-      "slug": "arrays",
-      "order": 1
-    }
-  ],
-  "updatedAt": "2025-05-24T19:57:34.297Z"
+  "status": "published",
+  "createdBy": "22222222-2222-2222-2222-222222222222"
 }

@@ -57,7 +57,6 @@ CREATE TABLE courses (
     language VARCHAR(255) NOT NULL,
     featured_image TEXT,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
-    lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
     status VARCHAR(50) NOT NULL DEFAULT 'draft',
     current_version INTEGER NOT NULL DEFAULT 1,
     created_by UUID REFERENCES users(id),
@@ -77,7 +76,6 @@ CREATE TABLE course_versions (
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     featured_image TEXT,
     tags JSONB NOT NULL DEFAULT '[]'::jsonb,
-    lesson_summaries JSONB NOT NULL DEFAULT '[]'::jsonb,
     status VARCHAR(50) NOT NULL DEFAULT 'draft',
     created_by UUID NOT NULL REFERENCES users(id),
     change_log TEXT,
@@ -515,11 +513,11 @@ END $$;
 
 -- Sample Lessons Data for Testing
 -- Insert sample courses for each language supported by docker runners
-INSERT INTO courses (id, title, slug, description, created_at, language, status, created_by, last_modified_by, tags, lesson_summaries) VALUES
-    ('python-fundamentals', 'Python Fundamentals', 'python-fundamentals', 'Learn Python programming fundamentals with hands-on exercises', NOW(), 'python', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["python", "programming", "fundamentals"]', '[]'),
-    ('javascript-essentials', 'JavaScript Essentials', 'javascript-essentials', 'Master JavaScript programming with practical examples', NOW(), 'javascript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["javascript", "programming", "web"]', '[]'),
-    ('typescript-mastery', 'TypeScript Mastery', 'typescript-mastery', 'Advanced TypeScript programming concepts and practices', NOW(), 'typescript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["typescript", "programming", "web"]', '[]'),
-    ('csharp-development', 'C# Development', 'csharp-development', 'Comprehensive C# programming course for .NET development', NOW(), 'csharp', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["csharp", "dotnet", "programming"]', '[]')
+INSERT INTO courses (id, title, slug, description, created_at, language, status, created_by, last_modified_by, tags) VALUES
+    ('python-fundamentals', 'Python Fundamentals', 'python-fundamentals', 'Learn Python programming fundamentals with hands-on exercises', NOW(), 'python', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["python", "programming", "fundamentals"]'),
+    ('javascript-essentials', 'JavaScript Essentials', 'javascript-essentials', 'Master JavaScript programming with practical examples', NOW(), 'javascript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["javascript", "programming", "web"]'),
+    ('typescript-mastery', 'TypeScript Mastery', 'typescript-mastery', 'Advanced TypeScript programming concepts and practices', NOW(), 'typescript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["typescript", "programming", "web"]'),
+    ('csharp-development', 'C# Development', 'csharp-development', 'Comprehensive C# programming course for .NET development', NOW(), 'csharp', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["csharp", "dotnet", "programming"]')
 ON CONFLICT (id) DO UPDATE SET
     title = EXCLUDED.title,
     description = EXCLUDED.description,

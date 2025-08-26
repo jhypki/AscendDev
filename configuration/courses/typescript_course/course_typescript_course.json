@@ -1,29 +1,16 @@
 {
-  "title": "typescript course",
-  "slug": "typescript-course",
+  "title": "TypeScript Mastery",
+  "slug": "typescript-mastery",
   "language": "typescript",
-  "description": "Learn typescript course from scratch.",
-  "createdAt": "2025-04-01T18:59:46.670Z",
+  "description": "Advanced TypeScript programming concepts and practices",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
   "featuredImage": "",
   "tags": [
-    "fasdfa",
-    "fasdfas"
+    "typescript",
+    "programming",
+    "web"
   ],
-  "status": "draft",
-  "createdBy": "",
-  "lessonSummaries": [
-    {
-      "lessonId": "typescript_course_basic_math",
-      "title": "Basic Math",
-      "slug": "basic-math",
-      "order": 1
-    },
-    {
-      "lessonId": "typescript_course_arrays",
-      "title": "Arrays",
-      "slug": "arrays",
-      "order": 2
-    }
-  ],
-  "updatedAt": "2025-05-24T19:57:34.301Z"
+  "status": "published",
+  "createdBy": "22222222-2222-2222-2222-222222222222"
 }

@@ -1,0 +1,73 @@
+{
+    "title": "JavaScript Arrays",
+    "slug": "javascript-arrays",
+    "content": "# JavaScript Arrays\n\nLearn array manipulation in JavaScript.\n\n## Exercise\n\nImplement array functions:\n- `reverseArray(arr)`: Return a new array with elements in reverse order\n- `findMax(arr)`: Find the maximum element\n- `sumArray(arr)`: Calculate sum of all elements",
+    "language": "javascript",
+    "template": "function reverseArray(arr) {\n    // Reverse the given array\n    // Return a new array with elements in reverse order\n}\n\nfunction findMax(arr) {\n    // Find the maximum element in the array\n    // Return the maximum element, or undefined if array is empty\n}\n\nfunction sumArray(arr) {\n    // Calculate the sum of all elements in the array\n    // Return the sum of all elements\n}",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z",
+    "order": 1,
+    "testConfig": {
+        "timeoutMs": 10000,
+        "memoryLimitMb": 256,
+        "testTemplate": "__USER_CODE__\n\ndescribe(\"Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([5])).toEqual([5]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
+        "testCases": [
+            {
+                "name": "reverseArray should reverse arrays",
+                "input": [
+                    1,
+                    2,
+                    3
+                ],
+                "expectedOutput": [
+                    3,
+                    2,
+                    1
+                ],
+                "description": "Test reversing array [1, 2, 3]"
+            },
+            {
+                "name": "findMax should find maximum element",
+                "input": [
+                    1,
+                    5,
+                    3
+                ],
+                "expectedOutput": 5,
+                "description": "Test finding max in [1, 5, 3]"
+            },
+            {
+                "name": "sumArray should calculate sum",
+                "input": [
+                    1,
+                    2,
+                    3
+                ],
+                "expectedOutput": 6,
+                "description": "Test summing array [1, 2, 3]"
+            }
+        ],
+        "keywordRequirements": [
+            {
+                "keyword": "function",
+                "description": "Must use function declarations",
+                "required": true,
+                "caseSensitive": true,
+                "allowPartialMatch": false,
+                "minOccurrences": 3
+            }
+        ]
+    },
+    "additionalResources": [
+        {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+            "title": "JavaScript Array Documentation"
+        }
+    ],
+    "tags": [
+        "javascript",
+        "arrays",
+        "functions"
+    ],
+    "status": "published"
+}

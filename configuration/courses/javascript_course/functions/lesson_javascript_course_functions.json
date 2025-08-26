@@ -1,0 +1,63 @@
+{
+    "title": "JavaScript Functions",
+    "slug": "javascript-functions",
+    "content": "# JavaScript Functions\n\nMaster function creation and usage in JavaScript.\n\n## Exercise\n\nImplement mathematical functions:\n- `addNumbers(a, b)`: Add two numbers\n- `multiplyNumbers(a, b)`: Multiply two numbers\n- `calculateFactorial(n)`: Calculate factorial of n",
+    "language": "javascript",
+    "template": "function addNumbers(a, b) {\n    // Add two numbers and return the result\n}\n\nfunction multiplyNumbers(a, b) {\n    // Multiply two numbers and return the result\n}\n\nfunction calculateFactorial(n) {\n    // Calculate factorial of n\n    // Return 1 for n = 0 or n = 1\n}",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z",
+    "order": 2,
+    "testConfig": {
+        "timeoutMs": 8000,
+        "memoryLimitMb": 256,
+        "testTemplate": "__USER_CODE__\n\ndescribe(\"Math Functions\", () => {\n    test(\"addNumbers should add two numbers\", () => {\n        expect(addNumbers(2, 3)).toBe(5);\n        expect(addNumbers(0, 0)).toBe(0);\n        expect(addNumbers(-1, 1)).toBe(0);\n    });\n    \n    test(\"multiplyNumbers should multiply two numbers\", () => {\n        expect(multiplyNumbers(3, 4)).toBe(12);\n        expect(multiplyNumbers(0, 5)).toBe(0);\n        expect(multiplyNumbers(-2, 3)).toBe(-6);\n    });\n    \n    test(\"calculateFactorial should calculate factorial\", () => {\n        expect(calculateFactorial(5)).toBe(120);\n        expect(calculateFactorial(0)).toBe(1);\n        expect(calculateFactorial(1)).toBe(1);\n    });\n});",
+        "testCases": [
+            {
+                "name": "addNumbers should add two numbers",
+                "input": [
+                    2,
+                    3
+                ],
+                "expectedOutput": 5,
+                "description": "Test adding 2 + 3"
+            },
+            {
+                "name": "multiplyNumbers should multiply two numbers",
+                "input": [
+                    3,
+                    4
+                ],
+                "expectedOutput": 12,
+                "description": "Test multiplying 3 * 4"
+            },
+            {
+                "name": "calculateFactorial should calculate factorial",
+                "input": 5,
+                "expectedOutput": 120,
+                "description": "Test factorial of 5"
+            }
+        ],
+        "keywordRequirements": [
+            {
+                "keyword": "function",
+                "description": "Must use function declarations",
+                "required": true,
+                "caseSensitive": true,
+                "allowPartialMatch": false,
+                "minOccurrences": 3
+            }
+        ]
+    },
+    "additionalResources": [
+        {
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+            "title": "JavaScript Functions Guide"
+        }
+    ],
+    "tags": [
+        "javascript",
+        "functions",
+        "math"
+    ],
+    "status": "published"
+}

@@ -1,0 +1,63 @@
+{
+    "title": "Python Functions",
+    "slug": "python-functions",
+    "content": "# Python Functions\n\nLearn to create and use functions in Python.\n\n## Exercise\n\nImplement mathematical functions:\n- `add_numbers(a, b)`: Add two numbers\n- `multiply_numbers(a, b)`: Multiply two numbers\n- `calculate_factorial(n)`: Calculate factorial of n",
+    "language": "python",
+    "template": "def add_numbers(a, b):\n    \"\"\"\n    Add two numbers.\n    Args:\n        a (int/float): First number\n        b (int/float): Second number\n    Returns:\n        int/float: Sum of a and b\n    \"\"\"\n    # Write your code here\n    pass\n\ndef multiply_numbers(a, b):\n    \"\"\"\n    Multiply two numbers.\n    Args:\n        a (int/float): First number\n        b (int/float): Second number\n    Returns:\n        int/float: Product of a and b\n    \"\"\"\n    # Write your code here\n    pass\n\ndef calculate_factorial(n):\n    \"\"\"\n    Calculate factorial of n.\n    Args:\n        n (int): Non-negative integer\n    Returns:\n        int: Factorial of n\n    \"\"\"\n    # Write your code here\n    pass",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z",
+    "order": 2,
+    "testConfig": {
+        "timeoutMs": 10000,
+        "memoryLimitMb": 256,
+        "testTemplate": "import pytest\nfrom solution import add_numbers, multiply_numbers, calculate_factorial\n\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5\n    assert add_numbers(0, 0) == 0\n    assert add_numbers(-1, 1) == 0\n\ndef test_multiply_numbers():\n    assert multiply_numbers(3, 4) == 12\n    assert multiply_numbers(0, 5) == 0\n    assert multiply_numbers(-2, 3) == -6\n\ndef test_calculate_factorial():\n    assert calculate_factorial(5) == 120\n    assert calculate_factorial(0) == 1\n    assert calculate_factorial(1) == 1",
+        "testCases": [
+            {
+                "name": "test_add_numbers_1",
+                "input": [
+                    2,
+                    3
+                ],
+                "expectedOutput": 5,
+                "description": "Test adding 2 + 3"
+            },
+            {
+                "name": "test_multiply_numbers_1",
+                "input": [
+                    3,
+                    4
+                ],
+                "expectedOutput": 12,
+                "description": "Test multiplying 3 * 4"
+            },
+            {
+                "name": "test_calculate_factorial_1",
+                "input": 5,
+                "expectedOutput": 120,
+                "description": "Test factorial of 5"
+            }
+        ],
+        "keywordRequirements": [
+            {
+                "keyword": "def",
+                "description": "Must use function definitions",
+                "required": true,
+                "caseSensitive": true,
+                "allowPartialMatch": false,
+                "minOccurrences": 3
+            }
+        ]
+    },
+    "additionalResources": [
+        {
+            "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+            "title": "Python Functions Documentation"
+        }
+    ],
+    "tags": [
+        "python",
+        "functions",
+        "math"
+    ],
+    "status": "published"
+}
