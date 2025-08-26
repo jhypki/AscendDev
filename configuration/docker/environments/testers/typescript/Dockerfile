@@ -15,8 +15,8 @@ RUN npm install
 # Create a directory for test files
 RUN mkdir -p /app/test
 
-# Set permissions for scripts
-RUN chmod +x /app/run-tests.sh
+# Convert line endings and set permissions for scripts
+RUN sed -i 's/\r$//' /app/run-tests.sh && chmod +x /app/run-tests.sh
 
 # Set default command
 CMD ["npm", "test"]
