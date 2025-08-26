@@ -34,6 +34,8 @@ public static class DatabaseExtensions
         services.AddScoped<ILessonRepository, LessonRepository>();
         services.AddScoped<IUserProgressRepository, UserProgressRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        services.AddScoped<ISubmissionRepository, SubmissionRepository>();
+        services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
 
         // Register admin repositories
         services.AddScoped<IUserManagementRepository, UserManagementRepository>();

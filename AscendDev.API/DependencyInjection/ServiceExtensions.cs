@@ -25,6 +25,8 @@ public static class ServiceExtensions
         services.AddScoped<ICodeTestService, CodeTestService>();
         services.AddScoped<ICodeExecutionService, CodeExecutionService>();
         services.AddScoped<IUserProgressService, UserProgressService>();
+        services.AddScoped<ISubmissionService, SubmissionService>();
+        services.AddScoped<IUserSettingsService, UserSettingsService>();
 
         // Register admin services
         services.AddScoped<IUserManagementService, UserManagementService>();
