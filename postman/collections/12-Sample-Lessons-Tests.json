@@ -2,7 +2,7 @@
     "info": {
         "_postman_id": "sample-lessons-tests",
         "name": "12 - Sample Lessons Tests",
-        "description": "Comprehensive test collection for all language lessons (Python, JavaScript, TypeScript, C#) based on docker runners",
+        "description": "Comprehensive test collection for all language lessons (Python, JavaScript, TypeScript, Go) based on docker runners",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [
@@ -364,10 +364,10 @@
             ]
         },
         {
-            "name": "C# Tests",
+            "name": "Go Tests",
             "item": [
                 {
-                    "name": "C# Arrays - Working Solution",
+                    "name": "Go Slices - Working Solution",
                     "event": [
                         {
                             "listen": "test",
@@ -382,8 +382,20 @@
                                     "    pm.expect(jsonData).to.have.property('success');",
                                     "    pm.expect(jsonData).to.have.property('testResults');",
                                     "    ",
-                                    "    console.log('C# Arrays test result:');",
+                                    "    console.log('Go Slices test result:');",
                                     "    console.log('Success:', jsonData.success);",
+                                    "    console.log('Test Results:', jsonData.testResults?.length || 0, 'tests');",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Test results have names\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.testResults && jsonData.testResults.length > 0) {",
+                                    "        jsonData.testResults.forEach((testResult, index) => {",
+                                    "            pm.expect(testResult).to.have.property('testName');",
+                                    "            pm.expect(testResult.testName).to.not.be.empty;",
+                                    "            console.log(`Test ${index + 1}: ${testResult.testName} - ${testResult.passed ? 'PASSED' : 'FAILED'}`);",
+                                    "        });",
+                                    "    }",
                                     "});"
                                 ],
                                 "type": "text/javascript"
@@ -404,7 +416,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"LessonId\": \"csharp-arrays\",\n    \"Code\": \"using System;\\nusing System.Collections.Generic;\\nusing System.Linq;\\n\\npublic class ArraySolution\\n{\\n    public int[] ReverseArray(int[] array)\\n    {\\n        if (array == null) return null;\\n        return array.Reverse().ToArray();\\n    }\\n\\n    public int? FindMax(int[] array)\\n    {\\n        if (array == null || array.Length == 0) return null;\\n        return array.Max();\\n    }\\n\\n    public int SumArray(int[] array)\\n    {\\n        if (array == null) return 0;\\n        return array.Sum();\\n    }\\n}\"\n}"
+                            "raw": "{\n    \"LessonId\": \"go-slices\",\n    \"Code\": \"package main\\n\\n// ReverseSlice returns a new slice with elements in reverse order\\nfunc ReverseSlice(slice []int) []int {\\n\\tif len(slice) == 0 {\\n\\t\\treturn []int{}\\n\\t}\\n\\treversed := make([]int, len(slice))\\n\\tfor i, v := range slice {\\n\\t\\treversed[len(slice)-1-i] = v\\n\\t}\\n\\treturn reversed\\n}\\n\\n// FindMax finds the maximum element in the slice\\n// Returns 0 if slice is empty\\nfunc FindMax(slice []int) int {\\n\\tif len(slice) == 0 {\\n\\t\\treturn 0\\n\\t}\\n\\tmax := slice[0]\\n\\tfor _, v := range slice {\\n\\t\\tif v > max {\\n\\t\\t\\tmax = v\\n\\t\\t}\\n\\t}\\n\\treturn max\\n}\\n\\n// SumSlice calculates the sum of all elements in the slice\\nfunc SumSlice(slice []int) int {\\n\\tsum := 0\\n\\tfor _, v := range slice {\\n\\t\\tsum += v\\n\\t}\\n\\treturn sum\\n}\"\n}"
                         },
                         "url": {
                             "raw": "{{baseUrl}}/api/tests/run",
@@ -417,12 +429,12 @@
                                 "run"
                             ]
                         },
-                        "description": "Test C# arrays lesson with correct implementation"
+                        "description": "Test Go slices lesson with correct implementation"
                     },
                     "response": []
                 },
                 {
-                    "name": "C# Methods - Working Solution",
+                    "name": "Go Functions - Working Solution",
                     "event": [
                         {
                             "listen": "test",
@@ -437,7 +449,7 @@
                                     "    pm.expect(jsonData).to.have.property('success');",
                                     "    pm.expect(jsonData).to.have.property('testResults');",
                                     "    ",
-                                    "    console.log('C# Methods test result:');",
+                                    "    console.log('Go Functions test result:');",
                                     "    console.log('Success:', jsonData.success);",
                                     "});"
                                 ],
@@ -459,7 +471,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"LessonId\": \"csharp-methods\",\n    \"Code\": \"using System;\\n\\npublic class MathSolution\\n{\\n    public int AddNumbers(int a, int b)\\n    {\\n        return a + b;\\n    }\\n\\n    public int MultiplyNumbers(int a, int b)\\n    {\\n        return a * b;\\n    }\\n\\n    public int CalculateFactorial(int n)\\n    {\\n        if (n <= 1) return 1;\\n        int result = 1;\\n        for (int i = 2; i <= n; i++)\\n        {\\n            result *= i;\\n        }\\n        return result;\\n    }\\n}\"\n}"
+                            "raw": "{\n    \"LessonId\": \"go-functions\",\n    \"Code\": \"package main\\n\\n// AddNumbers adds two integers and returns the result\\nfunc AddNumbers(a, b int) int {\\n\\treturn a + b\\n}\\n\\n// MultiplyNumbers multiplies two integers and returns the result\\nfunc MultiplyNumbers(a, b int) int {\\n\\treturn a * b\\n}\\n\\n// CalculateFactorial calculates the factorial of n\\n// Returns 1 for n = 0 or n = 1\\nfunc CalculateFactorial(n int) int {\\n\\tif n <= 1 {\\n\\t\\treturn 1\\n\\t}\\n\\tresult := 1\\n\\tfor i := 2; i <= n; i++ {\\n\\t\\tresult *= i\\n\\t}\\n\\treturn result\\n}\"\n}"
                         },
                         "url": {
                             "raw": "{{baseUrl}}/api/tests/run",
@@ -472,7 +484,7 @@
                                 "run"
                             ]
                         },
-                        "description": "Test C# methods lesson with correct implementation"
+                        "description": "Test Go functions lesson with correct implementation"
                     },
                     "response": []
                 }

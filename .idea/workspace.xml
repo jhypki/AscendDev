@@ -5,15 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/UpdateCodeReviewRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/UpdateCodeReviewRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReview.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReview.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/CodeExecution/CodeSanitizerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core.Test/CodeExecution/CodeSanitizerTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/LanguageStrategiesExtensionsTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/LanguageStrategiesExtensionsTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/Strategies/CSharpStrategyTests.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/CodeSanitizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/CodeSanitizer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/Sanitizers/CSharpSanitizer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/Strategies/CSharpExecutionStrategy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Constants/DockerImages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Constants/DockerImages.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Constants/SupportedLanguages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Constants/SupportedLanguages.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerContainerPool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerContainerPool.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/KeywordValidationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/KeywordValidationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/LanguageAnalyzers/CSharpKeywordAnalyzer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/LanguageStrategiesExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/LanguageStrategiesExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/CSharpStrategy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/lesson_csharp_course_arrays.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/course_csharp_course.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/methods/lesson_csharp_course_methods.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/TrxToJson.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/TrxToJson.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/run-tests.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/run-tests.sh.improved" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/build-and-push-docker-images.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build-and-push-docker-images.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -13,7 +13,7 @@ public class CodeSanitizerTests
     {
         // Arrange
         string code = null;
-        string language = SupportedLanguages.CSharp;
+        string language = SupportedLanguages.Go;
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => CodeSanitizer.SanitizeCode(code, language));
@@ -26,7 +26,7 @@ public class CodeSanitizerTests
     {
         // Arrange
         string code = string.Empty;
-        string language = SupportedLanguages.CSharp;
+        string language = SupportedLanguages.Go;
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(() => CodeSanitizer.SanitizeCode(code, language));
@@ -97,15 +97,15 @@ public class CodeSanitizerTests
     }
 
     [Test]
-    public void SanitizeCode_WhenCSharpCodeContainsForbiddenPattern_ThrowsSecurityException()
+    public void SanitizeCode_WhenGoCodeContainsForbiddenPattern_ThrowsSecurityException()
     {
         // Arrange
-        string code = "using System.Diagnostics;\nSystem.Diagnostics.Process.Start(\"cmd.exe\");";
-        string language = SupportedLanguages.CSharp;
+        string code = "package main\nimport \"os/exec\"\nfunc main() { exec.Command(\"rm\", \"-rf\", \"/\").Run() }";
+        string language = SupportedLanguages.Go;
 
         // Act & Assert
         var ex = Assert.Throws<SecurityException>(() => CodeSanitizer.SanitizeCode(code, language));
-        Assert.That(ex.Message, Does.Contain("C# code contains potentially unsafe operation"));
+        Assert.That(ex.Message, Does.Contain("Go code contains potentially unsafe operation"));
     }
 
     [Test]
@@ -147,11 +147,11 @@ public class CodeSanitizerTests
     }
 
     [Test]
-    public void SanitizeCode_WhenCSharpCodeIsSafe_ReturnsSameCode()
+    public void SanitizeCode_WhenGoCodeIsSafe_ReturnsSameCode()
     {
         // Arrange
-        string code = "public class Calculator\n{\n    public int Add(int a, int b)\n    {\n        return a + b;\n    }\n}";
-        string language = SupportedLanguages.CSharp;
+        string code = "package main\n\nfunc Add(a, b int) int {\n    return a + b\n}\n\nfunc main() {\n    result := Add(2, 3)\n    println(result)\n}";
+        string language = SupportedLanguages.Go;
 
         // Act
         string result = CodeSanitizer.SanitizeCode(code, language);

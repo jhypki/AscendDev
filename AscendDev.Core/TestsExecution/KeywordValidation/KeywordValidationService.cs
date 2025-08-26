@@ -16,7 +16,7 @@ public class KeywordValidationService : IKeywordValidationService
 
         _analyzers = new Dictionary<string, ILanguageKeywordAnalyzer>(StringComparer.OrdinalIgnoreCase)
         {
-            { "csharp", new CSharpKeywordAnalyzer() },
+            { "go", new GoKeywordAnalyzer() },
             { "python", new PythonKeywordAnalyzer() },
             { "typescript", new TypeScriptKeywordAnalyzer() },
             { "javascript", new TypeScriptKeywordAnalyzer() } // JavaScript uses same analyzer as TypeScript

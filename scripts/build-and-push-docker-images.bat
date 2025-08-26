@@ -61,9 +61,9 @@ REM Build runner images
 echo.
 echo Processing runner images...
 
-REM C# Runner
-if exist ".\environments\runners\csharp" (
-    call :build_and_push_image ".\environments\runners\csharp" "csharp" "runner"
+REM Go Runner
+if exist ".\environments\runners\go" (
+    call :build_and_push_image ".\environments\runners\go" "go" "runner"
     if !errorlevel! neq 0 exit /b 1
 )
 
@@ -89,9 +89,9 @@ REM Build tester images
 echo.
 echo Processing tester images...
 
-REM C# Tester
-if exist ".\environments\testers\csharp" (
-    call :build_and_push_image ".\environments\testers\csharp" "csharp" "tester"
+REM Go Tester
+if exist ".\environments\testers\go" (
+    call :build_and_push_image ".\environments\testers\go" "go" "tester"
     if !errorlevel! neq 0 exit /b 1
 )
 

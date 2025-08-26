@@ -287,7 +287,7 @@ public class DockerContainerPool : IDockerContainerPool, IDisposable
         {
             "typescript" when framework.ToLowerInvariant() == "jest" => "ascenddev-typescript-runner",
             "javascript" when framework.ToLowerInvariant() == "jest" => "ascenddev-javascript-runner",
-            "csharp" or "c#" when framework.ToLowerInvariant() == "xunit" => "mcr.microsoft.com/dotnet/sdk:6.0",
+            "go" when framework.ToLowerInvariant() == "testing" => "jhypki/ascenddev-go-tester:latest",
             "python" when framework.ToLowerInvariant() == "pytest" => "python:3.10-slim",
             _ => throw new NotSupportedException($"Language {language} with framework {framework} is not supported")
         };

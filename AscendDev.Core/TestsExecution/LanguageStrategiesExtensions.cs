@@ -16,7 +16,7 @@ public static class CodeExecutionServiceExtensions
         // Register all strategies
         services.AddTransient<ILanguageStrategy, TypeScriptStrategy>();
         // services.AddTransient<ILanguageStrategy, JavaScriptStrategy>();
-        services.AddTransient<ILanguageStrategy, CSharpStrategy>();
+        services.AddTransient<ILanguageStrategy, GoStrategy>();
         services.AddTransient<ILanguageStrategy, PythonStrategy>();
 
         // Register the factory
@@ -31,7 +31,7 @@ public static class CodeExecutionServiceExtensions
         // Register all execution strategies
         services.AddTransient<ILanguageExecutionStrategy, TypeScriptExecutionStrategy>();
         services.AddTransient<ILanguageExecutionStrategy, JavaScriptExecutionStrategy>();
-        services.AddTransient<ILanguageExecutionStrategy, CSharpExecutionStrategy>();
+        services.AddTransient<ILanguageExecutionStrategy, GoExecutionStrategy>();
         services.AddTransient<ILanguageExecutionStrategy, PythonExecutionStrategy>();
 
         // Register the factory
@@ -48,7 +48,7 @@ public static class CodeExecutionServiceExtensions
 
         // Register all sanitizers
         services.AddTransient<ICodeSanitizer, PythonSanitizer>();
-        services.AddTransient<ICodeSanitizer, CSharpSanitizer>();
+        services.AddTransient<ICodeSanitizer, GoSanitizer>();
         services.AddTransient<ICodeSanitizer, JavaScriptSanitizer>();
         services.AddTransient<ICodeSanitizer, TypeScriptSanitizer>();
 

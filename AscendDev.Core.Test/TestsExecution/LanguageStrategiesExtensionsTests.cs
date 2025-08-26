@@ -22,11 +22,11 @@ public class LanguageStrategiesExtensionsTests
 
         // Register mock loggers for all strategy types
         _services.AddSingleton(new Mock<ILogger<TypeScriptStrategy>>().Object);
-        _services.AddSingleton(new Mock<ILogger<CSharpStrategy>>().Object);
+        _services.AddSingleton(new Mock<ILogger<GoStrategy>>().Object);
         _services.AddSingleton(new Mock<ILogger<PythonStrategy>>().Object);
         _services.AddSingleton(new Mock<ILogger<TypeScriptExecutionStrategy>>().Object);
         _services.AddSingleton(new Mock<ILogger<JavaScriptExecutionStrategy>>().Object);
-        _services.AddSingleton(new Mock<ILogger<CSharpExecutionStrategy>>().Object);
+        _services.AddSingleton(new Mock<ILogger<GoExecutionStrategy>>().Object);
         _services.AddSingleton(new Mock<ILogger<PythonExecutionStrategy>>().Object);
         _services.AddSingleton(new Mock<ILogger<DockerTestsExecutor>>().Object);
         _services.AddSingleton(new Mock<ILogger<DockerCodeExecutor>>().Object);
@@ -47,10 +47,10 @@ public class LanguageStrategiesExtensionsTests
 
         // Verify strategies are registered
         var strategies = provider.GetServices<ILanguageStrategy>().ToList();
-        Assert.That(strategies, Has.Count.GreaterThanOrEqualTo(3)); // At least TypeScript, CSharp, Python
+        Assert.That(strategies, Has.Count.GreaterThanOrEqualTo(3)); // At least TypeScript, Go, Python
 
         Assert.That(strategies, Has.Some.TypeOf<TypeScriptStrategy>());
-        Assert.That(strategies, Has.Some.TypeOf<CSharpStrategy>());
+        Assert.That(strategies, Has.Some.TypeOf<GoStrategy>());
         Assert.That(strategies, Has.Some.TypeOf<PythonStrategy>());
     }
 
@@ -69,11 +69,11 @@ public class LanguageStrategiesExtensionsTests
 
         // Verify strategies are registered
         var strategies = provider.GetServices<ILanguageExecutionStrategy>().ToList();
-        Assert.That(strategies, Has.Count.GreaterThanOrEqualTo(4)); // TypeScript, JavaScript, CSharp, Python
+        Assert.That(strategies, Has.Count.GreaterThanOrEqualTo(4)); // TypeScript, JavaScript, Go, Python
 
         Assert.That(strategies, Has.Some.TypeOf<TypeScriptExecutionStrategy>());
         Assert.That(strategies, Has.Some.TypeOf<JavaScriptExecutionStrategy>());
-        Assert.That(strategies, Has.Some.TypeOf<CSharpExecutionStrategy>());
+        Assert.That(strategies, Has.Some.TypeOf<GoExecutionStrategy>());
         Assert.That(strategies, Has.Some.TypeOf<PythonExecutionStrategy>());
     }
 
@@ -92,10 +92,10 @@ public class LanguageStrategiesExtensionsTests
 
         // Verify sanitizers are registered
         var sanitizers = provider.GetServices<ICodeSanitizer>().ToList();
-        Assert.That(sanitizers, Has.Count.GreaterThanOrEqualTo(4)); // Python, CSharp, JavaScript, TypeScript
+        Assert.That(sanitizers, Has.Count.GreaterThanOrEqualTo(4)); // Python, Go, JavaScript, TypeScript
 
         Assert.That(sanitizers, Has.Some.TypeOf<PythonSanitizer>());
-        Assert.That(sanitizers, Has.Some.TypeOf<CSharpSanitizer>());
+        Assert.That(sanitizers, Has.Some.TypeOf<GoSanitizer>());
         Assert.That(sanitizers, Has.Some.TypeOf<JavaScriptSanitizer>());
         Assert.That(sanitizers, Has.Some.TypeOf<TypeScriptSanitizer>());
 

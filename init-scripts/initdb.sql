@@ -540,7 +540,7 @@ INSERT INTO courses (id, title, slug, description, created_at, language, status,
     ('python-fundamentals', 'Python Fundamentals', 'python-fundamentals', 'Learn Python programming fundamentals with hands-on exercises', NOW(), 'python', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["python", "programming", "fundamentals"]'),
     ('javascript-essentials', 'JavaScript Essentials', 'javascript-essentials', 'Master JavaScript programming with practical examples', NOW(), 'javascript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["javascript", "programming", "web"]'),
     ('typescript-mastery', 'TypeScript Mastery', 'typescript-mastery', 'Advanced TypeScript programming concepts and practices', NOW(), 'typescript', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["typescript", "programming", "web"]'),
-    ('csharp-development', 'C# Development', 'csharp-development', 'Comprehensive C# programming course for .NET development', NOW(), 'csharp', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["csharp", "dotnet", "programming"]')
+    ('go-fundamentals', 'Go Fundamentals', 'go-fundamentals', 'Learn Go programming fundamentals with hands-on exercises', NOW(), 'go', 'published', '22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '["go", "programming", "fundamentals"]')
 ON CONFLICT (id) DO UPDATE SET
     title = EXCLUDED.title,
     description = EXCLUDED.description,
@@ -1002,87 +1002,81 @@ function calculateFactorial(n: number): number {
      '["typescript", "functions", "math", "types"]',
      'published');
 
--- Insert C# lessons
+-- Insert Go lessons
 INSERT INTO lessons (id, course_id, title, slug, content, language, template, created_at, updated_at, "order", test_config, additional_resources, tags, status) VALUES
-    ('csharp-arrays', 'csharp-development', 'C# Arrays', 'csharp-arrays',
-     '# Arrays in C#
+    ('go-slices', 'go-fundamentals', 'Go Slices', 'go-slices',
+     '# Working with Slices in Go
 
-Learn array manipulation in C#.
+Learn how to manipulate slices in Go.
 
-## What are Arrays?
+## What are Slices?
 
-In C#, an array is a collection of elements of the same type stored at contiguous memory locations. Arrays are used to store multiple values in a single variable.
+In Go, slices are a key data type that provides a more powerful interface to sequences of data than arrays. Slices are built on top of arrays and provide great flexibility and convenience.
 
 ## Exercise
 
-Implement array manipulation methods:
-- `ReverseArray(int[] array)`: Return a new array with elements in reverse order
-- `FindMax(int[] array)`: Find the maximum element in the array
-- `SumArray(int[] array)`: Calculate the sum of all elements',
-     'csharp',
-     'using System;
-using System.Collections.Generic;
+Implement functions to work with slices:
+- `ReverseSlice(slice []int) []int`: Return a new slice with elements in reverse order
+- `FindMax(slice []int) int`: Find the maximum element in the slice
+- `SumSlice(slice []int) int`: Calculate the sum of all elements',
+     'go',
+     'package main
 
-public class ArraySolution
-{
-    public int[] ReverseArray(int[] array)
-    {
-        // Reverse the given array
-        // Return a new array with elements in reverse order
-        return null;
-    }
+// ReverseSlice returns a new slice with elements in reverse order
+func ReverseSlice(slice []int) []int {
+    // Write your code here
+    return nil
+}
 
-    public int? FindMax(int[] array)
-    {
-        // Find the maximum element in the array
-        // Return null if array is empty
-        return null;
-    }
+// FindMax finds the maximum element in the slice
+// Returns 0 if slice is empty
+func FindMax(slice []int) int {
+    // Write your code here
+    return 0
+}
 
-    public int SumArray(int[] array)
-    {
-        // Calculate the sum of all elements in the array
-        // Return the sum of all elements
-        return 0;
-    }
+// SumSlice calculates the sum of all elements in the slice
+func SumSlice(slice []int) int {
+    // Write your code here
+    return 0
 }',
      NOW(), NOW(), 1,
      '{
        "timeoutMs": 15000,
        "memoryLimitMb": 512,
-       "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class ArrayTests\n{\n    [Fact]\n    public void ReverseArray_ShouldReverseArray()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var expected = new int[] { 3, 2, 1 };\n        var result = solution.ReverseArray(input);\n        Assert.Equal(expected, result);\n    }\n\n    [Fact]\n    public void FindMax_ShouldFindMaximum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 5, 3 };\n        var result = solution.FindMax(input);\n        Assert.Equal(5, result);\n    }\n\n    [Fact]\n    public void SumArray_ShouldCalculateSum()\n    {\n        var solution = new ArraySolution();\n        var input = new int[] { 1, 2, 3 };\n        var result = solution.SumArray(input);\n        Assert.Equal(6, result);\n    }\n}",
+       "testTemplate": "package main\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestReverseSlice(t *testing.T) {\n\tresult := ReverseSlice([]int{1, 2, 3})\n\texpected := []int{3, 2, 1}\n\tif !reflect.DeepEqual(result, expected) {\n\t\tt.Errorf(\"ReverseSlice([1, 2, 3]) = %v; want %v\", result, expected)\n\t}\n\n\tresult = ReverseSlice([]int{})\n\texpected = []int{}\n\tif !reflect.DeepEqual(result, expected) {\n\t\tt.Errorf(\"ReverseSlice([]) = %v; want %v\", result, expected)\n\t}\n}\n\nfunc TestFindMax(t *testing.T) {\n\tresult := FindMax([]int{1, 5, 3})\n\tif result != 5 {\n\t\tt.Errorf(\"FindMax([1, 5, 3]) = %d; want 5\", result)\n\t}\n\n\tresult = FindMax([]int{10})\n\tif result != 10 {\n\t\tt.Errorf(\"FindMax([10]) = %d; want 10\", result)\n\t}\n}\n\nfunc TestSumSlice(t *testing.T) {\n\tresult := SumSlice([]int{1, 2, 3})\n\tif result != 6 {\n\t\tt.Errorf(\"SumSlice([1, 2, 3]) = %d; want 6\", result)\n\t}\n\n\tresult = SumSlice([]int{})\n\tif result != 0 {\n\t\tt.Errorf(\"SumSlice([]) = %d; want 0\", result)\n\t}\n}",
        "testCases": [
          {
-           "name": "ReverseArray_ShouldReverseArray",
+           "name": "TestReverseSlice",
            "input": [1, 2, 3],
            "expectedOutput": [3, 2, 1],
-           "description": "Test reversing array [1, 2, 3]"
+           "description": "Test reversing slice [1, 2, 3]"
          },
          {
-           "name": "FindMax_ShouldFindMaximum",
+           "name": "TestFindMax",
            "input": [1, 5, 3],
            "expectedOutput": 5,
            "description": "Test finding max in [1, 5, 3]"
          },
          {
-           "name": "SumArray_ShouldCalculateSum",
+           "name": "TestSumSlice",
            "input": [1, 2, 3],
            "expectedOutput": 6,
-           "description": "Test summing array [1, 2, 3]"
+           "description": "Test summing slice [1, 2, 3]"
          }
        ],
        "keywordRequirements": [
          {
-           "keyword": "public",
-           "description": "Must use public access modifiers",
+           "keyword": "func",
+           "description": "Must use function declarations",
            "required": true,
            "caseSensitive": true,
            "allowPartialMatch": false,
            "minOccurrences": 3
          },
          {
-           "keyword": "int[]",
-           "description": "Must work with integer arrays",
+           "keyword": "[]int",
+           "description": "Must work with integer slices",
            "required": true,
            "caseSensitive": true,
            "allowPartialMatch": false,
@@ -1090,65 +1084,62 @@ public class ArraySolution
          }
        ]
      }',
-     '[{"url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/", "title": "C# Arrays Documentation"}]',
-     '["csharp", "arrays", "dotnet"]',
+     '[{"url": "https://go.dev/tour/moretypes/7", "title": "Go Slices Documentation"}]',
+     '["go", "slices", "arrays"]',
      'published'),
      
-    ('csharp-methods', 'csharp-development', 'C# Methods', 'csharp-methods',
-     '# C# Methods
+    ('go-functions', 'go-fundamentals', 'Go Functions', 'go-functions',
+     '# Go Functions
 
-Learn to create and use methods in C#.
+Learn to create and use functions in Go.
 
 ## Exercise
 
-Implement mathematical methods:
-- `AddNumbers(int a, int b)`: Add two numbers
-- `MultiplyNumbers(int a, int b)`: Multiply two numbers
-- `CalculateFactorial(int n)`: Calculate factorial of n',
-     'csharp',
-     'using System;
+Implement mathematical functions:
+- `AddNumbers(a, b int) int`: Add two numbers
+- `MultiplyNumbers(a, b int) int`: Multiply two numbers
+- `CalculateFactorial(n int) int`: Calculate factorial of n',
+     'go',
+     'package main
 
-public class MathSolution
-{
-    public int AddNumbers(int a, int b)
-    {
-        // Add two numbers and return the result
-        return 0;
-    }
+// AddNumbers adds two integers and returns the result
+func AddNumbers(a, b int) int {
+    // Write your code here
+    return 0
+}
 
-    public int MultiplyNumbers(int a, int b)
-    {
-        // Multiply two numbers and return the result
-        return 0;
-    }
+// MultiplyNumbers multiplies two integers and returns the result
+func MultiplyNumbers(a, b int) int {
+    // Write your code here
+    return 0
+}
 
-    public int CalculateFactorial(int n)
-    {
-        // Calculate factorial of n
-        // Return 1 for n = 0 or n = 1
-        return 0;
-    }
+// CalculateFactorial calculates the factorial of n
+// Returns 1 for n = 0 or n = 1
+func CalculateFactorial(n int) int {
+    // Write your code here
+    return 0
 }',
      NOW(), NOW(), 2,
      '{
        "timeoutMs": 10000,
        "memoryLimitMb": 256,
-       "testTemplate": "using System;\nusing Xunit;\n\n__USER_CODE__\n\npublic class MathTests\n{\n    [Fact]\n    public void AddNumbers_ShouldAddTwoNumbers()\n    {\n        var solution = new MathSolution();\n        var result = solution.AddNumbers(2, 3);\n        Assert.Equal(5, result);\n    }\n\n    [Fact]\n    public void MultiplyNumbers_ShouldMultiplyTwoNumbers()\n    {\n        var solution = new MathSolution();\n        var result = solution.MultiplyNumbers(3, 4);\n        Assert.Equal(12, result);\n    }\n\n    [Fact]\n    public void CalculateFactorial_ShouldCalculateFactorial()\n    {\n        var solution = new MathSolution();\n        var result = solution.CalculateFactorial(5);\n        Assert.Equal(120, result);\n    }\n}",
+       "testTemplate": "package main\n\nimport \"testing\"\n\nfunc TestAddNumbers(t *testing.T) {\n\tresult := AddNumbers(2, 3)\n\tif result != 5 {\n\t\tt.Errorf(\"AddNumbers(2, 3) = %d; want 5\", result)\n\t}\n\n\tresult = AddNumbers(0, 0)\n\tif result != 0 {\n\t\tt.Errorf(\"AddNumbers(0, 0) = %d; want 0\", result)\n\t}\n\n\tresult = AddNumbers(-1, 1)\n\tif result != 0 {\n\t\tt.Errorf(\"AddNumbers(-1, 1) = %d; want 0\", result)\n\t}\n}\n\nfunc TestMultiplyNumbers(t *testing.T) {\n\tresult := MultiplyNumbers(3, 4)\n\tif result != 12 {\n\t\tt.Errorf(\"MultiplyNumbers(3, 4) = %d; want 12\", result)\n\t}\n\n\tresult = MultiplyNumbers(0, 5)\n\tif result != 0 {\n\t\tt.Errorf(\"MultiplyNumbers(0, 5) = %d; want 0\", result)\n\t}\n}\n\nfunc TestCalculateFactorial(t *testing.T) {\n\tresult := CalculateFactorial(5)\n\tif result != 120 {\n\t\tt.Errorf(\"CalculateFactorial(5) = %d; want 120\", result)\n\t}\n\n\tresult = CalculateFactorial(0)\n\tif result != 1 {\n\t\tt.Errorf(\"CalculateFactorial(0) = %d; want 1\", result)\n\t}\n\n\tresult = CalculateFactorial(1)\n\tif result != 1 {\n\t\tt.Errorf(\"CalculateFactorial(1) = %d; want 1\", result)\n\t}\n}",
        "testCases": [
          {
-           "name": "AddNumbers_ShouldAddTwoNumbers",
+           "name": "TestAddNumbers",
            "input": [2, 3],
            "expectedOutput": 5,
            "description": "Test adding 2 + 3"
          },
          {
-           "name": "MultiplyNumbers_ShouldMultiplyTwoNumbers",
+           "name": "TestMultiplyNumbers",
            "input": [3, 4],
            "expectedOutput": 12,
            "description": "Test multiplying 3 * 4"
          },
          {
-           "name": "CalculateFactorial_ShouldCalculateFactorial",
+           "name": "TestCalculateFactorial",
            "input": 5,
            "expectedOutput": 120,
            "description": "Test factorial of 5"
@@ -1156,8 +1147,8 @@ public class MathSolution
        ],
        "keywordRequirements": [
          {
-           "keyword": "public",
-           "description": "Must use public access modifiers",
+           "keyword": "func",
+           "description": "Must use function declarations",
            "required": true,
            "caseSensitive": true,
            "allowPartialMatch": false,
@@ -1173,6 +1164,6 @@ public class MathSolution
          }
        ]
      }',
-     '[{"url": "https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods", "title": "C# Methods Documentation"}]',
-     '["csharp", "methods", "math", "dotnet"]',
+     '[{"url": "https://go.dev/tour/basics/4", "title": "Go Functions Documentation"}]',
+     '["go", "functions", "math"]',
      'published');

@@ -1,0 +1,17 @@
+{
+    "title": "Go Fundamentals",
+    "slug": "go-fundamentals",
+    "language": "go",
+    "description": "Learn Go programming fundamentals with hands-on exercises",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z",
+    "featuredImage": "",
+    "tags": [
+        "go",
+        "golang",
+        "programming",
+        "fundamentals"
+    ],
+    "status": "published",
+    "createdBy": "22222222-2222-2222-2222-222222222222"
+}
