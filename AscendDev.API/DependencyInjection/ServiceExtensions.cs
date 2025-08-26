@@ -30,6 +30,12 @@ public static class ServiceExtensions
         services.AddScoped<IUserManagementService, UserManagementService>();
         services.AddScoped<IAnalyticsService, AnalyticsService>();
 
+        // Register social services
+        services.AddScoped<IDiscussionService, DiscussionService>();
+        services.AddScoped<IDiscussionReplyService, DiscussionReplyService>();
+        services.AddScoped<ICodeReviewService, CodeReviewService>();
+        services.AddScoped<ICodeReviewCommentService, CodeReviewCommentService>();
+
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtHelper, JwtHelper>();

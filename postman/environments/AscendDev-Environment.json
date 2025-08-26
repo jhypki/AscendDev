@@ -127,6 +127,30 @@
             "value": "AdminPassword123!",
             "type": "default",
             "enabled": true
+        },
+        {
+            "key": "discussionId",
+            "value": "",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "searchTerm",
+            "value": "arrays",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "codeReviewId",
+            "value": "",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "commentId",
+            "value": "",
+            "type": "default",
+            "enabled": true
         }
     ],
     "_postman_variable_scope": "environment",

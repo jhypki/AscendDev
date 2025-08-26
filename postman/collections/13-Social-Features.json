@@ -1,0 +1,379 @@
+{
+    "info": {
+        "_postman_id": "social-features-collection",
+        "name": "13 - Social Features",
+        "description": "Social features endpoints for discussions, code reviews, and community interactions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Discussions",
+            "item": [
+                {
+                    "name": "Get Discussion by ID",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has discussion data\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success', true);",
+                                    "    pm.expect(jsonData).to.have.property('data');",
+                                    "    pm.expect(jsonData.data).to.have.property('id');",
+                                    "    pm.expect(jsonData.data).to.have.property('title');",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/{{discussionId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "{{discussionId}}"
+                            ]
+                        },
+                        "description": "Get a specific discussion by ID"
+                    }
+                },
+                {
+                    "name": "Get Discussions by Lesson",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Response has discussions array\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success', true);",
+                                    "    pm.expect(jsonData).to.have.property('data');",
+                                    "    pm.expect(jsonData.data).to.be.an('array');",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/lesson/{{lessonId}}?page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "lesson",
+                                "{{lessonId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20"
+                                }
+                            ]
+                        },
+                        "description": "Get discussions for a specific lesson"
+                    }
+                },
+                {
+                    "name": "Get Pinned Discussions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/lesson/{{lessonId}}/pinned",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "lesson",
+                                "{{lessonId}}",
+                                "pinned"
+                            ]
+                        },
+                        "description": "Get pinned discussions for a lesson"
+                    }
+                },
+                {
+                    "name": "Search Discussions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/search?searchTerm={{searchTerm}}&lessonId={{lessonId}}&page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "searchTerm",
+                                    "value": "{{searchTerm}}"
+                                },
+                                {
+                                    "key": "lessonId",
+                                    "value": "{{lessonId}}"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20"
+                                }
+                            ]
+                        },
+                        "description": "Search discussions by term"
+                    }
+                },
+                {
+                    "name": "Create Discussion",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "pm.test(\"Discussion created successfully\", function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    pm.expect(jsonData).to.have.property('success', true);",
+                                    "    pm.expect(jsonData).to.have.property('data');",
+                                    "    pm.expect(jsonData.data).to.have.property('id');",
+                                    "    ",
+                                    "    // Store discussion ID for future requests",
+                                    "    pm.environment.set('discussionId', jsonData.data.id);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Need help with arrays\",\n    \"content\": \"I'm having trouble understanding how to iterate through arrays in Python. Can someone help?\",\n    \"lessonId\": \"{{lessonId}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions"
+                            ]
+                        },
+                        "description": "Create a new discussion"
+                    }
+                },
+                {
+                    "name": "Update Discussion",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Updated: Need help with arrays\",\n    \"content\": \"I'm having trouble understanding how to iterate through arrays in Python. Can someone help? I've tried using for loops but getting errors.\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/{{discussionId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "{{discussionId}}"
+                            ]
+                        },
+                        "description": "Update an existing discussion"
+                    }
+                },
+                {
+                    "name": "Delete Discussion",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/{{discussionId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "{{discussionId}}"
+                            ]
+                        },
+                        "description": "Delete a discussion"
+                    }
+                },
+                {
+                    "name": "Get Discussion Count",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/discussions/lesson/{{lessonId}}/count",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "discussions",
+                                "lesson",
+                                "{{lessonId}}",
+                                "count"
+                            ]
+                        },
+                        "description": "Get total count of discussions for a lesson"
+                    }
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{accessToken}}",
+                "type": "string"
+            }
+        ]
+    },
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Auto-refresh token if expired",
+                    "const accessToken = pm.environment.get('accessToken');",
+                    "const refreshToken = pm.environment.get('refreshToken');",
+                    "",
+                    "if (accessToken && refreshToken && pm.request.url.path.join('/') !== 'api/auth/refresh-token') {",
+                    "    try {",
+                    "        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));",
+                    "        const currentTime = Math.floor(Date.now() / 1000);",
+                    "        ",
+                    "        if (tokenPayload.exp && tokenPayload.exp < currentTime) {",
+                    "            console.log('Token expired, attempting refresh...');",
+                    "            ",
+                    "            pm.sendRequest({",
+                    "                url: pm.environment.get('baseUrl') + '/api/auth/refresh-token',",
+                    "                method: 'POST',",
+                    "                header: {",
+                    "                    'Content-Type': 'application/json'",
+                    "                },",
+                    "                body: {",
+                    "                    mode: 'raw',",
+                    "                    raw: JSON.stringify({",
+                    "                        RefreshToken: refreshToken",
+                    "                    })",
+                    "                }",
+                    "            }, function (err, response) {",
+                    "                if (err) {",
+                    "                    console.log('Token refresh failed:', err);",
+                    "                } else if (response.code === 200) {",
+                    "                    const newToken = response.json().accessToken;",
+                    "                    pm.environment.set('accessToken', newToken);",
+                    "                    console.log('Token refreshed successfully');",
+                    "                } else {",
+                    "                    console.log('Token refresh failed with status:', response.code);",
+                    "                }",
+                    "            });",
+                    "        }",
+                    "    } catch (e) {",
+                    "        console.log('Error parsing token:', e);",
+                    "    }",
+                    "}"
+                ]
+            }
+        }
+    ]
+}

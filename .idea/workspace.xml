@@ -5,36 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/BaseLanguageKeywordAnalyzer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/BaseLanguageKeywordAnalyzer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CourseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CourseRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/code_template.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/content.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/debug_test.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/debug_test_fixed.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/lesson_csharp_course_arrays.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/lesson_csharp_course_arrays.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/tests.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/course_csharp_course.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/csharp_course/course_csharp_course.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/javascript_course/course_javascript_course.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/javascript_course/course_javascript_course.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/arrays/code_template.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/arrays/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/arrays/content.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/arrays/lesson_python_course_arrays.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/python_course/arrays/lesson_python_course_arrays.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/arrays/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/python_course/course_python_course.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/python_course/course_python_course.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/code_template.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/content.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/lesson_typescript_course_arrays.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/lesson_typescript_course_arrays.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/arrays/tests.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/code_template.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/content.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/lesson_typescript_course_basic_math.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/lesson_typescript_course_basic_math.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/basic_math/tests.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/typescript_course/course_typescript_course.json" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/courses/typescript_course/course_typescript_course.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/upload-to-db.js" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/upload-to-db.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
