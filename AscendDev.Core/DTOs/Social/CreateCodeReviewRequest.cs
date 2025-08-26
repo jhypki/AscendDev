@@ -11,6 +11,5 @@ public class CreateCodeReviewRequest
     public Guid RevieweeId { get; set; }
 
     [Required]
-    [StringLength(10000, MinimumLength = 10)]
-    public string CodeSolution { get; set; } = null!;
+    public int SubmissionId { get; set; }
 }

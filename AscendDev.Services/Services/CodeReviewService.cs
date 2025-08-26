@@ -11,13 +11,19 @@ namespace AscendDev.Services.Services;
 public class CodeReviewService : ICodeReviewService
 {
     private readonly ICodeReviewRepository _codeReviewRepository;
+    private readonly ISubmissionRepository _submissionRepository;
+    private readonly ISubmissionService _submissionService;
     private readonly ILogger<CodeReviewService> _logger;
 
     public CodeReviewService(
         ICodeReviewRepository codeReviewRepository,
+        ISubmissionRepository submissionRepository,
+        ISubmissionService submissionService,
         ILogger<CodeReviewService> logger)
     {
         _codeReviewRepository = codeReviewRepository;
+        _submissionRepository = submissionRepository;
+        _submissionService = submissionService;
         _logger = logger;
     }
 
@@ -26,7 +32,7 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReview = await _codeReviewRepository.GetByIdAsync(id);
-            return codeReview != null ? MapToResponse(codeReview) : null;
+            return codeReview != null ? await MapToResponseAsync(codeReview) : null;
         }
         catch (Exception ex)
         {
@@ -43,7 +49,14 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReviews = await _codeReviewRepository.GetByLessonIdAsync(lessonId, page, pageSize);
-            return codeReviews.Select(MapToResponse);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
         }
         catch (Exception ex)
         {
@@ -57,7 +70,14 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReviews = await _codeReviewRepository.GetByReviewerIdAsync(reviewerId, page, pageSize);
-            return codeReviews.Select(MapToResponse);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
         }
         catch (Exception ex)
         {
@@ -71,7 +91,14 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReviews = await _codeReviewRepository.GetByRevieweeIdAsync(revieweeId, page, pageSize);
-            return codeReviews.Select(MapToResponse);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
         }
         catch (Exception ex)
         {
@@ -85,7 +112,14 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReviews = await _codeReviewRepository.GetByStatusAsync(status, page, pageSize);
-            return codeReviews.Select(MapToResponse);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
         }
         catch (Exception ex)
         {
@@ -104,19 +138,30 @@ public class CodeReviewService : ICodeReviewService
 
         try
         {
+            // Verify submission exists and belongs to the reviewee
+            var submission = await _submissionRepository.GetByIdAsync(request.SubmissionId);
+            if (submission == null)
+                throw new NotFoundException("Submission", request.SubmissionId.ToString());
+
+            if (submission.UserId != request.RevieweeId)
+                throw new BadRequestException("Submission does not belong to the specified reviewee");
+
+            if (submission.LessonId != request.LessonId)
+                throw new BadRequestException("Submission lesson does not match the specified lesson");
+
             var codeReview = new CodeReview
             {
                 Id = Guid.NewGuid(),
                 LessonId = request.LessonId,
                 ReviewerId = reviewerId,
                 RevieweeId = request.RevieweeId,
-                CodeSolution = request.CodeSolution,
+                SubmissionId = request.SubmissionId,
                 Status = CodeReviewStatus.Pending,
                 CreatedAt = DateTime.UtcNow
             };
 
             var createdCodeReview = await _codeReviewRepository.CreateAsync(codeReview);
-            return MapToResponse(createdCodeReview);
+            return await MapToResponseAsync(createdCodeReview);
         }
         catch (Exception ex)
         {
@@ -153,19 +198,30 @@ public class CodeReviewService : ICodeReviewService
                 }
             }
 
-            if (!string.IsNullOrEmpty(request.CodeSolution))
+            if (request.SubmissionId.HasValue)
             {
-                // Only reviewee can update code solution
+                // Only reviewee can update submission
                 if (existingCodeReview.RevieweeId != userId)
-                    throw new UnauthorizedException("Only the reviewee can update the code solution");
+                    throw new UnauthorizedException("Only the reviewee can update the submission");
 
-                existingCodeReview.CodeSolution = request.CodeSolution;
+                // Verify new submission exists and belongs to the reviewee
+                var submission = await _submissionRepository.GetByIdAsync(request.SubmissionId.Value);
+                if (submission == null)
+                    throw new NotFoundException("Submission", request.SubmissionId.Value.ToString());
+
+                if (submission.UserId != existingCodeReview.RevieweeId)
+                    throw new BadRequestException("Submission does not belong to the reviewee");
+
+                if (submission.LessonId != existingCodeReview.LessonId)
+                    throw new BadRequestException("Submission lesson does not match the code review lesson");
+
+                existingCodeReview.SubmissionId = request.SubmissionId.Value;
             }
 
             existingCodeReview.UpdatedAt = DateTime.UtcNow;
 
             var updatedCodeReview = await _codeReviewRepository.UpdateAsync(existingCodeReview);
-            return MapToResponse(updatedCodeReview);
+            return await MapToResponseAsync(updatedCodeReview);
         }
         catch (Exception ex)
         {
@@ -242,7 +298,14 @@ public class CodeReviewService : ICodeReviewService
         try
         {
             var codeReviews = await _codeReviewRepository.GetPendingReviewsAsync(page, pageSize);
-            return codeReviews.Select(MapToResponse);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
         }
         catch (Exception ex)
         {
@@ -251,15 +314,18 @@ public class CodeReviewService : ICodeReviewService
         }
     }
 
-    private static CodeReviewResponse MapToResponse(CodeReview codeReview)
+    private async Task<CodeReviewResponse> MapToResponseAsync(CodeReview codeReview)
     {
+        var submissionResponse = await _submissionService.GetSubmissionByIdAsync(codeReview.SubmissionId);
+
         return new CodeReviewResponse
         {
             Id = codeReview.Id,
             LessonId = codeReview.LessonId,
             ReviewerId = codeReview.ReviewerId,
             RevieweeId = codeReview.RevieweeId,
-            CodeSolution = codeReview.CodeSolution,
+            SubmissionId = codeReview.SubmissionId,
+            Submission = submissionResponse,
             Status = codeReview.Status,
             CreatedAt = codeReview.CreatedAt,
             UpdatedAt = codeReview.UpdatedAt,

@@ -9,7 +9,7 @@ public class CodeReview
     public string LessonId { get; set; } = null!;
     public Guid ReviewerId { get; set; }
     public Guid RevieweeId { get; set; }
-    public string CodeSolution { get; set; } = null!;
+    public int SubmissionId { get; set; }
     public CodeReviewStatus Status { get; set; } = CodeReviewStatus.Pending;
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
@@ -19,6 +19,7 @@ public class CodeReview
     public User Reviewer { get; set; } = null!;
     public User Reviewee { get; set; } = null!;
     public Lesson Lesson { get; set; } = null!;
+    public Submission Submission { get; set; } = null!;
     public List<CodeReviewComment> Comments { get; set; } = new();
 
     // Computed Properties

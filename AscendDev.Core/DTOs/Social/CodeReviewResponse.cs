@@ -1,4 +1,5 @@
 using AscendDev.Core.DTOs.Auth;
+using AscendDev.Core.DTOs.Courses;
 using AscendDev.Core.Models.Social;
 
 namespace AscendDev.Core.DTOs.Social;
@@ -9,7 +10,8 @@ public class CodeReviewResponse
     public string LessonId { get; set; } = null!;
     public Guid ReviewerId { get; set; }
     public Guid RevieweeId { get; set; }
-    public string CodeSolution { get; set; } = null!;
+    public int SubmissionId { get; set; }
+    public SubmissionResponse? Submission { get; set; }
     public CodeReviewStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

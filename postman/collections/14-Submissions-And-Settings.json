@@ -1,0 +1,327 @@
+{
+    "info": {
+        "_postman_id": "14-submissions-settings-uuid",
+        "name": "14 - Submissions and User Settings",
+        "description": "Collection for testing submission retrieval and user settings management endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Submissions",
+            "item": [
+                {
+                    "name": "Get Public Submissions for Lesson",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/lesson/{{lessonId}}/public?limit=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "lesson",
+                                "{{lessonId}}",
+                                "public"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Maximum number of submissions to return (default: 50, max: 100)"
+                                }
+                            ]
+                        },
+                        "description": "Retrieve public submissions for a specific lesson. Only returns submissions from users who have enabled public submissions and passed the lesson."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User Public Submissions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/user/{{userId}}/public?limit=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "user",
+                                "{{userId}}",
+                                "public"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Maximum number of submissions to return (default: 50, max: 100)"
+                                }
+                            ]
+                        },
+                        "description": "Retrieve public submissions for a specific user. Only returns submissions that passed and are from a user with public submissions enabled."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get My Submissions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/my",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "my"
+                            ]
+                        },
+                        "description": "Get all submissions for the authenticated user. Requires authentication."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Submission by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/{{submissionId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "{{submissionId}}"
+                            ]
+                        },
+                        "description": "Get a specific submission by ID. Users can only view their own submissions."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get My Submission Stats",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/my/stats",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "my",
+                                "stats"
+                            ]
+                        },
+                        "description": "Get submission statistics for the authenticated user including total submissions, passed submissions, and success rate."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Submission",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/submissions/{{submissionId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "submissions",
+                                "{{submissionId}}"
+                            ]
+                        },
+                        "description": "Delete a specific submission. Users can only delete their own submissions."
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Endpoints for managing and retrieving code submissions"
+        },
+        {
+            "name": "User Settings",
+            "item": [
+                {
+                    "name": "Get User Settings",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/usersettings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "usersettings"
+                            ]
+                        },
+                        "description": "Get the current user's settings. Creates default settings if none exist."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update User Settings",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"publicSubmissions\": true,\n  \"showProfile\": true,\n  \"emailOnCodeReview\": true,\n  \"emailOnDiscussionReply\": false\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/usersettings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "usersettings"
+                            ]
+                        },
+                        "description": "Update the current user's settings including privacy and notification preferences."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Check Public Submissions Enabled",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/usersettings/{{userId}}/public-submissions-enabled",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "usersettings",
+                                "{{userId}}",
+                                "public-submissions-enabled"
+                            ]
+                        },
+                        "description": "Check if a specific user has public submissions enabled. This endpoint is public and doesn't require authentication."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete User Settings",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/usersettings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "usersettings"
+                            ]
+                        },
+                        "description": "Delete the current user's settings (resets to defaults)."
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Endpoints for managing user settings including privacy and notification preferences"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "lessonId",
+            "value": "python-arrays",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "33333333-3333-3333-3333-333333333333",
+            "type": "string"
+        },
+        {
+            "key": "submissionId",
+            "value": "1",
+            "type": "string"
+        }
+    ]
+}

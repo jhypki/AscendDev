@@ -113,21 +113,25 @@ public class DiscussionRepository : IDiscussionRepository
             VALUES (@Id, @LessonId, @UserId, @Title, @Content, @CreatedAt, @IsPinned, @IsLocked, @ViewCount)
             RETURNING *";
 
-        var result = await _sqlExecutor.QueryFirstAsync<Discussion>(sql, discussion);
-        return result;
+        var insertedDiscussion = await _sqlExecutor.QueryFirstAsync<Discussion>(sql, discussion);
+
+        // Now fetch the discussion with user data
+        return await GetByIdAsync(insertedDiscussion.Id) ?? insertedDiscussion;
     }
 
     public async Task<Discussion> UpdateAsync(Discussion discussion)
     {
         var sql = @"
-            UPDATE discussions 
-            SET title = @Title, content = @Content, updated_at = @UpdatedAt, 
+            UPDATE discussions
+            SET title = @Title, content = @Content, updated_at = @UpdatedAt,
                 is_pinned = @IsPinned, is_locked = @IsLocked
             WHERE id = @Id
             RETURNING *";
 
-        var result = await _sqlExecutor.QueryFirstAsync<Discussion>(sql, discussion);
-        return result;
+        var updatedDiscussion = await _sqlExecutor.QueryFirstAsync<Discussion>(sql, discussion);
+
+        // Now fetch the discussion with user data
+        return await GetByIdAsync(updatedDiscussion.Id) ?? updatedDiscussion;
     }
 
     public async Task<bool> DeleteAsync(Guid id)

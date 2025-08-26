@@ -7,6 +7,7 @@ using AscendDev.Core.Models.CodeExecution;
 using AscendDev.Core.Models.Courses;
 using AscendDev.Core.Models.TestsExecution.KeywordValidation;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace AscendDev.Services.Services;
 
@@ -15,7 +16,7 @@ public class CodeTestService : ICodeTestService
     private readonly ITestsExecutor _testsExecutor;
     private readonly ILessonRepository _lessonRepository;
     private readonly ICodeSanitizerFactory _sanitizerFactory;
-    private readonly IUserProgressService _userProgressService;
+    private readonly ISubmissionService _submissionService;
     private readonly IKeywordValidationService _keywordValidationService;
     private readonly ILogger<CodeTestService> _logger;
 
@@ -23,14 +24,14 @@ public class CodeTestService : ICodeTestService
         ITestsExecutor testsExecutor,
         ILessonRepository lessonRepository,
         ICodeSanitizerFactory sanitizerFactory,
-        IUserProgressService userProgressService,
+        ISubmissionService submissionService,
         IKeywordValidationService keywordValidationService,
         ILogger<CodeTestService> logger)
     {
         _testsExecutor = testsExecutor ?? throw new ArgumentNullException(nameof(testsExecutor));
         _lessonRepository = lessonRepository ?? throw new ArgumentNullException(nameof(lessonRepository));
         _sanitizerFactory = sanitizerFactory ?? throw new ArgumentNullException(nameof(sanitizerFactory));
-        _userProgressService = userProgressService ?? throw new ArgumentNullException(nameof(userProgressService));
+        _submissionService = submissionService ?? throw new ArgumentNullException(nameof(submissionService));
         _keywordValidationService = keywordValidationService ?? throw new ArgumentNullException(nameof(keywordValidationService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -77,18 +78,31 @@ public class CodeTestService : ICodeTestService
             // Add keyword validation result to the test result
             result.KeywordValidation = keywordValidationResult;
 
-            // If tests passed and we have a user ID, track the progress
-            if (result.Success && userId.HasValue)
+            // Save submission if we have a user ID (regardless of pass/fail)
+            if (userId.HasValue)
             {
                 try
                 {
-                    await _userProgressService.MarkLessonAsCompletedAsync(userId.Value, lessonId, userCode);
-                    _logger.LogInformation("Marked lesson {LessonId} as completed for user {UserId}", lessonId, userId.Value);
+                    var submission = new Submission
+                    {
+                        UserId = userId.Value,
+                        LessonId = lessonId,
+                        Code = sanitizedCode,
+                        Passed = result.Success,
+                        SubmittedAt = DateTime.UtcNow,
+                        TestResults = JsonSerializer.Serialize(result.TestResults),
+                        ExecutionTimeMs = (int)(result.Performance?.ExecutionTimeMs ?? 0),
+                        ErrorMessage = result.Success ? null : GetErrorMessage(result)
+                    };
+
+                    await _submissionService.CreateSubmissionAsync(submission);
+                    _logger.LogInformation("Saved submission for lesson {LessonId} by user {UserId} (Passed: {Passed})",
+                        lessonId, userId.Value, result.Success);
                 }
                 catch (Exception ex)
                 {
-                    // Don't fail the test if progress tracking fails
-                    _logger.LogError(ex, "Failed to track progress for user {UserId} on lesson {LessonId}", userId.Value, lessonId);
+                    // Don't fail the test if submission saving fails
+                    _logger.LogError(ex, "Failed to save submission for user {UserId} on lesson {LessonId}", userId.Value, lessonId);
                 }
             }
 
@@ -131,5 +145,17 @@ public class CodeTestService : ICodeTestService
                 ValidationMessage = $"Error during keyword validation: {ex.Message}"
             };
         }
+    }
+
+    private static string GetErrorMessage(TestResult result)
+    {
+        if (result.TestResults == null || !result.TestResults.Any())
+            return "No test results available";
+
+        var failedTests = result.TestResults.Where(t => !t.Passed).ToList();
+        if (!failedTests.Any())
+            return null;
+
+        return string.Join("; ", failedTests.Select(t => $"{t.TestName}: {t.Message}"));
     }
 }

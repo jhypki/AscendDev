@@ -100,18 +100,41 @@ CREATE TABLE lessons (
     status VARCHAR(50) NOT NULL DEFAULT 'draft'
 );
 
-CREATE TABLE user_progress (
+-- User Settings Table
+CREATE TABLE user_settings (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    public_submissions BOOLEAN NOT NULL DEFAULT FALSE,
+    show_profile BOOLEAN NOT NULL DEFAULT TRUE,
+    email_on_code_review BOOLEAN NOT NULL DEFAULT TRUE,
+    email_on_discussion_reply BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE,
+    UNIQUE(user_id)
+);
+
+-- Submissions Table (replaces user_progress)
+CREATE TABLE submissions (
     id SERIAL PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
-    completed_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    code_solution TEXT,
-    UNIQUE(user_id, lesson_id)
+    code TEXT NOT NULL,
+    passed BOOLEAN NOT NULL DEFAULT FALSE,
+    submitted_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    test_results TEXT,
+    execution_time_ms INTEGER DEFAULT 0,
+    error_message TEXT
 );
 
 -- Indexes for faster lookups
-CREATE INDEX idx_user_progress_user_id ON user_progress(user_id);
-CREATE INDEX idx_user_progress_lesson_id ON user_progress(lesson_id);
+CREATE INDEX idx_submissions_user_id ON submissions(user_id);
+CREATE INDEX idx_submissions_lesson_id ON submissions(lesson_id);
+CREATE INDEX idx_submissions_user_lesson ON submissions(user_id, lesson_id);
+CREATE INDEX idx_submissions_passed ON submissions(passed);
+CREATE INDEX idx_submissions_submitted_at ON submissions(submitted_at DESC);
+
+CREATE INDEX idx_user_settings_user_id ON user_settings(user_id);
+CREATE INDEX idx_user_settings_public_submissions ON user_settings(public_submissions);
 
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
@@ -174,7 +197,7 @@ CREATE TABLE code_reviews (
     lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
     reviewer_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     reviewee_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    code_solution TEXT NOT NULL,
+    submission_id INTEGER NOT NULL REFERENCES submissions(id) ON DELETE CASCADE,
     status VARCHAR(50) DEFAULT 'pending', -- pending, approved, changes_requested, completed
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
