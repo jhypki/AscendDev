@@ -4,7 +4,7 @@ FROM python:3.11-alpine
 WORKDIR /app
 
 # Copy environment files
-COPY ./environments/testers/python/ /app/
+COPY . /app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt

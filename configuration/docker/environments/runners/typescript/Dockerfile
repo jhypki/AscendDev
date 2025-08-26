@@ -3,8 +3,11 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Install TypeScript globally
+RUN npm install -g typescript ts-node
+
 # Copy environment files
-COPY ./environments/runners/javascript/ /app/
+COPY . /app/
 
 # Create a directory for code
 RUN mkdir -p /app/code

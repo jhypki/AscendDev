@@ -1,19 +1,19 @@
-FROM node:20-alpine
+FROM python:3.11-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install TypeScript globally
-RUN npm install -g typescript ts-node
-
 # Copy environment files
-COPY ./environments/runners/typescript/ /app/
+COPY . /app/
 
 # Create a directory for code
 RUN mkdir -p /app/code
+
+# Install dependencies
+RUN pip install --no-cache-dir pytest pytest-json-report
 
 # Set permissions for scripts
 RUN chmod +x /app/run-code.sh
 
 # Set default command
-CMD ["node", "--version"]
+CMD ["python", "--version"]
