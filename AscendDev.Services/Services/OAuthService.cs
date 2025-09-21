@@ -40,15 +40,32 @@ public class OAuthService : IOAuthService
 
     public async Task<OAuthUserInfo> GetUserInfoAsync(string provider, string code, string? redirectUri = null)
     {
-        var oauthProvider = GetProvider(provider);
-        var tokenResponse = await oauthProvider.ExchangeCodeForTokenAsync(code, redirectUri);
-        return await oauthProvider.GetUserInfoAsync(tokenResponse.AccessToken);
+        try
+        {
+            _logger.LogDebug("Getting user info for provider: {Provider}, RedirectUri: {RedirectUri}",
+                provider, redirectUri);
+
+            var oauthProvider = GetProvider(provider);
+            var tokenResponse = await oauthProvider.ExchangeCodeForTokenAsync(code, redirectUri);
+
+            _logger.LogDebug("Successfully obtained access token for provider: {Provider}", provider);
+
+            return await oauthProvider.GetUserInfoAsync(tokenResponse.AccessToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to get user info for provider: {Provider}", provider);
+            throw;
+        }
     }
 
     public async Task<AuthResult> LoginWithOAuthAsync(OAuthLoginRequest request)
     {
         try
         {
+            _logger.LogInformation("Starting OAuth login for provider: {Provider}, RedirectUri: {RedirectUri}",
+                request.Provider, request.RedirectUri);
+
             var userInfo = await GetUserInfoAsync(request.Provider, request.Code, request.RedirectUri);
 
             // Try to find existing user by OAuth provider

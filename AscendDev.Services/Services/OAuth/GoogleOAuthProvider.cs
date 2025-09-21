@@ -77,22 +77,48 @@ public class GoogleOAuthProvider : IOAuthProvider
 
         try
         {
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            _logger.LogDebug("Exchanging Google OAuth code for token. RedirectUri: {RedirectUri}", actualRedirectUri);
 
+            var response = await _httpClient.SendAsync(request);
             var responseContent = await response.Content.ReadAsStringAsync();
+
+            _logger.LogDebug("Google token response status: {StatusCode}, Content: {Content}",
+                response.StatusCode, responseContent);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Google OAuth token request failed with status {StatusCode}: {Content}",
+                    response.StatusCode, responseContent);
+                throw new InvalidOperationException($"Google OAuth request failed with status {response.StatusCode}");
+            }
+
             var tokenData = JsonSerializer.Deserialize<JsonElement>(responseContent);
 
             if (tokenData.TryGetProperty("error", out var error))
             {
                 var errorDescription = tokenData.TryGetProperty("error_description", out var desc)
                     ? desc.GetString() : "Unknown error";
+                _logger.LogError("Google OAuth error response: {Error} - {Description}",
+                    error.GetString(), errorDescription);
                 throw new InvalidOperationException($"Google OAuth error: {error.GetString()} - {errorDescription}");
+            }
+
+            if (!tokenData.TryGetProperty("access_token", out var accessTokenProperty))
+            {
+                _logger.LogError("Google OAuth response missing access_token: {Content}", responseContent);
+                throw new InvalidOperationException("Google OAuth response missing access_token");
+            }
+
+            var accessToken = accessTokenProperty.GetString();
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                _logger.LogError("Google OAuth returned empty access_token");
+                throw new InvalidOperationException("Google OAuth returned empty access_token");
             }
 
             return new OAuthTokenResponse
             {
-                AccessToken = tokenData.GetProperty("access_token").GetString()!,
+                AccessToken = accessToken,
                 RefreshToken = tokenData.TryGetProperty("refresh_token", out var refreshToken)
                     ? refreshToken.GetString() : null,
                 TokenType = tokenData.TryGetProperty("token_type", out var tokenType)
@@ -105,7 +131,8 @@ public class GoogleOAuthProvider : IOAuthProvider
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to exchange Google OAuth code for token");
+            _logger.LogError(ex, "Failed to exchange Google OAuth code for token. Code: {Code}, RedirectUri: {RedirectUri}",
+                code?.Substring(0, Math.Min(code.Length, 10)) + "...", actualRedirectUri);
             throw new InvalidOperationException("Failed to obtain access token from Google", ex);
         }
     }

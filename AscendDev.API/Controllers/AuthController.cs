@@ -56,4 +56,16 @@ public class AuthController(IAuthService authService) : ControllerBase
         await authService.RevokeRefreshTokenAsync(revokeTokenRequest.RefreshToken);
         return Ok("Token revoked successfully.");
     }
+
+    [HttpPost("logout")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Logout([FromBody] LogoutRequest? request = null)
+    {
+        await authService.LogoutAsync(request?.RefreshToken);
+        return Ok(new { message = "Logged out successfully" });
+    }
 }

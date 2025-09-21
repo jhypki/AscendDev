@@ -1,0 +1,98 @@
+import { AppShell, Group, Text, UnstyledButton, rem } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { IconHome, IconBook, IconUser, IconSettings, IconLogout } from '@tabler/icons-react'
+import { useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
+import type { RootState } from '../../store'
+import { useLogout } from '../../hooks/api/useAuth'
+import { Header } from './Header'
+import { Navigation } from './Navigation'
+import { Footer } from './Footer'
+import { ThemeToggle } from './ThemeToggle'
+
+interface AppLayoutProps {
+    children: React.ReactNode
+}
+
+export function AppLayout({ children }: AppLayoutProps) {
+    const [opened, { toggle }] = useDisclosure()
+    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const logoutMutation = useLogout()
+
+    const handleLogout = async () => {
+        try {
+            await logoutMutation.mutateAsync()
+            navigate('/login', { replace: true })
+        } catch {
+            // Even if logout fails on server, redirect to login
+            navigate('/login', { replace: true })
+        }
+    }
+
+    const navigationItems = [
+        { icon: IconHome, label: 'Dashboard', href: '/dashboard' },
+        { icon: IconBook, label: 'Courses', href: '/courses' },
+        { icon: IconUser, label: 'Profile', href: '/profile' },
+        { icon: IconSettings, label: 'Settings', href: '/settings' },
+    ]
+
+    if (!isAuthenticated) {
+        return <>{children}</>
+    }
+
+    return (
+        <AppShell
+            header={{ height: 60 }}
+            navbar={{
+                width: 300,
+                breakpoint: 'sm',
+                collapsed: { mobile: !opened },
+            }}
+            padding="md"
+        >
+            <AppShell.Header>
+                <Header opened={opened} toggle={toggle} user={user} />
+            </AppShell.Header>
+
+            <AppShell.Navbar p="md">
+                <AppShell.Section grow>
+                    <Navigation
+                        items={navigationItems}
+                        currentPath={location.pathname}
+                        onNavigate={(href: string) => {
+                            navigate(href)
+                            if (opened) toggle() // Close mobile menu after navigation
+                        }}
+                    />
+                </AppShell.Section>
+
+                <AppShell.Section>
+                    <Group justify="space-between" p="md">
+                        <ThemeToggle />
+                        <UnstyledButton
+                            onClick={handleLogout}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: rem(8),
+                                padding: rem(8),
+                                borderRadius: rem(4),
+                                color: 'var(--mantine-color-red-6)',
+                            }}
+                        >
+                            <IconLogout size={16} />
+                            <Text size="sm">Logout</Text>
+                        </UnstyledButton>
+                    </Group>
+                </AppShell.Section>
+            </AppShell.Navbar>
+
+            <AppShell.Main>
+                {children}
+                <Footer />
+            </AppShell.Main>
+        </AppShell>
+    )
+}

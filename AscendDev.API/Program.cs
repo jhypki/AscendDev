@@ -22,7 +22,7 @@ builder.Services.AddDatabaseServices();
 builder.Services.AddRepositories();
 
 // Add application services
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddUtilities();
 
 // Add CORS policy

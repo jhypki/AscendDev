@@ -5,31 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/CodeExecution/CodeSanitizerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core.Test/CodeExecution/CodeSanitizerTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/LanguageStrategiesExtensionsTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/LanguageStrategiesExtensionsTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core.Test/TestsExecution/Strategies/CSharpStrategyTests.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/CodeSanitizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/CodeSanitizer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/Sanitizers/CSharpSanitizer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/Strategies/CSharpExecutionStrategy.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Constants/DockerImages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Constants/DockerImages.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Constants/SupportedLanguages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Constants/SupportedLanguages.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerContainerPool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerContainerPool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/KeywordValidationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/KeywordValidationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/KeywordValidation/LanguageAnalyzers/CSharpKeywordAnalyzer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/LanguageStrategiesExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/LanguageStrategiesExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/CSharpStrategy.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/arrays/lesson_csharp_course_arrays.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/course_csharp_course.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/courses/csharp_course/methods/lesson_csharp_course_methods.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/TrxToJson.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/TrxToJson.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/run-tests.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/testers/csharp/run-tests.sh.improved" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/build-and-push-docker-images.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build-and-push-docker-images.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.roo/mcp.json" beforeDir="false" afterPath="$PROJECT_DIR$/.roo/mcp.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GitHubOAuthProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GitHubOAuthProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GoogleOAuthProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GoogleOAuthProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuthService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

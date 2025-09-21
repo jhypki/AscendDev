@@ -13,5 +13,7 @@ public interface IAuthService
 
     Task RevokeRefreshTokenAsync(string token);
 
+    Task LogoutAsync(string? refreshToken = null);
+
     Task<AuthResult> GenerateAuthResultAsync(User user);
 }

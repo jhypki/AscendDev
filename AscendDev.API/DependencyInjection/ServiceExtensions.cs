@@ -4,10 +4,12 @@ using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Interfaces.TestsExecution;
 using AscendDev.Core.Interfaces.Utils;
+using AscendDev.Core.Models.Configuration;
 using AscendDev.Core.TestsExecution;
 using AscendDev.Core.TestsExecution.KeywordValidation;
 using AscendDev.Data.Repositories;
 using AscendDev.Services.Services;
+using AscendDev.Services.Services.OAuth;
 using AscendDev.Services.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,10 +17,21 @@ namespace AscendDev.API.DependencyInjection;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // Register HttpClient first (required by OAuth providers)
+        services.AddHttpClient();
+
+        // Configure OAuth settings
+        services.Configure<OAuthSettings>(configuration.GetSection(OAuthSettings.SectionName));
+
+        // Register OAuth providers (after HttpClient)
+        services.AddScoped<IOAuthProvider, GoogleOAuthProvider>();
+        services.AddScoped<IOAuthProvider, GitHubOAuthProvider>();
+
         // Register services
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IOAuthService, OAuthService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ILessonService, LessonService>();
         services.AddScoped<ICachingService, CachingService>();

@@ -98,6 +98,33 @@ public class AuthService(
         }
     }
 
+    public async Task LogoutAsync(string? refreshToken = null)
+    {
+        try
+        {
+            // If refresh token is provided, revoke it
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                var token = await refreshTokenRepository.GetByTokenAsync(refreshToken);
+                if (token != null)
+                {
+                    await refreshTokenRepository.RevokeAsync(refreshToken,
+                        httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? "Unknown");
+
+                    logger.LogInformation("Refresh token revoked during logout for user {UserId}", token.UserId);
+                }
+            }
+
+            // Additional logout logic can be added here (e.g., blacklist JWT tokens, clear sessions, etc.)
+            logger.LogInformation("User logged out successfully");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error during logout process");
+            // Don't throw - logout should succeed even if token revocation fails
+        }
+    }
+
     public async Task<AuthResult> GenerateAuthResultAsync(User user)
     {
         var (accessToken, refreshToken) = await GenerateTokensAsync(user);
