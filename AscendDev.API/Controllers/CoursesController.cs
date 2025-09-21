@@ -6,6 +6,7 @@ using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Models.Courses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AscendDev.API.Controllers;
 
@@ -13,19 +14,19 @@ namespace AscendDev.API.Controllers;
 [ApiController]
 [ValidateModel]
 [Authorize]
-public class CoursesController(ICourseService courseService, ILessonService lessonService) : ControllerBase
+public class CoursesController(ICourseService courseService, ILessonService lessonService, IUserProgressService userProgressService) : ControllerBase
 {
     #region Course CRUD Operations
 
     [HttpGet]
-    [ProducesResponseType(typeof(List<Course>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedCoursesResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllCourses()
+    public async Task<IActionResult> GetAllCourses([FromQuery] CourseQueryRequest request)
     {
-        var courses = await courseService.GetAllCourses();
+        var courses = await courseService.GetCoursesAsync(request);
         return Ok(courses);
     }
 
@@ -420,4 +421,109 @@ public class CoursesController(ICourseService courseService, ILessonService less
     }
 
     #endregion
+
+    #region User Progress
+
+    /// <summary>
+    /// Get user progress for a specific course
+    /// </summary>
+    [HttpGet("{courseId}/progress")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetCourseProgress(string courseId)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID");
+        }
+
+        // Get course to verify it exists and get lesson count
+        var course = await courseService.GetCourseById(courseId);
+        if (course == null)
+        {
+            return NotFound("Course not found");
+        }
+
+        // Get lessons for the course
+        var lessons = await lessonService.GetLessonsByCourseId(courseId);
+        var totalLessons = lessons.Count;
+
+        // Get user progress for this course
+        var completedCount = await userProgressService.GetCompletedLessonCountForCourseAsync(userId, courseId);
+        var completionPercentage = await userProgressService.GetCourseCompletionPercentageAsync(userId, courseId);
+
+        // Get all user progress to determine which specific lessons are completed
+        var userProgress = await userProgressService.GetUserProgressAsync(userId);
+        var completedLessonIds = userProgress
+            .Where(p => lessons.Any(l => l.Id == p.LessonId))
+            .Select(p => p.LessonId)
+            .ToList();
+
+        var progressResponse = new
+        {
+            CourseId = courseId,
+            UserId = userId,
+            TotalLessons = totalLessons,
+            CompletedLessons = completedCount,
+            CompletionPercentage = completionPercentage,
+            CompletedLessonIds = completedLessonIds
+        };
+
+        return Ok(progressResponse);
+    }
+
+    /// <summary>
+    /// Mark a lesson as completed
+    /// </summary>
+    [HttpPost("{courseId}/lessons/{lessonId}/complete")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> MarkLessonCompleted(string courseId, string lessonId, [FromBody] MarkLessonCompletedRequest request)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID");
+        }
+
+        // Verify lesson exists and belongs to the course
+        var lesson = await lessonService.GetLessonById(lessonId);
+        if (lesson == null || lesson.CourseId != courseId)
+        {
+            return NotFound("Lesson not found in this course");
+        }
+
+        // Check if already completed
+        var isCompleted = await userProgressService.HasUserCompletedLessonAsync(userId, lessonId);
+        if (isCompleted)
+        {
+            return BadRequest("Lesson already completed");
+        }
+
+        // Mark as completed (use 0 as submission ID for manual completion)
+        var progress = await userProgressService.MarkLessonAsCompletedAsync(userId, lessonId, 0);
+
+        return Ok(new
+        {
+            LessonId = lessonId,
+            CompletedAt = progress.CompletedAt,
+            Message = "Lesson marked as completed"
+        });
+    }
+
+    #endregion
+}
+
+public class MarkLessonCompletedRequest
+{
+    public string? CodeSolution { get; set; }
 }

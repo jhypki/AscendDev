@@ -1,6 +1,7 @@
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Models.Courses;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
 
 namespace AscendDev.Data.Repositories;
 
@@ -445,5 +446,72 @@ public class CourseRepository(
             logger.LogError(ex, "Error getting course statistics");
             throw new Exception("Error getting course statistics", ex);
         }
+    }
+
+    // Extended methods for analytics
+    public async Task<int> CountAsync()
+    {
+        const string query = "SELECT COUNT(*) FROM courses";
+        try
+        {
+            return await sql.QueryFirstAsync<int>(query);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error counting courses");
+            throw new Exception("Error counting courses", ex);
+        }
+    }
+
+    public async Task<int> CountAsync(Expression<Func<Course, bool>> predicate)
+    {
+        // Simplified implementation for common cases
+        if (predicate.Body is BinaryExpression binaryExpr)
+        {
+            // Handle status comparison
+            if (binaryExpr.Left is MemberExpression memberExpr && memberExpr.Member.Name == "Status" &&
+                binaryExpr.Right is ConstantExpression constantExpr && constantExpr.Value is string status)
+            {
+                const string query = "SELECT COUNT(*) FROM courses WHERE status = @Status";
+                try
+                {
+                    return await sql.QueryFirstAsync<int>(query, new { Status = status });
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error counting courses by status {Status}", status);
+                    throw new Exception($"Error counting courses by status {status}", ex);
+                }
+            }
+
+            // Handle date comparison for CreatedAt
+            if (binaryExpr.Left is MemberExpression dateMember && dateMember.Member.Name == "CreatedAt" &&
+                binaryExpr.NodeType == ExpressionType.GreaterThanOrEqual &&
+                binaryExpr.Right is ConstantExpression dateConstant && dateConstant.Value is DateTime date)
+            {
+                const string query = "SELECT COUNT(*) FROM courses WHERE created_at >= @Date AND created_at < @EndDate";
+                try
+                {
+                    return await sql.QueryFirstAsync<int>(query, new { Date = date, EndDate = date.AddDays(1) });
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error counting courses by date");
+                    throw new Exception("Error counting courses by date", ex);
+                }
+            }
+        }
+
+        // Fallback - get all courses and filter in memory
+        logger.LogWarning("Using inefficient in-memory filtering for course count");
+        var allCourses = await GetAll();
+        return allCourses?.Where(predicate.Compile()).Count() ?? 0;
+    }
+
+    public IQueryable<Course> GetQueryable()
+    {
+        // Simplified implementation - return empty queryable
+        // In a real EF Core scenario, this would return the DbSet
+        return new List<Course>().AsQueryable();
     }
 }

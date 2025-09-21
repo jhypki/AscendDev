@@ -11,7 +11,7 @@ public class UserProgressRepository(
     public async Task<List<UserProgress>> GetByUserId(Guid userId)
     {
         const string query = """
-                                 SELECT p.id, p.user_id, p.lesson_id, p.completed_at, p.code_solution,
+                                 SELECT p.id, p.user_id, p.lesson_id, p.completed_at, p.submission_id,
                                         l.title as lesson_title, l.course_id
                                  FROM user_progress p
                                  JOIN lessons l ON p.lesson_id = l.id
@@ -34,7 +34,7 @@ public class UserProgressRepository(
     public async Task<List<UserProgress>> GetByLessonId(string lessonId)
     {
         const string query = """
-                                 SELECT p.id, p.user_id, p.lesson_id, p.completed_at, p.code_solution,
+                                 SELECT p.id, p.user_id, p.lesson_id, p.completed_at, p.submission_id,
                                         u.username, u.email
                                  FROM user_progress p
                                  JOIN users u ON p.user_id = u.id
@@ -57,7 +57,7 @@ public class UserProgressRepository(
     public async Task<UserProgress?> GetByUserAndLessonId(Guid userId, string lessonId)
     {
         const string query = """
-                                 SELECT id, user_id, lesson_id, completed_at, code_solution
+                                 SELECT id, user_id, lesson_id, completed_at, submission_id
                                  FROM user_progress
                                  WHERE user_id = @UserId AND lesson_id = @LessonId
                              """;
@@ -76,9 +76,9 @@ public class UserProgressRepository(
     public async Task<UserProgress> Create(UserProgress progress)
     {
         const string query = """
-                                 INSERT INTO user_progress (user_id, lesson_id, completed_at, code_solution)
-                                 VALUES (@UserId, @LessonId, @CompletedAt, @CodeSolution)
-                                 RETURNING id, user_id, lesson_id, completed_at, code_solution
+                                 INSERT INTO user_progress (user_id, lesson_id, completed_at, submission_id)
+                                 VALUES (@UserId, @LessonId, @CompletedAt, @SubmissionId)
+                                 RETURNING id, user_id, lesson_id, completed_at, submission_id
                              """;
 
         try
@@ -88,7 +88,7 @@ public class UserProgressRepository(
                 UserId = progress.UserId,
                 LessonId = progress.LessonId,
                 CompletedAt = progress.CompletedAt,
-                CodeSolution = progress.CodeSolution
+                SubmissionId = progress.SubmissionId
             });
 
             return result;
@@ -106,7 +106,7 @@ public class UserProgressRepository(
         const string query = """
                                  UPDATE user_progress
                                  SET completed_at = @CompletedAt,
-                                     code_solution = @CodeSolution
+                                     submission_id = @SubmissionId
                                  WHERE id = @Id
                              """;
 
@@ -116,7 +116,7 @@ public class UserProgressRepository(
             {
                 Id = progress.Id,
                 CompletedAt = progress.CompletedAt,
-                CodeSolution = progress.CodeSolution
+                SubmissionId = progress.SubmissionId
             });
 
             return rowsAffected > 0;

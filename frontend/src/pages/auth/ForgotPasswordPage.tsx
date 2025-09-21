@@ -132,7 +132,7 @@ const ForgotPasswordPage = () => {
                                 disabled={forgotPasswordMutation.isPending}
                             />
 
-                            {forgotPasswordMutation.error && (
+                            {!!forgotPasswordMutation.error && (
                                 <Alert
                                     icon={<IconAlertCircle size="1rem" />}
                                     color="red"

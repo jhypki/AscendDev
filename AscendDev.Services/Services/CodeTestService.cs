@@ -17,6 +17,7 @@ public class CodeTestService : ICodeTestService
     private readonly ILessonRepository _lessonRepository;
     private readonly ICodeSanitizerFactory _sanitizerFactory;
     private readonly ISubmissionService _submissionService;
+    private readonly IUserProgressService _userProgressService;
     private readonly IKeywordValidationService _keywordValidationService;
     private readonly ILogger<CodeTestService> _logger;
 
@@ -25,6 +26,7 @@ public class CodeTestService : ICodeTestService
         ILessonRepository lessonRepository,
         ICodeSanitizerFactory sanitizerFactory,
         ISubmissionService submissionService,
+        IUserProgressService userProgressService,
         IKeywordValidationService keywordValidationService,
         ILogger<CodeTestService> logger)
     {
@@ -32,6 +34,7 @@ public class CodeTestService : ICodeTestService
         _lessonRepository = lessonRepository ?? throw new ArgumentNullException(nameof(lessonRepository));
         _sanitizerFactory = sanitizerFactory ?? throw new ArgumentNullException(nameof(sanitizerFactory));
         _submissionService = submissionService ?? throw new ArgumentNullException(nameof(submissionService));
+        _userProgressService = userProgressService ?? throw new ArgumentNullException(nameof(userProgressService));
         _keywordValidationService = keywordValidationService ?? throw new ArgumentNullException(nameof(keywordValidationService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -95,9 +98,30 @@ public class CodeTestService : ICodeTestService
                         ErrorMessage = result.Success ? null : GetErrorMessage(result)
                     };
 
-                    await _submissionService.CreateSubmissionAsync(submission);
+                    var submissionId = await _submissionService.CreateSubmissionAsync(submission);
                     _logger.LogInformation("Saved submission for lesson {LessonId} by user {UserId} (Passed: {Passed})",
                         lessonId, userId.Value, result.Success);
+
+                    // If the submission passed, create or update user progress
+                    if (result.Success && submissionId > 0)
+                    {
+                        try
+                        {
+                            // Check if user has already completed this lesson
+                            var hasCompleted = await _userProgressService.HasUserCompletedLessonAsync(userId.Value, lessonId);
+                            if (!hasCompleted)
+                            {
+                                await _userProgressService.MarkLessonAsCompletedAsync(userId.Value, lessonId, submissionId);
+                                _logger.LogInformation("Marked lesson {LessonId} as completed for user {UserId} with submission {SubmissionId}",
+                                    lessonId, userId.Value, submissionId);
+                            }
+                        }
+                        catch (Exception progressEx)
+                        {
+                            // Don't fail the test if progress tracking fails
+                            _logger.LogError(progressEx, "Failed to update progress for user {UserId} on lesson {LessonId}", userId.Value, lessonId);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -1,6 +1,6 @@
 import { AppShell, Group, Text, UnstyledButton, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconHome, IconBook, IconUser, IconSettings, IconLogout } from '@tabler/icons-react'
+import { IconHome, IconBook, IconUser, IconSettings, IconLogout, IconShield } from '@tabler/icons-react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import type { RootState } from '../../store'
@@ -37,6 +37,17 @@ export function AppLayout({ children }: AppLayoutProps) {
         { icon: IconUser, label: 'Profile', href: '/profile' },
         { icon: IconSettings, label: 'Settings', href: '/settings' },
     ]
+
+    // Add admin dashboard link for Admin and SuperAdmin users
+    console.log('AppLayout - User data:', user)
+    console.log('AppLayout - User roles:', user?.userRoles)
+
+    if (user?.userRoles?.some((role: string) => ['Admin', 'SuperAdmin'].includes(role))) {
+        console.log('AppLayout - Adding admin dashboard link')
+        navigationItems.splice(2, 0, { icon: IconShield, label: 'Admin Dashboard', href: '/admin' })
+    } else {
+        console.log('AppLayout - User does not have admin roles or user data is missing')
+    }
 
     if (!isAuthenticated) {
         return <>{children}</>

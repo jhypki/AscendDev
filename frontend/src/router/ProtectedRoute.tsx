@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children, requiredRoles = [] }: ProtectedRouteProps) =
     }
 
     if (requiredRoles.length > 0 && user) {
-        const hasRequiredRole = requiredRoles.some(role => user.roles.includes(role))
+        const hasRequiredRole = requiredRoles.some(role => user.userRoles.includes(role))
         if (!hasRequiredRole) {
             // Redirect to dashboard if user doesn't have required role
             return <Navigate to="/dashboard" replace />

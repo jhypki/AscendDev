@@ -1,4 +1,5 @@
 using AscendDev.Core.Models.Courses;
+using AscendDev.Core.DTOs.Courses;
 
 namespace AscendDev.Core.Interfaces.Services;
 
@@ -6,6 +7,7 @@ public interface ICourseService
 {
     // Read operations
     Task<List<Course>?> GetAllCourses();
+    Task<PaginatedCoursesResponse> GetCoursesAsync(CourseQueryRequest request);
     Task<Course?> GetCourseById(string courseId);
     Task<Course?> GetCourseBySlug(string slug);
     Task<List<Course>?> GetCoursesByTag(string tag);

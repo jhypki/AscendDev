@@ -129,7 +129,7 @@ export const router = createBrowserRouter([
     {
         path: '/admin',
         element: (
-            <ProtectedRoute requiredRoles={['Admin']}>
+            <ProtectedRoute requiredRoles={['Admin', 'SuperAdmin']}>
                 <LazyWrapper>
                     <AdminDashboard />
                 </LazyWrapper>

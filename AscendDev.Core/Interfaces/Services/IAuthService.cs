@@ -16,4 +16,8 @@ public interface IAuthService
     Task LogoutAsync(string? refreshToken = null);
 
     Task<AuthResult> GenerateAuthResultAsync(User user);
+
+    Task<User?> GetUserByIdAsync(Guid userId);
+
+    Task<UserDto?> GetUserWithRolesByIdAsync(Guid userId);
 }

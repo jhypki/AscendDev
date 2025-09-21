@@ -8,7 +8,7 @@ export interface User {
     lastName?: string
     profilePictureUrl?: string
     isEmailVerified: boolean
-    roles: string[]
+    userRoles: string[]
     bio?: string
     provider?: string
     createdAt: string
@@ -25,8 +25,18 @@ export interface AuthState {
     error: string | null
 }
 
+// Helper function to safely parse user data from localStorage
+const getUserFromStorage = (): User | null => {
+    try {
+        const userData = localStorage.getItem('user')
+        return userData ? JSON.parse(userData) : null
+    } catch {
+        return null
+    }
+}
+
 const initialState: AuthState = {
-    user: null,
+    user: getUserFromStorage(),
     token: localStorage.getItem('token'),
     refreshToken: localStorage.getItem('refreshToken'),
     isAuthenticated: !!localStorage.getItem('token'),
@@ -50,9 +60,10 @@ export const authSlice = createSlice({
             state.loading = false
             state.error = null
 
-            // Persist tokens to localStorage
+            // Persist tokens and user data to localStorage
             localStorage.setItem('token', action.payload.token)
             localStorage.setItem('refreshToken', action.payload.refreshToken)
+            localStorage.setItem('user', JSON.stringify(action.payload.user))
         },
         loginFailure: (state, action: PayloadAction<string>) => {
             state.user = null
@@ -62,9 +73,10 @@ export const authSlice = createSlice({
             state.loading = false
             state.error = action.payload
 
-            // Clear tokens from localStorage
+            // Clear tokens and user data from localStorage
             localStorage.removeItem('token')
             localStorage.removeItem('refreshToken')
+            localStorage.removeItem('user')
         },
         logout: (state) => {
             state.user = null
@@ -74,9 +86,10 @@ export const authSlice = createSlice({
             state.loading = false
             state.error = null
 
-            // Clear tokens from localStorage
+            // Clear tokens and user data from localStorage
             localStorage.removeItem('token')
             localStorage.removeItem('refreshToken')
+            localStorage.removeItem('user')
 
             // Clear OAuth-related session storage
             const keysToRemove = []
@@ -102,7 +115,14 @@ export const authSlice = createSlice({
         updateUser: (state, action: PayloadAction<Partial<User>>) => {
             if (state.user) {
                 state.user = { ...state.user, ...action.payload }
+                // Persist updated user data to localStorage
+                localStorage.setItem('user', JSON.stringify(state.user))
             }
+        },
+        setUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload
+            // Persist user data to localStorage
+            localStorage.setItem('user', JSON.stringify(action.payload))
         },
     },
 })
@@ -115,6 +135,7 @@ export const {
     refreshTokenSuccess,
     clearError,
     updateUser,
+    setUser,
 } = authSlice.actions
 
 export default authSlice.reducer

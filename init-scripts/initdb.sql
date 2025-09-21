@@ -126,12 +126,28 @@ CREATE TABLE submissions (
     error_message TEXT
 );
 
+-- User Progress Table for tracking lesson completion
+CREATE TABLE user_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    completed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    submission_id INTEGER NOT NULL REFERENCES submissions(id) ON DELETE CASCADE,
+    UNIQUE(user_id, lesson_id)
+);
+
 -- Indexes for faster lookups
 CREATE INDEX idx_submissions_user_id ON submissions(user_id);
 CREATE INDEX idx_submissions_lesson_id ON submissions(lesson_id);
 CREATE INDEX idx_submissions_user_lesson ON submissions(user_id, lesson_id);
 CREATE INDEX idx_submissions_passed ON submissions(passed);
 CREATE INDEX idx_submissions_submitted_at ON submissions(submitted_at DESC);
+
+-- User Progress Indexes
+CREATE INDEX idx_user_progress_user_id ON user_progress(user_id);
+CREATE INDEX idx_user_progress_lesson_id ON user_progress(lesson_id);
+CREATE INDEX idx_user_progress_user_lesson ON user_progress(user_id, lesson_id);
+CREATE INDEX idx_user_progress_completed_at ON user_progress(completed_at DESC);
 
 CREATE INDEX idx_user_settings_user_id ON user_settings(user_id);
 CREATE INDEX idx_user_settings_public_submissions ON user_settings(public_submissions);

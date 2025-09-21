@@ -138,6 +138,40 @@ public class AuthService(
         return AuthResult.Success(accessToken, refreshToken.Token, MapToUserDto(user, roles));
     }
 
+    public async Task<User?> GetUserByIdAsync(Guid userId)
+    {
+        try
+        {
+            return await userRepository.GetByIdAsync(userId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error retrieving user by ID {UserId}", userId);
+            return null;
+        }
+    }
+
+    public async Task<UserDto?> GetUserWithRolesByIdAsync(Guid userId)
+    {
+        try
+        {
+            var user = await userRepository.GetByIdAsync(userId);
+            if (user == null)
+                return null;
+
+            // Get user roles
+            var userRoles = await userRoleRepository.GetRolesByUserIdAsync(user.Id);
+            var roleNames = userRoles.Select(r => r.Name).ToList();
+
+            return MapToUserDto(user, roleNames);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error retrieving user with roles by ID {UserId}", userId);
+            return null;
+        }
+    }
+
     private async Task<(string AccessToken, RefreshToken RefreshToken, List<string> Roles)> GenerateTokensAsync(User user)
     {
         // Get user roles
@@ -173,7 +207,7 @@ public class AuthService(
             LastName = user.LastName,
             ProfilePictureUrl = user.ProfilePictureUrl,
             IsEmailVerified = user.IsEmailVerified,
-            Roles = roles ?? new List<string>(),
+            UserRoles = roles ?? new List<string>(),
             Bio = user.Bio,
             Provider = user.Provider,
             CreatedAt = user.CreatedAt,

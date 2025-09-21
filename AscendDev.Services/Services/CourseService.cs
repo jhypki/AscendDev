@@ -1,4 +1,5 @@
 using AscendDev.Core.Caching;
+using AscendDev.Core.DTOs.Courses;
 using AscendDev.Core.Exceptions;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
@@ -124,6 +125,88 @@ public class CourseService(
         catch (Exception ex)
         {
             logger.LogError(ex, "Error fetching published courses");
+            throw;
+        }
+    }
+
+    public async Task<PaginatedCoursesResponse> GetCoursesAsync(CourseQueryRequest request)
+    {
+        try
+        {
+            // Get all courses first (we'll implement repository-level filtering later)
+            var allCourses = await courseRepository.GetAll();
+            if (allCourses == null)
+                allCourses = new List<Course>();
+
+            // Apply filtering
+            var filteredCourses = allCourses.AsQueryable();
+
+            // Search filter
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                var searchTerm = request.Search.ToLower();
+                filteredCourses = filteredCourses.Where(c =>
+                    c.Title.ToLower().Contains(searchTerm) ||
+                    (c.Description != null && c.Description.ToLower().Contains(searchTerm)) ||
+                    c.Language.ToLower().Contains(searchTerm) ||
+                    (c.Tags != null && c.Tags.Any(tag => tag.ToLower().Contains(searchTerm))));
+            }
+
+            // Language filter
+            if (!string.IsNullOrEmpty(request.Language))
+            {
+                filteredCourses = filteredCourses.Where(c =>
+                    c.Language.Equals(request.Language, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Status filter
+            if (!string.IsNullOrEmpty(request.Status))
+            {
+                filteredCourses = filteredCourses.Where(c =>
+                    c.Status.Equals(request.Status, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Tags filter
+            if (request.Tags != null && request.Tags.Any())
+            {
+                filteredCourses = filteredCourses.Where(c =>
+                    c.Tags != null && request.Tags.Any(tag =>
+                        c.Tags.Any(courseTag => courseTag.Equals(tag, StringComparison.OrdinalIgnoreCase))));
+            }
+
+            // Apply sorting
+            filteredCourses = request.SortBy?.ToLower() switch
+            {
+                "title" => request.SortOrder?.ToLower() == "desc"
+                    ? filteredCourses.OrderByDescending(c => c.Title)
+                    : filteredCourses.OrderBy(c => c.Title),
+                "language" => request.SortOrder?.ToLower() == "desc"
+                    ? filteredCourses.OrderByDescending(c => c.Language)
+                    : filteredCourses.OrderBy(c => c.Language),
+                "status" => request.SortOrder?.ToLower() == "desc"
+                    ? filteredCourses.OrderByDescending(c => c.Status)
+                    : filteredCourses.OrderBy(c => c.Status),
+                "updatedat" => request.SortOrder?.ToLower() == "desc"
+                    ? filteredCourses.OrderByDescending(c => c.UpdatedAt)
+                    : filteredCourses.OrderBy(c => c.UpdatedAt),
+                _ => request.SortOrder?.ToLower() == "desc"
+                    ? filteredCourses.OrderByDescending(c => c.CreatedAt)
+                    : filteredCourses.OrderBy(c => c.CreatedAt)
+            };
+
+            var totalCount = filteredCourses.Count();
+
+            // Apply pagination
+            var paginatedCourses = filteredCourses
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            return new PaginatedCoursesResponse(paginatedCourses, totalCount, request.Page, request.PageSize);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error fetching paginated courses");
             throw;
         }
     }

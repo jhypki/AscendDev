@@ -8,11 +8,26 @@ import { store } from './store'
 import { queryClient } from './lib/queryClient'
 import { router } from './router'
 import { theme } from './theme'
+import { useAuthRestore } from './hooks/useAuthRestore'
 
 // Import Mantine styles
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css'
 import '@mantine/code-highlight/styles.css'
+import 'mantine-datatable/styles.css'
+
+function AppContent() {
+  useAuthRestore()
+
+  return (
+    <MantineProvider theme={theme} defaultColorScheme="light">
+      <ModalsProvider>
+        <Notifications position="top-right" />
+        <RouterProvider router={router} />
+      </ModalsProvider>
+    </MantineProvider>
+  )
+}
 
 function App() {
   return (
@@ -20,12 +35,7 @@ function App() {
       <ColorSchemeScript />
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <MantineProvider theme={theme} defaultColorScheme="light">
-            <ModalsProvider>
-              <Notifications position="top-right" />
-              <RouterProvider router={router} />
-            </ModalsProvider>
-          </MantineProvider>
+          <AppContent />
         </QueryClientProvider>
       </Provider>
     </>

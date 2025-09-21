@@ -9,7 +9,7 @@ public class UserDto
     public string? LastName { get; set; }
     public string? ProfilePictureUrl { get; set; }
     public bool IsEmailVerified { get; set; }
-    public List<string> Roles { get; set; } = new();
+    public List<string> UserRoles { get; set; } = new();
     public string? Bio { get; set; }
     public string? Provider { get; set; }
     public DateTime CreatedAt { get; set; }

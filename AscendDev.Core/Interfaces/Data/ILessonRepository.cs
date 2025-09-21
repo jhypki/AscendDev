@@ -1,4 +1,5 @@
 using AscendDev.Core.Models.Courses;
+using System.Linq.Expressions;
 
 namespace AscendDev.Core.Interfaces.Data;
 
@@ -24,4 +25,10 @@ public interface ILessonRepository
     // Validation operations
     Task<bool> ValidateLesson(Lesson lesson);
     Task<List<string>> GetValidationErrors(Lesson lesson);
+
+    // Extended methods for analytics
+    Task<int> CountAsync();
+    Task<int> CountAsync(Expression<Func<Lesson, bool>> predicate);
+    Task<List<Lesson>> GetAllAsync();
+    IQueryable<Lesson> GetQueryable();
 }

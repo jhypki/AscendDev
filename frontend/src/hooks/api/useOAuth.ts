@@ -29,7 +29,7 @@ interface AuthResult {
         lastName?: string
         profilePictureUrl?: string
         isEmailVerified: boolean
-        roles: string[]
+        userRoles: string[]
         bio?: string
         provider?: string
         createdAt: string

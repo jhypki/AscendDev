@@ -1,4 +1,5 @@
 using AscendDev.Core.Models.Courses;
+using System.Linq.Expressions;
 
 namespace AscendDev.Core.Interfaces.Data;
 
@@ -23,4 +24,9 @@ public interface ICourseRepository
     Task<int> GetTotalCount();
     Task<int> GetCountByStatus(string status);
     Task<Dictionary<string, int>> GetCourseStatistics();
+
+    // Extended methods for analytics
+    Task<int> CountAsync();
+    Task<int> CountAsync(Expression<Func<Course, bool>> predicate);
+    IQueryable<Course> GetQueryable();
 }

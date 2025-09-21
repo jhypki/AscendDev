@@ -98,7 +98,7 @@ const LoginPage = () => {
                                 disabled={loginMutation.isPending}
                             />
 
-                            {loginMutation.error && (
+                            {!!loginMutation.error && (
                                 <Alert
                                     icon={<IconAlertCircle size="1rem" />}
                                     color="red"
@@ -106,7 +106,7 @@ const LoginPage = () => {
                                 >
                                     {loginMutation.error instanceof Error
                                         ? loginMutation.error.message
-                                        : String(loginMutation.error) || 'An error occurred during login'
+                                        : 'An error occurred during login'
                                     }
                                 </Alert>
                             )}
