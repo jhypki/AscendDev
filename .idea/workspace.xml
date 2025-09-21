@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.roo/mcp.json" beforeDir="false" afterPath="$PROJECT_DIR$/.roo/mcp.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Auth/UserDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Auth/UserDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GitHubOAuthProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GitHubOAuthProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GoogleOAuthProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuth/GoogleOAuthProvider.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/OAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/OAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/api/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/api/useAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/api/useOAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/api/useOAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/slices/authSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/slices/authSlice.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

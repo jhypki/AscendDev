@@ -30,6 +30,7 @@ public static class DatabaseExtensions
         // Register repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<ILessonRepository, LessonRepository>();
         services.AddScoped<IUserProgressRepository, UserProgressRepository>();

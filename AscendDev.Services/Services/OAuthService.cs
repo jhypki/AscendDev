@@ -17,17 +17,23 @@ public class OAuthService : IOAuthService
     private readonly IAuthService _authService;
     private readonly ILogger<OAuthService> _logger;
     private readonly SecuritySettings _securitySettings;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
 
     public OAuthService(
         IEnumerable<IOAuthProvider> providers,
         IUserRepository userRepository,
         IAuthService authService,
+        IRoleRepository roleRepository,
+        IUserRoleRepository userRoleRepository,
         IOptions<SecuritySettings> securitySettings,
         ILogger<OAuthService> logger)
     {
         _providers = providers.ToDictionary(p => p.ProviderName.ToLower(), p => p);
         _userRepository = userRepository;
         _authService = authService;
+        _roleRepository = roleRepository;
+        _userRoleRepository = userRoleRepository;
         _securitySettings = securitySettings.Value;
         _logger = logger;
     }
@@ -274,13 +280,27 @@ public class OAuthService : IOAuthService
     {
         try
         {
-            // This would typically assign the "User" role
-            // Implementation depends on your role repository
-            _logger.LogInformation("Default role assigned to new OAuth user: {UserId}", userId);
+            // Get the "User" role
+            var userRole = await _roleRepository.GetByNameAsync("User");
+            if (userRole != null)
+            {
+                var userRoleAssignment = new UserRole
+                {
+                    UserId = userId,
+                    RoleId = userRole.Id
+                };
+
+                await _userRoleRepository.CreateAsync(userRoleAssignment);
+                _logger.LogInformation("Default 'User' role assigned to new OAuth user: {UserId}", userId);
+            }
+            else
+            {
+                _logger.LogWarning("Default 'User' role not found in database for OAuth user {UserId}", userId);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to assign default role to user: {UserId}", userId);
+            _logger.LogError(ex, "Failed to assign default role to OAuth user: {UserId}", userId);
         }
     }
 }

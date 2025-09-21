@@ -24,10 +24,17 @@ interface AuthResult {
     user?: {
         id: string
         email: string
-        firstName: string
-        lastName: string
-        roles: string[]
+        username: string
+        firstName?: string
+        lastName?: string
+        profilePictureUrl?: string
         isEmailVerified: boolean
+        roles: string[]
+        bio?: string
+        provider?: string
+        createdAt: string
+        lastLogin?: string
+        fullName: string
     }
     errorMessage?: string
     errors?: string[]

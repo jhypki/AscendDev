@@ -14,6 +14,7 @@ public class AuthService(
     IUserRepository userRepository,
     IRefreshTokenRepository refreshTokenRepository,
     IUserRoleRepository userRoleRepository,
+    IRoleRepository roleRepository,
     JwtSettings jwtSettings,
     IPasswordHasher passwordHasher,
     IJwtHelper jwtHelper,
@@ -40,6 +41,10 @@ public class AuthService(
         };
 
         await userRepository.CreateAsync(user);
+
+        // Assign default "user" role
+        await AssignDefaultRoleAsync(user.Id);
+
         var authResult = await GenerateAuthResultAsync(user);
 
         return authResult;
@@ -68,7 +73,7 @@ public class AuthService(
         if (user == null)
             throw new NotFoundException("User not found.");
 
-        var (accessToken, newRefreshToken) = await GenerateTokensAsync(user);
+        var (accessToken, newRefreshToken, roles) = await GenerateTokensAsync(user);
 
         await refreshTokenRepository.SaveAsync(newRefreshToken);
 
@@ -77,7 +82,7 @@ public class AuthService(
         logger.LogInformation("Rotated refresh token for user {UserId}. Old token: {OldToken}, New token: {NewToken}",
             user.Id, token, newRefreshToken.Token);
 
-        return AuthResult.Success(accessToken, newRefreshToken.Token, MapToUserDto(user));
+        return AuthResult.Success(accessToken, newRefreshToken.Token, MapToUserDto(user, roles));
     }
 
     public async Task RevokeRefreshTokenAsync(string token)
@@ -127,13 +132,13 @@ public class AuthService(
 
     public async Task<AuthResult> GenerateAuthResultAsync(User user)
     {
-        var (accessToken, refreshToken) = await GenerateTokensAsync(user);
+        var (accessToken, refreshToken, roles) = await GenerateTokensAsync(user);
         await refreshTokenRepository.SaveAsync(refreshToken);
 
-        return AuthResult.Success(accessToken, refreshToken.Token, MapToUserDto(user));
+        return AuthResult.Success(accessToken, refreshToken.Token, MapToUserDto(user, roles));
     }
 
-    private async Task<(string AccessToken, RefreshToken RefreshToken)> GenerateTokensAsync(User user)
+    private async Task<(string AccessToken, RefreshToken RefreshToken, List<string> Roles)> GenerateTokensAsync(User user)
     {
         // Get user roles
         var userRoles = await userRoleRepository.GetRolesByUserIdAsync(user.Id);
@@ -154,17 +159,54 @@ public class AuthService(
             RevokedByIp = null
         };
 
-        return (accessToken, refreshToken);
+        return (accessToken, refreshToken, roleNames);
     }
 
-    private static UserDto MapToUserDto(User user)
+    private static UserDto MapToUserDto(User user, List<string>? roles = null)
     {
         return new UserDto
         {
             Id = user.Id,
             Email = user.Email,
-            Username = user.Username
+            Username = user.Username,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            ProfilePictureUrl = user.ProfilePictureUrl,
+            IsEmailVerified = user.IsEmailVerified,
+            Roles = roles ?? new List<string>(),
+            Bio = user.Bio,
+            Provider = user.Provider,
+            CreatedAt = user.CreatedAt,
+            LastLogin = user.LastLogin
         };
+    }
+
+    private async Task AssignDefaultRoleAsync(Guid userId)
+    {
+        try
+        {
+            // Get the "User" role
+            var userRole = await roleRepository.GetByNameAsync("User");
+            if (userRole != null)
+            {
+                var userRoleAssignment = new UserRole
+                {
+                    UserId = userId,
+                    RoleId = userRole.Id
+                };
+
+                await userRoleRepository.CreateAsync(userRoleAssignment);
+                logger.LogInformation("Default 'User' role assigned to user {UserId}", userId);
+            }
+            else
+            {
+                logger.LogWarning("Default 'User' role not found in database for user {UserId}", userId);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to assign default role to user {UserId}", userId);
+        }
     }
 
     private static string GenerateRefreshToken()
