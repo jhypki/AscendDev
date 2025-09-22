@@ -100,7 +100,7 @@ const OAuthCallbackPage = () => {
 
     if (error) {
         return (
-            <Center h="100vh" bg="gray.0">
+            <Center h="100vh">
                 <Stack align="center" gap="md" maw={400}>
                     <Alert
                         icon={<IconAlertCircle size="1rem" />}
@@ -119,7 +119,7 @@ const OAuthCallbackPage = () => {
     }
 
     return (
-        <Center h="100vh" bg="gray.0">
+        <Center h="100vh">
             <Stack align="center" gap="md">
                 <Loader size="lg" />
                 <Text size="lg" fw={500}>

@@ -70,7 +70,7 @@ const ForgotPasswordPage = () => {
 
     if (emailSent) {
         return (
-            <Center h="100vh" bg="gray.0">
+            <Center h="100vh">
                 <Container size="sm">
                     <Paper shadow="md" p="xl" radius="md" withBorder>
                         <Stack align="center" gap="md">
@@ -108,7 +108,7 @@ const ForgotPasswordPage = () => {
     }
 
     return (
-        <Center h="100vh" bg="gray.0">
+        <Center h="100vh">
             <Container size="sm">
                 <Paper shadow="md" p="xl" radius="md" withBorder>
                     <Stack align="center" gap="md">

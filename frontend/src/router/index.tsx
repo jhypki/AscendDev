@@ -15,6 +15,7 @@ const CourseDetailPage = lazy(() => import('../pages/courses/CourseDetailPage'))
 const LessonPage = lazy(() => import('../pages/lessons/LessonPage'))
 const ProfilePage = lazy(() => import('../pages/profile/ProfilePage'))
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'))
+const PlaygroundPage = lazy(() => import('../pages/playground/PlaygroundPage'))
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'))
 
 // Loading component
@@ -122,6 +123,16 @@ export const router = createBrowserRouter([
             <ProtectedRoute>
                 <LazyWrapper>
                     <ProfilePage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/playground',
+        element: (
+            <ProtectedRoute>
+                <LazyWrapper>
+                    <PlaygroundPage />
                 </LazyWrapper>
             </ProtectedRoute>
         ),

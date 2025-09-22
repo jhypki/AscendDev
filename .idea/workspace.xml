@@ -5,47 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/235ab903-6839-4d4c-94e1-7d53fe17adc7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/235ab903-6839-4d4c-94e1-7d53fe17adc7.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/AuthController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/CoursesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/CoursesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Auth/UserDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Auth/UserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICourseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICourseRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ILessonRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ILessonRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICourseService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICourseService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IUserProgressService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IUserProgressService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/Courses/UserProgress.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/Courses/UserProgress.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CourseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CourseRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/LessonRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/LessonRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/UserProgressRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/UserProgressRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CourseService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CourseService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/UserProgressService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/UserProgressService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/DapperConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/DapperConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/TypeHandlers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/TypeHandlers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/runners/csharp/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/docker/environments/runners/csharp/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/runners/javascript/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/docker/environments/runners/javascript/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/runners/python/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/docker/environments/runners/python/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/docker/environments/runners/typescript/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/docker/environments/runners/typescript/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/api/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/api/useAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/api/useOAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/api/useOAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/ForgotPasswordPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/ForgotPasswordPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/LoginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/LoginPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/courses/CourseDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/courses/CourseDetailPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/courses/CoursesPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/courses/CoursesPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/dashboard/DashboardPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/DashboardPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/ProtectedRoute.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/slices/authSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/slices/authSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/OAuthCallbackPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/OAuthCallbackPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/RegisterPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/RegisterPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/lessons/LessonPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/lessons/LessonPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/build-and-push-docker-images.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build-and-push-docker-images.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

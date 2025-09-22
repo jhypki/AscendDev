@@ -20,7 +20,7 @@ function AppContent() {
   useAuthRestore()
 
   return (
-    <MantineProvider theme={theme} defaultColorScheme="light">
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <ModalsProvider>
         <Notifications position="top-right" />
         <RouterProvider router={router} />

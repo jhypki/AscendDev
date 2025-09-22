@@ -2,6 +2,7 @@ using AscendDev.Core.DTOs;
 using AscendDev.Core.DTOs.Courses;
 using AscendDev.Core.DTOs.Lessons;
 using AscendDev.Core.Filters;
+using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Models.Courses;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +15,7 @@ namespace AscendDev.API.Controllers;
 [ApiController]
 [ValidateModel]
 [Authorize]
-public class CoursesController(ICourseService courseService, ILessonService lessonService, IUserProgressService userProgressService) : ControllerBase
+public class CoursesController(ICourseService courseService, ILessonService lessonService, IUserProgressService userProgressService, IUserLessonCodeRepository userLessonCodeRepository) : ControllerBase
 {
     #region Course CRUD Operations
 
@@ -518,6 +519,111 @@ public class CoursesController(ICourseService courseService, ILessonService less
             CompletedAt = progress.CompletedAt,
             Message = "Lesson marked as completed"
         });
+    }
+
+    #endregion
+
+    #region User Code Management
+
+    /// <summary>
+    /// Get user's saved code for a specific lesson
+    /// </summary>
+    [HttpGet("{courseId}/lessons/{lessonId}/user-code")]
+    [Authorize]
+    [ProducesResponseType(typeof(UserCodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetUserCode(string courseId, string lessonId)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID");
+        }
+
+        // Verify lesson exists and belongs to the course
+        var lesson = await lessonService.GetLessonById(lessonId);
+        if (lesson == null || lesson.CourseId != courseId)
+        {
+            return NotFound("Lesson not found in this course");
+        }
+
+        var userCode = await userLessonCodeRepository.GetUserCodeAsync(userId, lessonId);
+        if (userCode == null)
+        {
+            return NotFound("No saved code found for this lesson");
+        }
+
+        return Ok(new UserCodeResponse
+        {
+            Code = userCode.Code,
+            UpdatedAt = userCode.UpdatedAt
+        });
+    }
+
+    /// <summary>
+    /// Save user's code for a specific lesson
+    /// </summary>
+    [HttpPost("{courseId}/lessons/{lessonId}/user-code")]
+    [Authorize]
+    [ProducesResponseType(typeof(UserCodeResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> SaveUserCode(string courseId, string lessonId, [FromBody] SaveUserCodeRequest request)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID");
+        }
+
+        // Verify lesson exists and belongs to the course
+        var lesson = await lessonService.GetLessonById(lessonId);
+        if (lesson == null || lesson.CourseId != courseId)
+        {
+            return NotFound("Lesson not found in this course");
+        }
+
+        var savedCode = await userLessonCodeRepository.SaveUserCodeAsync(userId, lessonId, request.Code);
+
+        return Ok(new UserCodeResponse
+        {
+            Code = savedCode.Code,
+            UpdatedAt = savedCode.UpdatedAt
+        });
+    }
+
+    /// <summary>
+    /// Reset user's code for a specific lesson (delete saved code)
+    /// </summary>
+    [HttpDelete("{courseId}/lessons/{lessonId}/user-code")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ResetUserCode(string courseId, string lessonId)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID");
+        }
+
+        // Verify lesson exists and belongs to the course
+        var lesson = await lessonService.GetLessonById(lessonId);
+        if (lesson == null || lesson.CourseId != courseId)
+        {
+            return NotFound("Lesson not found in this course");
+        }
+
+        await userLessonCodeRepository.DeleteUserCodeAsync(userId, lessonId);
+        return NoContent();
     }
 
     #endregion

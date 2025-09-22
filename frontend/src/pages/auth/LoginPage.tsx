@@ -65,7 +65,7 @@ const LoginPage = () => {
     }
 
     return (
-        <Center h="100vh" bg="gray.0">
+        <Center h="100vh">
             <Container size="sm" w={480}>
                 <Paper shadow="md" p="xl" radius="md" withBorder w="100%">
                     <Stack align="center" gap="md">

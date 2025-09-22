@@ -1,4 +1,5 @@
 using AscendDev.Core.Constants;
+using System.Text.RegularExpressions;
 
 namespace AscendDev.Core.CodeExecution.Sanitizers;
 
@@ -20,6 +21,22 @@ public class TypeScriptSanitizer : BaseSanitizer
     public override bool SupportsLanguage(string language)
     {
         return language.Equals(SupportedLanguages.TypeScript, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Removes TypeScript comments from code (same as JavaScript)
+    /// </summary>
+    protected override string RemoveComments(string code)
+    {
+        if (string.IsNullOrEmpty(code))
+            return code;
+
+        // Remove single-line comments (//)
+        // Remove multi-line comments (/* */)
+        // But preserve comments inside strings
+        var result = Regex.Replace(code, @"//.*$|/\*[\s\S]*?\*/", "", RegexOptions.Multiline);
+
+        return result;
     }
 
     /// <summary>

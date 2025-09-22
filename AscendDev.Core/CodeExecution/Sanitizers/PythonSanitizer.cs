@@ -1,4 +1,5 @@
 using AscendDev.Core.Constants;
+using System.Text.RegularExpressions;
 
 namespace AscendDev.Core.CodeExecution.Sanitizers;
 
@@ -13,6 +14,73 @@ public class PythonSanitizer : BaseSanitizer
     public override bool SupportsLanguage(string language)
     {
         return language.Equals(SupportedLanguages.Python, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Removes Python comments from code
+    /// </summary>
+    protected override string RemoveComments(string code)
+    {
+        if (string.IsNullOrEmpty(code))
+            return code;
+
+        var lines = code.Split('\n');
+        var result = new List<string>();
+
+        foreach (var line in lines)
+        {
+            var processedLine = line;
+
+            // Remove single-line comments (# comments)
+            // But preserve # inside strings
+            var inString = false;
+            var stringChar = '\0';
+            var escaped = false;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                var ch = line[i];
+
+                if (escaped)
+                {
+                    escaped = false;
+                    continue;
+                }
+
+                if (ch == '\\' && inString)
+                {
+                    escaped = true;
+                    continue;
+                }
+
+                if (!inString && (ch == '"' || ch == '\''))
+                {
+                    inString = true;
+                    stringChar = ch;
+                }
+                else if (inString && ch == stringChar)
+                {
+                    inString = false;
+                    stringChar = '\0';
+                }
+                else if (!inString && ch == '#')
+                {
+                    // Found a comment outside of a string
+                    processedLine = line.Substring(0, i).TrimEnd();
+                    break;
+                }
+            }
+
+            result.Add(processedLine);
+        }
+
+        // Remove multi-line strings/docstrings (triple quotes)
+        var codeWithoutComments = string.Join("\n", result);
+
+        // Remove triple-quoted strings (both """ and ''')
+        codeWithoutComments = Regex.Replace(codeWithoutComments, @"""""""[\s\S]*?""""""|'''[\s\S]*?'''", "", RegexOptions.Multiline);
+
+        return codeWithoutComments;
     }
 
     /// <summary>

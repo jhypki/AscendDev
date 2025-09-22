@@ -1,12 +1,7 @@
-import { Container, Title, Text } from '@mantine/core'
+import { LessonViewer } from '../../components/lessons/LessonViewer'
 
 const LessonPage = () => {
-    return (
-        <Container size="xl" py="xl">
-            <Title order={1} mb="xl">Lesson</Title>
-            <Text>Lesson page placeholder - will be implemented in Phase 6</Text>
-        </Container>
-    )
+    return <LessonViewer />
 }
 
 export default LessonPage

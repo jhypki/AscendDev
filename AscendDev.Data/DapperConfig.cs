@@ -10,7 +10,7 @@ public static class DapperConfig
         SqlMapper.AddTypeHandler(new JsonTypeHandler<List<string>>());
         SqlMapper.AddTypeHandler(new JsonTypeHandler<List<LessonSummary>>());
         SqlMapper.AddTypeHandler(new JsonTypeHandler<List<AdditionalResource>>());
-        // SqlMapper.AddTypeHandler(new JsonTypeHandler<List<TestCase>>());
+        SqlMapper.AddTypeHandler(new JsonTypeHandler<List<TestCase>>());
         SqlMapper.AddTypeHandler(new JsonTypeHandler<TestCase>());
         SqlMapper.AddTypeHandler(new JsonTypeHandler<TestConfig>());
     }

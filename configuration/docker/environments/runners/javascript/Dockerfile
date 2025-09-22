@@ -9,8 +9,8 @@ COPY . /app/
 # Create a directory for code
 RUN mkdir -p /app/code
 
-# Set permissions for scripts
-RUN chmod +x /app/run-code.sh
+# Convert line endings and set permissions for scripts
+RUN sed -i 's/\r$//' /app/run-code.sh && chmod +x /app/run-code.sh
 
 # Set default command
 CMD ["node", "--version"]

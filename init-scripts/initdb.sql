@@ -136,6 +136,17 @@ CREATE TABLE user_progress (
     UNIQUE(user_id, lesson_id)
 );
 
+-- User Lesson Code Progress Table for saving user's code edits
+CREATE TABLE user_lesson_code (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    code TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    UNIQUE(user_id, lesson_id)
+);
+
 -- Indexes for faster lookups
 CREATE INDEX idx_submissions_user_id ON submissions(user_id);
 CREATE INDEX idx_submissions_lesson_id ON submissions(lesson_id);
@@ -148,6 +159,12 @@ CREATE INDEX idx_user_progress_user_id ON user_progress(user_id);
 CREATE INDEX idx_user_progress_lesson_id ON user_progress(lesson_id);
 CREATE INDEX idx_user_progress_user_lesson ON user_progress(user_id, lesson_id);
 CREATE INDEX idx_user_progress_completed_at ON user_progress(completed_at DESC);
+
+-- User Lesson Code Indexes
+CREATE INDEX idx_user_lesson_code_user_id ON user_lesson_code(user_id);
+CREATE INDEX idx_user_lesson_code_lesson_id ON user_lesson_code(lesson_id);
+CREATE INDEX idx_user_lesson_code_user_lesson ON user_lesson_code(user_id, lesson_id);
+CREATE INDEX idx_user_lesson_code_updated_at ON user_lesson_code(updated_at DESC);
 
 CREATE INDEX idx_user_settings_user_id ON user_settings(user_id);
 CREATE INDEX idx_user_settings_public_submissions ON user_settings(public_submissions);

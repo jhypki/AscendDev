@@ -12,8 +12,8 @@ RUN mkdir -p /app/code
 # Install dependencies
 RUN pip install --no-cache-dir pytest pytest-json-report
 
-# Set permissions for scripts
-RUN chmod +x /app/run-code.sh
+# Convert line endings and set permissions for scripts
+RUN sed -i 's/\r$//' /app/run-code.sh && chmod +x /app/run-code.sh
 
 # Set default command
 CMD ["python", "--version"]

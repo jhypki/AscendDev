@@ -3,23 +3,50 @@ using System.Text.Json;
 using Dapper;
 using Npgsql;
 using NpgsqlTypes;
+using AscendDev.Core.JsonConverters;
+using AscendDev.Core.Models.Courses;
 
 namespace AscendDev.Data;
 
 public class JsonTypeHandler<T>(JsonSerializerOptions? options = null) : SqlMapper.TypeHandler<T>
 {
-    private readonly JsonSerializerOptions _options = options ?? new JsonSerializerOptions
+    private readonly JsonSerializerOptions _options = options ?? GetDefaultOptions();
+
+    private static JsonSerializerOptions GetDefaultOptions()
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = true
-    };
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true
+        };
+
+        // Add the TestCaseConverter to handle TestCase objects properly
+        options.Converters.Add(new TestCaseConverter());
+
+        return options;
+    }
 
     public override T Parse(object value)
     {
+        // Add debugging to understand what we're receiving
+        Console.WriteLine($"JsonTypeHandler.Parse: Received value of type {value?.GetType()?.Name ?? "null"} for target type {typeof(T).Name}");
+
         if (value is string json)
+        {
+            Console.WriteLine($"JsonTypeHandler.Parse: Processing as string: {json.Substring(0, Math.Min(100, json.Length))}...");
             return JsonSerializer.Deserialize<T>(json, _options) ??
                    throw new InvalidOperationException("Deserialized JSON is null");
+        }
 
+        if (value is JsonElement jsonElement)
+        {
+            var jsonString = jsonElement.GetRawText();
+            Console.WriteLine($"JsonTypeHandler.Parse: Processing JsonElement as string: {jsonString.Substring(0, Math.Min(100, jsonString.Length))}...");
+            return JsonSerializer.Deserialize<T>(jsonString, _options) ??
+                   throw new InvalidOperationException("Deserialized JSON is null");
+        }
+
+        Console.WriteLine($"JsonTypeHandler.Parse: Unable to handle value type {value?.GetType()?.FullName ?? "null"}");
         throw new InvalidCastException($"Unable to cast {value.GetType()} to {typeof(T)}");
     }
 

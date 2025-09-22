@@ -76,6 +76,11 @@ if [ -d "./environments/runners/python" ]; then
     build_and_push_image "./environments/runners/python" "python" "runner"
 fi
 
+# Go Runner
+if [ -d "./environments/runners/go" ]; then
+    build_and_push_image "./environments/runners/go" "go" "runner"
+fi
+
 # TypeScript Runner
 if [ -d "./environments/runners/typescript" ]; then
     build_and_push_image "./environments/runners/typescript" "typescript" "runner"

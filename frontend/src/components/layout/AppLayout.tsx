@@ -1,6 +1,6 @@
 import { AppShell, Group, Text, UnstyledButton, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconHome, IconBook, IconUser, IconSettings, IconLogout, IconShield } from '@tabler/icons-react'
+import { IconHome, IconBook, IconUser, IconSettings, IconLogout, IconShield, IconCode } from '@tabler/icons-react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import type { RootState } from '../../store'
@@ -15,7 +15,7 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-    const [opened, { toggle }] = useDisclosure()
+    const [opened, { toggle }] = useDisclosure(true) // Start with sidebar open
     const { user, isAuthenticated } = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate()
     const location = useLocation()
@@ -34,6 +34,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     const navigationItems = [
         { icon: IconHome, label: 'Dashboard', href: '/dashboard' },
         { icon: IconBook, label: 'Courses', href: '/courses' },
+        { icon: IconCode, label: 'Playground', href: '/playground' },
         { icon: IconUser, label: 'Profile', href: '/profile' },
         { icon: IconSettings, label: 'Settings', href: '/settings' },
     ]
@@ -59,7 +60,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             navbar={{
                 width: 300,
                 breakpoint: 'sm',
-                collapsed: { mobile: !opened },
+                collapsed: { mobile: !opened, desktop: !opened },
             }}
             padding="md"
         >
@@ -74,7 +75,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                         currentPath={location.pathname}
                         onNavigate={(href: string) => {
                             navigate(href)
-                            if (opened) toggle() // Close mobile menu after navigation
+                            // Don't auto-close sidebar on navigation
                         }}
                     />
                 </AppShell.Section>

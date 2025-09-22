@@ -35,10 +35,18 @@ public abstract class BaseSanitizer : ICodeSanitizer
     protected abstract string SanitizeLanguageSpecificCode(string code);
 
     /// <summary>
+    /// Removes comments from code based on language-specific comment patterns
+    /// </summary>
+    protected abstract string RemoveComments(string code);
+
+    /// <summary>
     /// Checks for common dangerous patterns across languages
     /// </summary>
     protected void SanitizeCommonPatterns(string code)
     {
+        // Remove comments before checking patterns
+        var codeWithoutComments = RemoveComments(code);
+
         string[] commonForbiddenPatterns =
         {
             "eval\\s*\\(",
@@ -52,7 +60,7 @@ public abstract class BaseSanitizer : ICodeSanitizer
 
         foreach (var pattern in commonForbiddenPatterns)
         {
-            if (Regex.IsMatch(code, pattern, RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(codeWithoutComments, pattern, RegexOptions.IgnoreCase))
                 throw new SecurityException($"Code contains potentially unsafe operation: {pattern}");
         }
     }
@@ -62,9 +70,12 @@ public abstract class BaseSanitizer : ICodeSanitizer
     /// </summary>
     protected void CheckForbiddenPatterns(string code, string[] forbiddenPatterns, string languageName)
     {
+        // Remove comments before checking patterns
+        var codeWithoutComments = RemoveComments(code);
+
         foreach (var pattern in forbiddenPatterns)
         {
-            if (Regex.IsMatch(code, pattern, RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(codeWithoutComments, pattern, RegexOptions.IgnoreCase))
                 throw new SecurityException($"{languageName} code contains potentially unsafe operation: {pattern}");
         }
     }

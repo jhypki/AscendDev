@@ -1,5 +1,6 @@
 using AscendDev.Core.Constants;
 using System.Security;
+using System.Text.RegularExpressions;
 
 namespace AscendDev.Core.CodeExecution.Sanitizers;
 
@@ -14,6 +15,22 @@ public class GoSanitizer : BaseSanitizer
     public override bool SupportsLanguage(string language)
     {
         return language.Equals(SupportedLanguages.Go, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Removes Go comments from code
+    /// </summary>
+    protected override string RemoveComments(string code)
+    {
+        if (string.IsNullOrEmpty(code))
+            return code;
+
+        // Remove single-line comments (//)
+        // Remove multi-line comments (/* */)
+        // But preserve comments inside strings
+        var result = Regex.Replace(code, @"//.*$|/\*[\s\S]*?\*/", "", RegexOptions.Multiline);
+
+        return result;
     }
 
     /// <summary>

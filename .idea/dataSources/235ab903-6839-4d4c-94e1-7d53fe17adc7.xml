@@ -22,22 +22,24 @@
     <schema id="15" parent="1" name="7"/>
     <schema id="16" parent="1" name="8"/>
     <schema id="17" parent="1" name="9"/>
-    <hash-table id="18" parent="2" name="AscendDev_course_python-fundamentals"/>
-    <hash-table id="19" parent="2" name="AscendDev_lessons_course_python-fundamentals"/>
-    <hash-table id="20" parent="2" name="refresh:3HGeg+BFdyynDz4gmsoK9+QG5zd2OlRzut+rnpD15fg="/>
-    <hash-table id="21" parent="2" name="refresh:50btxjoT+w2sYMWW056e+Qz4RRzDI8W85Vc34WlYRAY="/>
+    <hash-table id="18" parent="2" name="refresh:3HGeg+BFdyynDz4gmsoK9+QG5zd2OlRzut+rnpD15fg="/>
+    <hash-table id="19" parent="2" name="refresh:50btxjoT+w2sYMWW056e+Qz4RRzDI8W85Vc34WlYRAY="/>
+    <hash-table id="20" parent="2" name="refresh:6uK7wxo3x1TxDZuk/9O3XVpoKDFTXo45bIO5nsLRO8c="/>
+    <hash-table id="21" parent="2" name="refresh:779sKQ6B0a+7d4XIIOAOZ/9kw5LtmToDx5F/J1PUcX8="/>
     <hash-table id="22" parent="2" name="refresh:9lfWIub75vpAFKcNJYMfOJZtWmzAkAWqYTqEogU1LQM="/>
     <hash-table id="23" parent="2" name="refresh:A9TLAKzcZ+D0OhZA2FGxt6jc4Kmi61D6Bp4nCafRvVA="/>
     <hash-table id="24" parent="2" name="refresh:Dvn5EeAoNdHnLtMkpEuFs2hnS+AaNVPMrRXc6eDt93c="/>
     <hash-table id="25" parent="2" name="refresh:L8/03PlR53ko8ED4UGYfgx2CaLzS7K3PBeR2jqwVTpk="/>
     <hash-table id="26" parent="2" name="refresh:OuVcom5jO7sWm5hnapaYbL3YvH9yWX2JFk//0h8mOsc="/>
-    <hash-table id="27" parent="2" name="refresh:WnhAGlV8sHFhOiLsHcbmcPh8tvxZiofrNcWGC8PLYWg="/>
-    <hash-table id="28" parent="2" name="refresh:YGUTkN/2kZftN8gm8LlJFDzEjmcOYhucxrn04PQ2A+0="/>
-    <hash-table id="29" parent="2" name="refresh:cno0mEuww+bB7VuxcdzooljqO99qRzq4Rpe//pRQwgE="/>
-    <hash-table id="30" parent="2" name="refresh:hnZTx4/48DBY1cYfvtTt/+uSUFhzdHtL9OT8gfxrYUU="/>
-    <hash-table id="31" parent="2" name="refresh:jnuJVWE5CwtWELkOB6xVfFbd5fIvaH99YG8lBXiKJr0="/>
-    <hash-table id="32" parent="2" name="refresh:nBgoCRvlaQj5YLbQCUTeJrhxnT0guTIqpD7tYNUuraI="/>
-    <hash-table id="33" parent="2" name="refresh:ubXNqtIXOyMuIfG6zXe41CeWalrGjuMtNE2VF5a/cvU="/>
-    <hash-table id="34" parent="2" name="refresh:wGYfdnsptCHAUTy3L0jpdEJvehARCy3WwTpangHjpX8="/>
+    <hash-table id="27" parent="2" name="refresh:W5zJ2raKHGYHvQyZcTIz8aN9GZu0cEV/cL1j4D9Rpnw="/>
+    <hash-table id="28" parent="2" name="refresh:WnhAGlV8sHFhOiLsHcbmcPh8tvxZiofrNcWGC8PLYWg="/>
+    <hash-table id="29" parent="2" name="refresh:YGUTkN/2kZftN8gm8LlJFDzEjmcOYhucxrn04PQ2A+0="/>
+    <hash-table id="30" parent="2" name="refresh:cno0mEuww+bB7VuxcdzooljqO99qRzq4Rpe//pRQwgE="/>
+    <hash-table id="31" parent="2" name="refresh:hnZTx4/48DBY1cYfvtTt/+uSUFhzdHtL9OT8gfxrYUU="/>
+    <hash-table id="32" parent="2" name="refresh:jnuJVWE5CwtWELkOB6xVfFbd5fIvaH99YG8lBXiKJr0="/>
+    <hash-table id="33" parent="2" name="refresh:nBgoCRvlaQj5YLbQCUTeJrhxnT0guTIqpD7tYNUuraI="/>
+    <hash-table id="34" parent="2" name="refresh:ubXNqtIXOyMuIfG6zXe41CeWalrGjuMtNE2VF5a/cvU="/>
+    <hash-table id="35" parent="2" name="refresh:w67CVzC9M4Nc5/GAaR69BvzXlmg+W4wsgMchyZLkmas="/>
+    <hash-table id="36" parent="2" name="refresh:wGYfdnsptCHAUTy3L0jpdEJvehARCy3WwTpangHjpX8="/>
   </database-model>
 </dataSource>

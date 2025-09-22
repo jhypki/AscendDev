@@ -7,6 +7,7 @@ using AscendDev.Core.Models.CodeExecution;
 using AscendDev.Core.Models.Courses;
 using AscendDev.Core.Models.TestsExecution.KeywordValidation;
 using Microsoft.Extensions.Logging;
+using System.Security;
 using System.Text.Json;
 
 namespace AscendDev.Services.Services;
@@ -132,13 +133,38 @@ public class CodeTestService : ICodeTestService
 
             return result;
         }
+        catch (SecurityException secEx)
+        {
+            _logger.LogError(secEx, "Security violation in code for lesson {LessonId}", lessonId);
+            return new TestResult
+            {
+                Success = false,
+                TestResults = new List<TestCaseResult>
+                {
+                    new TestCaseResult
+                    {
+                        Passed = false,
+                        TestName = "Code Security Check",
+                        Message = $"Security violation: {secEx.Message}"
+                    }
+                }
+            };
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error running test for lesson {LessonId}", lessonId);
             return new TestResult
             {
                 Success = false,
-                TestResults = new List<TestCaseResult>()
+                TestResults = new List<TestCaseResult>
+                {
+                    new TestCaseResult
+                    {
+                        Passed = false,
+                        TestName = "Test Execution Error",
+                        Message = $"An error occurred while running tests: {ex.Message}"
+                    }
+                }
             };
         }
     }

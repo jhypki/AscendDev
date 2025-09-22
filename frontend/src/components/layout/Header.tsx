@@ -40,8 +40,14 @@ export function Header({ opened, toggle, user }: HeaderProps) {
     return (
         <Group h="100%" px="md" justify="space-between">
             <Group>
-                <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                <Text size="xl" fw={700} c="brand.6">
+                <Burger opened={opened} onClick={toggle} size="sm" />
+                <Text
+                    size="xl"
+                    fw={700}
+                    c="brand.6"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => navigate('/dashboard')}
+                >
                     AscendDev
                 </Text>
             </Group>
