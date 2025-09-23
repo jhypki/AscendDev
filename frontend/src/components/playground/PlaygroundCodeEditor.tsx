@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Box, Button, Group, Paper, Stack, Text, ActionIcon, Select } from '@mantine/core'
+import { Box, Button, Group, Paper, Stack, Text, ActionIcon, Select, useComputedColorScheme } from '@mantine/core'
 import { IconPlayerPlay, IconCheck, IconX, IconTrash } from '@tabler/icons-react'
 import Editor from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
@@ -107,6 +107,7 @@ export const PlaygroundCodeEditor = ({ onLanguageChange }: PlaygroundCodeEditorP
     const [language, setLanguage] = useState('javascript')
     const [code, setCode] = useState(DEFAULT_CODE_TEMPLATES.javascript)
     const [executionResult, setExecutionResult] = useState<CodeExecutionResult | null>(null)
+    const colorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true })
 
     const runCodeMutation = useRunCode()
 
@@ -239,7 +240,7 @@ export const PlaygroundCodeEditor = ({ onLanguageChange }: PlaygroundCodeEditorP
                         value={code}
                         onChange={handleEditorChange}
                         onMount={handleEditorDidMount}
-                        theme="vs-dark"
+                        theme={colorScheme === 'dark' ? 'vs-dark' : 'light'}
                         options={{
                             minimap: { enabled: false },
                             fontSize: 14,
@@ -286,7 +287,7 @@ export const PlaygroundCodeEditor = ({ onLanguageChange }: PlaygroundCodeEditorP
                         {executionResult.stdout && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Output:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="green" style={{ whiteSpace: 'pre-wrap' }}>
                                         {executionResult.stdout}
                                     </Text>
@@ -297,7 +298,7 @@ export const PlaygroundCodeEditor = ({ onLanguageChange }: PlaygroundCodeEditorP
                         {executionResult.stderr && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Error:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="red" style={{ whiteSpace: 'pre-wrap' }}>
                                         {executionResult.stderr}
                                     </Text>
@@ -308,7 +309,7 @@ export const PlaygroundCodeEditor = ({ onLanguageChange }: PlaygroundCodeEditorP
                         {executionResult.compilationOutput && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Compilation:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="yellow" style={{ whiteSpace: 'pre-wrap' }}>
                                         {executionResult.compilationOutput}
                                     </Text>

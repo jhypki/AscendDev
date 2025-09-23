@@ -82,6 +82,17 @@ public class CodeReviewCommentService : ICodeReviewCommentService
             if (codeReview.ReviewerId != userId && codeReview.RevieweeId != userId)
                 throw new UnauthorizedException("You can only comment on code reviews you are involved in");
 
+            // If this is a reply, verify the parent comment exists and belongs to the same code review
+            if (request.ParentCommentId.HasValue)
+            {
+                var parentComment = await _codeReviewCommentRepository.GetByIdAsync(request.ParentCommentId.Value);
+                if (parentComment == null)
+                    throw new NotFoundException("Parent comment", request.ParentCommentId.Value.ToString());
+
+                if (parentComment.CodeReviewId != codeReviewId)
+                    throw new BadRequestException("Parent comment must belong to the same code review");
+            }
+
             var comment = new CodeReviewComment
             {
                 Id = Guid.NewGuid(),
@@ -90,7 +101,8 @@ public class CodeReviewCommentService : ICodeReviewCommentService
                 LineNumber = request.LineNumber,
                 Content = request.Content,
                 CreatedAt = DateTime.UtcNow,
-                IsResolved = false
+                IsResolved = false,
+                ParentCommentId = request.ParentCommentId
             };
 
             var createdComment = await _codeReviewCommentRepository.CreateAsync(comment);
@@ -212,12 +224,16 @@ public class CodeReviewCommentService : ICodeReviewCommentService
             IsEdited = comment.IsEdited,
             IsLineComment = comment.IsLineComment,
             IsGeneralComment = comment.IsGeneralComment,
-            User = new UserDto
+            ParentCommentId = comment.ParentCommentId,
+            IsReply = comment.IsReply,
+            ReplyCount = comment.ReplyCount,
+            Replies = comment.Replies?.Select(MapToResponse).ToList() ?? new List<CodeReviewCommentResponse>(),
+            User = comment.User != null ? new UserDto
             {
                 Id = comment.User.Id,
                 Username = comment.User.Username,
                 Email = comment.User.Email
-            }
+            } : null
         };
     }
 }

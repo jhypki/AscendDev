@@ -5,29 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/DiscussionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/DiscussionsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/UserSettingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/UserSettingsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateDiscussionRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateDiscussionRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/DiscussionResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/DiscussionResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/IDiscussionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/IDiscussionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IDiscussionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IDiscussionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IUserSettingsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IUserSettingsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/Social/Discussion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/Social/Discussion.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/DiscussionReplyRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/DiscussionReplyRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/DiscussionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/DiscussionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/DiscussionReplyService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/DiscussionReplyService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/DiscussionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/DiscussionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/UserSettingsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/UserSettingsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/SubmissionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/SubmissionsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Courses/SubmissionResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Courses/SubmissionResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewCommentResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewCommentResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewCommentRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewCommentRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewCommentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewCommentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISubmissionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISubmissionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICodeReviewService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICodeReviewService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ISubmissionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ISubmissionService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReviewComment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReviewComment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewCommentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewCommentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/SubmissionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/SubmissionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewCommentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewCommentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/SubmissionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/SubmissionService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/lessons/CodeEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/lessons/CodeEditor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/lessons/LessonViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/lessons/LessonViewer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/courses/CourseDetailPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/courses/CourseDetailPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/profile/ProfilePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/profile/ProfilePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/playground/PlaygroundCodeEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/playground/PlaygroundCodeEditor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

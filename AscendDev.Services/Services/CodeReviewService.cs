@@ -314,9 +314,48 @@ public class CodeReviewService : ICodeReviewService
         }
     }
 
+    public async Task<CodeReviewResponse?> GetBySubmissionAndReviewerAsync(int submissionId, Guid reviewerId)
+    {
+        try
+        {
+            var codeReview = await _codeReviewRepository.GetBySubmissionAndReviewerAsync(submissionId, reviewerId);
+            return codeReview != null ? await MapToResponseAsync(codeReview) : null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting code review by submission {SubmissionId} and reviewer {ReviewerId}", submissionId, reviewerId);
+            throw;
+        }
+    }
+
+    public async Task<IEnumerable<CodeReviewResponse>> GetBySubmissionIdAsync(int submissionId)
+    {
+        try
+        {
+            var codeReviews = await _codeReviewRepository.GetBySubmissionIdAsync(submissionId);
+            var responses = new List<CodeReviewResponse>();
+
+            foreach (var codeReview in codeReviews)
+            {
+                responses.Add(await MapToResponseAsync(codeReview));
+            }
+
+            return responses;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting code reviews by submission id {SubmissionId}", submissionId);
+            throw;
+        }
+    }
+
     private async Task<CodeReviewResponse> MapToResponseAsync(CodeReview codeReview)
     {
         var submissionResponse = await _submissionService.GetSubmissionByIdAsync(codeReview.SubmissionId);
+
+        // Get total comment count for the submission across all reviews
+        var allReviewsForSubmission = await _codeReviewRepository.GetBySubmissionIdAsync(codeReview.SubmissionId);
+        var totalCommentCount = allReviewsForSubmission.Sum(r => r.CommentCount);
 
         return new CodeReviewResponse
         {
@@ -331,7 +370,7 @@ public class CodeReviewService : ICodeReviewService
             UpdatedAt = codeReview.UpdatedAt,
             CompletedAt = codeReview.CompletedAt,
             IsCompleted = codeReview.IsCompleted,
-            CommentCount = codeReview.CommentCount,
+            CommentCount = totalCommentCount, // Use total comment count across all reviews
             ReviewDuration = codeReview.ReviewDuration,
             Reviewer = new UserDto
             {

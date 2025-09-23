@@ -1,0 +1,539 @@
+{
+    "info": {
+        "_postman_id": "code-reviews-collection-id",
+        "name": "07 - Code Reviews",
+        "description": "API endpoints for code review functionality including submissions for review and code review management",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Submissions for Review",
+            "item": [
+                {
+                    "name": "Get Submissions for Review by Lesson",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/submissions/lesson/{{lessonId}}/for-review?limit=50",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "submissions",
+                                "lesson",
+                                "{{lessonId}}",
+                                "for-review"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "50",
+                                    "description": "Maximum number of submissions to return"
+                                }
+                            ]
+                        },
+                        "description": "Get submissions available for code review for a specific lesson"
+                    }
+                },
+                {
+                    "name": "Get Submission for Review",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/submissions/{{submissionId}}/for-review",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "submissions",
+                                "{{submissionId}}",
+                                "for-review"
+                            ]
+                        },
+                        "description": "Get a specific submission for code review"
+                    }
+                }
+            ],
+            "description": "Endpoints for getting submissions available for review"
+        },
+        {
+            "name": "Code Reviews",
+            "item": [
+                {
+                    "name": "Create Code Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"lessonId\": \"{{lessonId}}\",\n  \"revieweeId\": \"{{revieweeId}}\",\n  \"submissionId\": {{submissionId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews"
+                            ]
+                        },
+                        "description": "Create a new code review for a submission"
+                    }
+                },
+                {
+                    "name": "Get Code Review by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}"
+                            ]
+                        },
+                        "description": "Get a specific code review by ID"
+                    }
+                },
+                {
+                    "name": "Update Code Review",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"approved\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}"
+                            ]
+                        },
+                        "description": "Update a code review (change status, etc.)"
+                    }
+                },
+                {
+                    "name": "Delete Code Review",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}"
+                            ]
+                        },
+                        "description": "Delete a code review"
+                    }
+                },
+                {
+                    "name": "Get Code Reviews by Lesson",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/lesson/{{lessonId}}?page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "lesson",
+                                "{{lessonId}}"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20",
+                                    "description": "Number of items per page"
+                                }
+                            ]
+                        },
+                        "description": "Get code reviews for a specific lesson"
+                    }
+                },
+                {
+                    "name": "Get My Reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/my-reviews?page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "my-reviews"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20",
+                                    "description": "Number of items per page"
+                                }
+                            ]
+                        },
+                        "description": "Get code reviews where current user is the reviewer"
+                    }
+                },
+                {
+                    "name": "Get My Submissions Under Review",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/my-submissions?page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "my-submissions"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20",
+                                    "description": "Number of items per page"
+                                }
+                            ]
+                        },
+                        "description": "Get code reviews where current user is the reviewee"
+                    }
+                },
+                {
+                    "name": "Get Pending Reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/pending?page=1&pageSize=20",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "pending"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "20",
+                                    "description": "Number of items per page"
+                                }
+                            ]
+                        },
+                        "description": "Get pending code reviews available for review"
+                    }
+                }
+            ],
+            "description": "Endpoints for managing code reviews"
+        },
+        {
+            "name": "Code Review Comments",
+            "item": [
+                {
+                    "name": "Get Code Review Comments",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments"
+                            ]
+                        },
+                        "description": "Get comments for a specific code review"
+                    }
+                },
+                {
+                    "name": "Create Code Review Comment",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"content\": \"This looks good, but consider using a more descriptive variable name.\",\n  \"lineNumber\": 15\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments"
+                            ]
+                        },
+                        "description": "Add a comment to a code review"
+                    }
+                },
+                {
+                    "name": "Get Code Review Comment",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments/{{commentId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments",
+                                "{{commentId}}"
+                            ]
+                        },
+                        "description": "Get a specific comment"
+                    }
+                },
+                {
+                    "name": "Update Code Review Comment",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"content\": \"Updated comment: This looks much better now!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments/{{commentId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments",
+                                "{{commentId}}"
+                            ]
+                        },
+                        "description": "Update a comment"
+                    }
+                },
+                {
+                    "name": "Delete Code Review Comment",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments/{{commentId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments",
+                                "{{commentId}}"
+                            ]
+                        },
+                        "description": "Delete a comment"
+                    }
+                },
+                {
+                    "name": "Resolve Code Review Comment",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/codereviews/{{codeReviewId}}/comments/{{commentId}}/resolve",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "codereviews",
+                                "{{codeReviewId}}",
+                                "comments",
+                                "{{commentId}}",
+                                "resolve"
+                            ]
+                        },
+                        "description": "Resolve a comment"
+                    }
+                }
+            ],
+            "description": "Endpoints for managing code review comments"
+        }
+    ],
+    "variable": [
+        {
+            "key": "codeReviewId",
+            "value": "12345678-1234-1234-1234-123456789012",
+            "description": "Sample code review ID"
+        },
+        {
+            "key": "commentId",
+            "value": "87654321-4321-4321-4321-210987654321",
+            "description": "Sample comment ID"
+        },
+        {
+            "key": "revieweeId",
+            "value": "33333333-3333-3333-3333-333333333333",
+            "description": "Sample reviewee user ID"
+        },
+        {
+            "key": "submissionId",
+            "value": "1",
+            "description": "Sample submission ID"
+        }
+    ]
+}

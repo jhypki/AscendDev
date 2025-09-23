@@ -19,6 +19,8 @@ const ProfilePage = lazy(() => import('../pages/profile/ProfilePage'))
 const SettingsPage = lazy(() => import('../pages/settings/SettingsPage'))
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'))
 const PlaygroundPage = lazy(() => import('../pages/playground/PlaygroundPage'))
+const MySubmissionsPage = lazy(() => import('../pages/submissions/MySubmissionsPage'))
+const CodeReviewPage = lazy(() => import('../pages/submissions/CodeReviewPage'))
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'))
 
 // Loading component
@@ -176,6 +178,26 @@ export const router = createBrowserRouter([
             <ProtectedRoute>
                 <LazyWrapper>
                     <PlaygroundPage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/my-submissions',
+        element: (
+            <ProtectedRoute>
+                <LazyWrapper>
+                    <MySubmissionsPage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/submissions/:submissionId/review',
+        element: (
+            <ProtectedRoute>
+                <LazyWrapper>
+                    <CodeReviewPage />
                 </LazyWrapper>
             </ProtectedRoute>
         ),

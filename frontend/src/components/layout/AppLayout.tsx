@@ -1,6 +1,6 @@
 import { AppShell, Group, Text, UnstyledButton, rem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconHome, IconBook, IconUser, IconSettings, IconLogout, IconShield, IconCode } from '@tabler/icons-react'
+import { IconHome, IconBook, IconUser, IconSettings, IconLogout, IconShield, IconCode, IconFileText } from '@tabler/icons-react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import type { RootState } from '../../store'
@@ -35,6 +35,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         { icon: IconHome, label: 'Dashboard', href: '/dashboard' },
         { icon: IconBook, label: 'Courses', href: '/courses' },
         { icon: IconCode, label: 'Playground', href: '/playground' },
+        { icon: IconFileText, label: 'My Submissions', href: '/my-submissions' },
         { icon: IconUser, label: 'Profile', href: '/profile' },
         { icon: IconSettings, label: 'Settings', href: '/settings' },
     ]

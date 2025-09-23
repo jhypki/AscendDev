@@ -68,6 +68,7 @@ public class SubmissionService : ISubmissionService
         return submissions.Select(s => new PublicSubmissionResponse
         {
             Id = s.Id,
+            UserId = s.UserId,
             LessonId = s.LessonId,
             Code = s.Code,
             SubmittedAt = s.SubmittedAt,
@@ -87,6 +88,7 @@ public class SubmissionService : ISubmissionService
         return submissions.Select(s => new PublicSubmissionResponse
         {
             Id = s.Id,
+            UserId = s.UserId,
             LessonId = s.LessonId,
             Code = s.Code,
             SubmittedAt = s.SubmittedAt,
@@ -127,5 +129,46 @@ public class SubmissionService : ISubmissionService
     public async Task<int> GetUserPassedSubmissionCountAsync(Guid userId)
     {
         return await _submissionRepository.GetPassedSubmissionCountByUserAsync(userId);
+    }
+
+    public async Task<IEnumerable<PublicSubmissionResponse>> GetSubmissionsForReviewAsync(string lessonId, int limit = 50)
+    {
+        var submissions = await _submissionRepository.GetSubmissionsForReviewAsync(lessonId, limit);
+
+        return submissions.Select(s => new PublicSubmissionResponse
+        {
+            Id = s.Id,
+            UserId = s.UserId,
+            LessonId = s.LessonId,
+            Code = s.Code,
+            SubmittedAt = s.SubmittedAt,
+            ExecutionTimeMs = s.ExecutionTimeMs,
+            Username = s.User?.Username ?? "",
+            FirstName = s.User?.FirstName,
+            ProfilePictureUrl = s.User?.ProfilePictureUrl,
+            LessonTitle = s.Lesson?.Title ?? "",
+            LessonSlug = s.Lesson?.Slug ?? ""
+        });
+    }
+
+    public async Task<PublicSubmissionResponse?> GetSubmissionForReviewAsync(int submissionId)
+    {
+        var submission = await _submissionRepository.GetSubmissionForReviewAsync(submissionId);
+        if (submission == null) return null;
+
+        return new PublicSubmissionResponse
+        {
+            Id = submission.Id,
+            UserId = submission.UserId,
+            LessonId = submission.LessonId,
+            Code = submission.Code,
+            SubmittedAt = submission.SubmittedAt,
+            ExecutionTimeMs = submission.ExecutionTimeMs,
+            Username = submission.User?.Username ?? "",
+            FirstName = submission.User?.FirstName,
+            ProfilePictureUrl = submission.User?.ProfilePictureUrl,
+            LessonTitle = submission.Lesson?.Title ?? "",
+            LessonSlug = submission.Lesson?.Slug ?? ""
+        };
     }
 }

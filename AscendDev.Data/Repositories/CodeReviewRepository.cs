@@ -85,23 +85,25 @@ public class CodeReviewRepository : ICodeReviewRepository
     public async Task<CodeReview> CreateAsync(CodeReview codeReview)
     {
         var sql = @"
-            INSERT INTO code_reviews (id, lesson_id, reviewer_id, reviewee_id, code_solution, status, created_at)
-            VALUES (@Id, @LessonId, @ReviewerId, @RevieweeId, @CodeSolution, @Status, @CreatedAt)
+            INSERT INTO code_reviews (id, lesson_id, reviewer_id, reviewee_id, submission_id, status, created_at)
+            VALUES (@Id, @LessonId, @ReviewerId, @RevieweeId, @SubmissionId, @Status, @CreatedAt)
             RETURNING *";
 
         var result = await _sqlExecutor.QueryFirstAsync<CodeReview>(sql, codeReview);
+        await LoadUsersAsync(new[] { result });
         return result;
     }
 
     public async Task<CodeReview> UpdateAsync(CodeReview codeReview)
     {
         var sql = @"
-            UPDATE code_reviews 
-            SET status = @Status, code_solution = @CodeSolution, updated_at = @UpdatedAt, completed_at = @CompletedAt
+            UPDATE code_reviews
+            SET status = @Status, updated_at = @UpdatedAt, completed_at = @CompletedAt
             WHERE id = @Id
             RETURNING *";
 
         var result = await _sqlExecutor.QueryFirstAsync<CodeReview>(sql, codeReview);
+        await LoadUsersAsync(new[] { result });
         return result;
     }
 
@@ -144,27 +146,94 @@ public class CodeReviewRepository : ICodeReviewRepository
         return codeReviews;
     }
 
+    public async Task<CodeReview?> GetBySubmissionAndReviewerAsync(int submissionId, Guid reviewerId)
+    {
+        var sql = @"
+            SELECT * FROM code_reviews
+            WHERE submission_id = @submissionId AND reviewer_id = @reviewerId
+            ORDER BY created_at DESC
+            LIMIT 1";
+
+        var codeReview = await _sqlExecutor.QueryFirstOrDefaultAsync<CodeReview>(sql, new { submissionId, reviewerId });
+
+        if (codeReview != null)
+        {
+            await LoadUsersAsync(new[] { codeReview });
+        }
+
+        return codeReview;
+    }
+
+    public async Task<IEnumerable<CodeReview>> GetBySubmissionIdAsync(int submissionId)
+    {
+        var sql = @"
+            SELECT * FROM code_reviews
+            WHERE submission_id = @submissionId
+            ORDER BY created_at DESC";
+
+        var codeReviews = await _sqlExecutor.QueryAsync<CodeReview>(sql, new { submissionId });
+        await LoadUsersAsync(codeReviews);
+        return codeReviews;
+    }
+
     private async Task LoadUsersAsync(IEnumerable<CodeReview> codeReviews)
     {
-        var userIds = codeReviews.SelectMany(cr => new[] { cr.ReviewerId, cr.RevieweeId }).Distinct().ToList();
+        var codeReviewsList = codeReviews.ToList();
 
-        if (!userIds.Any()) return;
+        // Load users
+        var userIds = codeReviewsList.SelectMany(cr => new[] { cr.ReviewerId, cr.RevieweeId }).Distinct().ToList();
 
-        var userSql = @"
-            SELECT id, username, email, first_name, last_name, profile_picture_url 
-            FROM users 
-            WHERE id = ANY(@userIds)";
-
-        var users = await _sqlExecutor.QueryAsync<Core.Models.Auth.User>(userSql, new { userIds });
-        var userDict = users.ToDictionary(u => u.Id);
-
-        foreach (var codeReview in codeReviews)
+        if (userIds.Any())
         {
-            if (userDict.TryGetValue(codeReview.ReviewerId, out var reviewer))
-                codeReview.Reviewer = reviewer;
+            var userSql = @"
+                SELECT id, username, email, first_name, last_name, profile_picture_url
+                FROM users
+                WHERE id = ANY(@userIds)";
 
-            if (userDict.TryGetValue(codeReview.RevieweeId, out var reviewee))
-                codeReview.Reviewee = reviewee;
+            var users = await _sqlExecutor.QueryAsync<Core.Models.Auth.User>(userSql, new { userIds });
+            var userDict = users.ToDictionary(u => u.Id);
+
+            foreach (var codeReview in codeReviewsList)
+            {
+                if (userDict.TryGetValue(codeReview.ReviewerId, out var reviewer))
+                    codeReview.Reviewer = reviewer;
+
+                if (userDict.TryGetValue(codeReview.RevieweeId, out var reviewee))
+                    codeReview.Reviewee = reviewee;
+            }
+        }
+
+        // Load comments
+        var codeReviewIds = codeReviewsList.Select(cr => cr.Id).ToList();
+
+        if (codeReviewIds.Any())
+        {
+            var commentSql = @"
+                SELECT crc.*, u.id, u.username, u.email, u.first_name, u.last_name, u.profile_picture_url
+                FROM code_review_comments crc
+                INNER JOIN users u ON crc.user_id = u.id
+                WHERE crc.code_review_id = ANY(@codeReviewIds)
+                ORDER BY crc.created_at ASC";
+
+            var commentData = await _sqlExecutor.QueryAsync<CodeReviewComment, Core.Models.Auth.User, CodeReviewComment>(
+                commentSql,
+                (comment, user) =>
+                {
+                    comment.User = user;
+                    return comment;
+                },
+                new { codeReviewIds },
+                splitOn: "id");
+
+            var commentsByReview = commentData.GroupBy(c => c.CodeReviewId).ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var codeReview in codeReviewsList)
+            {
+                if (commentsByReview.TryGetValue(codeReview.Id, out var comments))
+                {
+                    codeReview.Comments = comments;
+                }
+            }
         }
     }
 }

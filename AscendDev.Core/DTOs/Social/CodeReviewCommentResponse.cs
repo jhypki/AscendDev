@@ -7,6 +7,7 @@ public class CodeReviewCommentResponse
     public Guid Id { get; set; }
     public Guid CodeReviewId { get; set; }
     public Guid UserId { get; set; }
+    public Guid? ParentCommentId { get; set; }
     public int? LineNumber { get; set; }
     public string Content { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
@@ -15,5 +16,8 @@ public class CodeReviewCommentResponse
     public bool IsEdited { get; set; }
     public bool IsLineComment { get; set; }
     public bool IsGeneralComment { get; set; }
+    public bool IsReply { get; set; }
+    public int ReplyCount { get; set; }
     public UserDto User { get; set; } = null!;
+    public List<CodeReviewCommentResponse> Replies { get; set; } = new();
 }

@@ -25,6 +25,7 @@ public class SubmissionResponse
 public class PublicSubmissionResponse
 {
     public int Id { get; set; }
+    public Guid UserId { get; set; }
     public string LessonId { get; set; } = null!;
     public string Code { get; set; } = null!;
     public DateTime SubmittedAt { get; set; }

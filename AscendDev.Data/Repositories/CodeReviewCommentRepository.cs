@@ -69,7 +69,18 @@ public class CodeReviewCommentRepository : ICodeReviewCommentRepository
             new { codeReviewId },
             splitOn: "id");
 
-        return comments;
+        // Load replies for each comment
+        var commentsList = comments.ToList();
+        foreach (var comment in commentsList)
+        {
+            if (comment.ParentCommentId == null) // Only load replies for top-level comments
+            {
+                var replies = await GetRepliesByParentIdAsync(comment.Id);
+                comment.Replies = replies.ToList();
+            }
+        }
+
+        return commentsList;
     }
 
     public async Task<IEnumerable<CodeReviewComment>> GetByUserIdAsync(Guid userId, int page = 1, int pageSize = 20)
@@ -107,24 +118,30 @@ public class CodeReviewCommentRepository : ICodeReviewCommentRepository
     public async Task<CodeReviewComment> CreateAsync(CodeReviewComment comment)
     {
         var sql = @"
-            INSERT INTO code_review_comments (id, code_review_id, user_id, line_number, content, created_at, is_resolved)
-            VALUES (@Id, @CodeReviewId, @UserId, @LineNumber, @Content, @CreatedAt, @IsResolved)
+            INSERT INTO code_review_comments (id, code_review_id, user_id, line_number, content, created_at, is_resolved, parent_comment_id)
+            VALUES (@Id, @CodeReviewId, @UserId, @LineNumber, @Content, @CreatedAt, @IsResolved, @ParentCommentId)
             RETURNING *";
 
         var result = await _sqlExecutor.QueryFirstAsync<CodeReviewComment>(sql, comment);
-        return result;
+
+        // Load the user data for the created comment
+        var createdComment = await GetByIdAsync(result.Id);
+        return createdComment ?? result;
     }
 
     public async Task<CodeReviewComment> UpdateAsync(CodeReviewComment comment)
     {
         var sql = @"
-            UPDATE code_review_comments 
+            UPDATE code_review_comments
             SET content = @Content, updated_at = @UpdatedAt, is_resolved = @IsResolved
             WHERE id = @Id
             RETURNING *";
 
         var result = await _sqlExecutor.QueryFirstAsync<CodeReviewComment>(sql, comment);
-        return result;
+
+        // Load the user data for the updated comment
+        var updatedComment = await GetByIdAsync(result.Id);
+        return updatedComment ?? result;
     }
 
     public async Task<bool> DeleteAsync(Guid id)
@@ -198,5 +215,35 @@ public class CodeReviewCommentRepository : ICodeReviewCommentRepository
     {
         var sql = "SELECT COUNT(*) FROM code_review_comments WHERE code_review_id = @codeReviewId";
         return await _sqlExecutor.QueryFirstAsync<int>(sql, new { codeReviewId });
+    }
+
+    public async Task<IEnumerable<CodeReviewComment>> GetRepliesByParentIdAsync(Guid parentCommentId)
+    {
+        var sql = @"
+            SELECT crc.*, u.id, u.username, u.email, u.first_name, u.last_name, u.profile_picture_url
+            FROM code_review_comments crc
+            INNER JOIN users u ON crc.user_id = u.id
+            WHERE crc.parent_comment_id = @parentCommentId
+            ORDER BY crc.created_at ASC";
+
+        var replies = await _sqlExecutor.QueryAsync<CodeReviewComment, dynamic, CodeReviewComment>(
+            sql,
+            (comment, user) =>
+            {
+                comment.User = new Core.Models.Auth.User
+                {
+                    Id = user.id,
+                    Username = user.username,
+                    Email = user.email,
+                    FirstName = user.first_name,
+                    LastName = user.last_name,
+                    ProfilePictureUrl = user.profile_picture_url
+                };
+                return comment;
+            },
+            new { parentCommentId },
+            splitOn: "id");
+
+        return replies;
     }
 }

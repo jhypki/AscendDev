@@ -16,4 +16,6 @@ public interface ICodeReviewRepository
     Task<int> GetTotalCountByReviewerIdAsync(Guid reviewerId);
     Task<int> GetTotalCountByRevieweeIdAsync(Guid revieweeId);
     Task<IEnumerable<CodeReview>> GetPendingReviewsAsync(int page = 1, int pageSize = 20);
+    Task<CodeReview?> GetBySubmissionAndReviewerAsync(int submissionId, Guid reviewerId);
+    Task<IEnumerable<CodeReview>> GetBySubmissionIdAsync(int submissionId);
 }

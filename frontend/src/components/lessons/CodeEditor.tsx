@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Box, Button, Group, LoadingOverlay, Paper, Stack, Text, ActionIcon } from '@mantine/core'
+import { Box, Button, Group, LoadingOverlay, Paper, Stack, Text, ActionIcon, useComputedColorScheme } from '@mantine/core'
 import { IconPlayerPlay, IconCheck, IconX, IconReload } from '@tabler/icons-react'
 import { useDebounce } from 'use-debounce'
 import Editor from '@monaco-editor/react'
@@ -33,6 +33,7 @@ export const CodeEditor = ({
     const [executionResult, setExecutionResult] = useState<CodeExecutionResult | null>(null)
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
     const [isInitialized, setIsInitialized] = useState(false)
+    const colorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true })
 
     // Debounce the code to avoid excessive API calls
     const [debouncedCode] = useDebounce(code, 2000) // 2 second delay
@@ -228,7 +229,7 @@ export const CodeEditor = ({
                         value={code}
                         onChange={handleEditorChange}
                         onMount={handleEditorDidMount}
-                        theme="vs-dark"
+                        theme={colorScheme === 'dark' ? 'vs-dark' : 'light'}
                         options={{
                             minimap: { enabled: false },
                             fontSize: 14,
@@ -275,7 +276,7 @@ export const CodeEditor = ({
                         {executionResult.stdout && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Output:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="green">
                                         {executionResult.stdout}
                                     </Text>
@@ -286,7 +287,7 @@ export const CodeEditor = ({
                         {executionResult.stderr && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Error:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="red">
                                         {executionResult.stderr}
                                     </Text>
@@ -297,7 +298,7 @@ export const CodeEditor = ({
                         {executionResult.compilationOutput && (
                             <Box>
                                 <Text size="xs" c="dimmed" mb={4}>Compilation:</Text>
-                                <Paper bg="dark" p="xs">
+                                <Paper bg={colorScheme === 'dark' ? 'dark.8' : 'gray.0'} p="xs">
                                     <Text size="xs" ff="monospace" c="yellow">
                                         {executionResult.compilationOutput}
                                     </Text>

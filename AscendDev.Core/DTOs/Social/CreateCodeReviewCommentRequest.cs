@@ -9,4 +9,6 @@ public class CreateCodeReviewCommentRequest
     public string Content { get; set; } = null!;
 
     public int? LineNumber { get; set; }
+
+    public Guid? ParentCommentId { get; set; }
 }

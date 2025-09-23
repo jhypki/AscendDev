@@ -15,4 +15,6 @@ public interface ISubmissionService
     Task<Submission?> GetLatestSubmissionAsync(Guid userId, string lessonId);
     Task<int> GetUserSubmissionCountAsync(Guid userId);
     Task<int> GetUserPassedSubmissionCountAsync(Guid userId);
+    Task<IEnumerable<PublicSubmissionResponse>> GetSubmissionsForReviewAsync(string lessonId, int limit = 50);
+    Task<PublicSubmissionResponse?> GetSubmissionForReviewAsync(int submissionId);
 }

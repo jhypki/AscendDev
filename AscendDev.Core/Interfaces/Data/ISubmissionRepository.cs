@@ -16,4 +16,6 @@ public interface ISubmissionRepository
     Task<bool> ExistsAsync(int id);
     Task<int> GetSubmissionCountByUserAsync(Guid userId);
     Task<int> GetPassedSubmissionCountByUserAsync(Guid userId);
+    Task<IEnumerable<Submission>> GetSubmissionsForReviewAsync(string lessonId, int limit = 50);
+    Task<Submission?> GetSubmissionForReviewAsync(int submissionId);
 }

@@ -247,13 +247,18 @@ CREATE TABLE code_reviews (
     status VARCHAR(50) DEFAULT 'pending', -- pending, approved, changes_requested, completed
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE,
-    completed_at TIMESTAMP WITH TIME ZONE
+    completed_at TIMESTAMP WITH TIME ZONE,
+    -- Prevent duplicate reviews for the same submission by the same reviewer
+    UNIQUE(submission_id, reviewer_id),
+    -- Prevent users from reviewing their own code
+    CONSTRAINT check_reviewer_not_reviewee CHECK (reviewer_id != reviewee_id)
 );
 
 CREATE TABLE code_review_comments (
     id UUID PRIMARY KEY,
     code_review_id UUID NOT NULL REFERENCES code_reviews(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    parent_comment_id UUID REFERENCES code_review_comments(id) ON DELETE CASCADE,
     line_number INTEGER,
     content TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
@@ -448,6 +453,7 @@ CREATE INDEX idx_code_reviews_status ON code_reviews(status);
 
 CREATE INDEX idx_code_review_comments_review_id ON code_review_comments(code_review_id);
 CREATE INDEX idx_code_review_comments_user_id ON code_review_comments(user_id);
+CREATE INDEX idx_code_review_comments_parent_id ON code_review_comments(parent_comment_id);
 
 CREATE INDEX idx_user_achievements_user_id ON user_achievements(user_id);
 CREATE INDEX idx_user_achievements_achievement_id ON user_achievements(achievement_id);

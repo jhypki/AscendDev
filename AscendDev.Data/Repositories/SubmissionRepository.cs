@@ -266,4 +266,100 @@ public class SubmissionRepository : ISubmissionRepository
         const string sql = "SELECT COUNT(*) FROM submissions WHERE user_id = @UserId AND passed = true";
         return await _sqlExecutor.QuerySingleAsync<int>(sql, new { UserId = userId });
     }
+
+    public async Task<IEnumerable<Submission>> GetSubmissionsForReviewAsync(string lessonId, int limit = 50)
+    {
+        const string sql = @"
+            SELECT s.*, u.username, u.first_name, u.last_name, u.profile_picture_url,
+                   l.title as lesson_title, l.slug as lesson_slug
+            FROM submissions s
+            INNER JOIN users u ON s.user_id = u.id
+            INNER JOIN lessons l ON s.lesson_id = l.id
+            INNER JOIN user_settings us ON s.user_id = us.user_id
+            WHERE s.lesson_id = @LessonId
+              AND s.passed = true
+              AND us.public_submissions = true
+              AND NOT EXISTS (
+                  SELECT 1 FROM code_reviews cr
+                  WHERE cr.submission_id = s.id
+                  AND cr.status IN ('pending', 'in_review')
+              )
+            ORDER BY s.submitted_at DESC
+            LIMIT @Limit";
+
+        var results = await _sqlExecutor.QueryAsync<dynamic>(sql, new { LessonId = lessonId, Limit = limit });
+
+        return results.Select(row => new Submission
+        {
+            Id = row.id,
+            UserId = row.user_id,
+            LessonId = row.lesson_id,
+            Code = row.code,
+            Passed = row.passed,
+            SubmittedAt = row.submitted_at,
+            TestResults = row.test_results,
+            ExecutionTimeMs = row.execution_time_ms,
+            ErrorMessage = row.error_message,
+            User = new()
+            {
+                Id = row.user_id,
+                Username = row.username,
+                FirstName = row.first_name,
+                LastName = row.last_name,
+                ProfilePictureUrl = row.profile_picture_url
+            },
+            Lesson = new()
+            {
+                Id = row.lesson_id,
+                Title = row.lesson_title,
+                Slug = row.lesson_slug
+            }
+        });
+    }
+
+    public async Task<Submission?> GetSubmissionForReviewAsync(int submissionId)
+    {
+        const string sql = @"
+            SELECT s.*, u.username, u.first_name, u.last_name, u.profile_picture_url,
+                   l.title as lesson_title, l.slug as lesson_slug
+            FROM submissions s
+            INNER JOIN users u ON s.user_id = u.id
+            INNER JOIN lessons l ON s.lesson_id = l.id
+            INNER JOIN user_settings us ON s.user_id = us.user_id
+            WHERE s.id = @SubmissionId
+              AND s.passed = true
+              AND us.public_submissions = true";
+
+        var result = await _sqlExecutor.QueryAsync<dynamic>(sql, new { SubmissionId = submissionId });
+        var row = result.FirstOrDefault();
+
+        if (row == null) return null;
+
+        return new Submission
+        {
+            Id = row.id,
+            UserId = row.user_id,
+            LessonId = row.lesson_id,
+            Code = row.code,
+            Passed = row.passed,
+            SubmittedAt = row.submitted_at,
+            TestResults = row.test_results,
+            ExecutionTimeMs = row.execution_time_ms,
+            ErrorMessage = row.error_message,
+            User = new()
+            {
+                Id = row.user_id,
+                Username = row.username,
+                FirstName = row.first_name,
+                LastName = row.last_name,
+                ProfilePictureUrl = row.profile_picture_url
+            },
+            Lesson = new()
+            {
+                Id = row.lesson_id,
+                Title = row.lesson_title,
+                Slug = row.lesson_slug
+            }
+        };
+    }
 }

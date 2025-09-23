@@ -17,7 +17,8 @@ import {
     IconInfoCircle,
     IconExternalLink,
     IconCheck,
-    IconMessage
+    IconMessage,
+    IconCode
 } from '@tabler/icons-react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { notifications } from '@mantine/notifications'
@@ -29,8 +30,10 @@ import { useLesson, useCourseProgress, useCompleteLesson } from '../../hooks/api
 import { useCourse } from '../../hooks/api/useCourses'
 import { useDiscussionCount } from '../../hooks/api/useDiscussions'
 import { CommentSection } from '../social/CommentSection'
+import { SubmissionsPanel } from '../submissions/SubmissionsPanel'
 import type { TestResult } from '../../types/lesson'
 import type { Discussion } from '../../types/discussion'
+import type { PublicSubmission } from '../../types/submission'
 
 export const LessonViewer = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>()
@@ -225,6 +228,14 @@ export const LessonViewer = () => {
                                         >
                                             {activeTab === 'discussions' ? 'Back to Lesson' : `Discussions${discussionCount ? ` (${discussionCount})` : ''}`}
                                         </Button>
+                                        <Button
+                                            size="xs"
+                                            variant="light"
+                                            leftSection={<IconCode size={14} />}
+                                            onClick={() => setActiveTab(activeTab === 'submissions' ? 'lesson' : 'submissions')}
+                                        >
+                                            {activeTab === 'submissions' ? 'Back to Lesson' : 'Submissions'}
+                                        </Button>
                                     </Group>
                                 </Group>
                                 <Divider />
@@ -246,6 +257,15 @@ export const LessonViewer = () => {
                                         onPinDiscussion={handlePinDiscussion}
                                         onLockDiscussion={handleLockDiscussion}
                                         canModerate={false} // TODO: Add proper role checking
+                                    />
+                                </div>
+                            ) : activeTab === 'submissions' ? (
+                                <div style={{ flex: 1, overflow: 'auto', padding: 'var(--mantine-spacing-md)' }}>
+                                    <SubmissionsPanel
+                                        lessonId={lessonId!}
+                                        onViewSubmission={(submission: PublicSubmission) => {
+                                            navigate(`/submissions/${submission.id}/review`)
+                                        }}
                                     />
                                 </div>
                             ) : (

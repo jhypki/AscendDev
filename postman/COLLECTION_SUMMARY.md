@@ -9,7 +9,7 @@
   - Auto-managed tokens and IDs
   - OAuth configuration variables
 
-### Individual Collections (8 Collections, 50+ Endpoints Total)
+### Individual Collections (12 Collections, 90+ Endpoints Total)
 
 #### 1. Health Check Collection
 - **File**: `01-Health-Check.json`
@@ -122,6 +122,20 @@
   - Custom report generation (PDF, Excel, CSV)
   - Advanced analytics queries (SuperAdmin only)
 
+#### 12. Code Reviews Collection ⭐ NEW
+- **File**: `07-Code-Reviews.json`
+- **Endpoints**: 16
+- **Purpose**: Complete code review system for lesson submissions
+- **Features**:
+  - Get submissions available for review by lesson
+  - Full code review CRUD operations (Create, Read, Update, Delete)
+  - Code review status management (Pending, InReview, ChangesRequested, Approved, Completed)
+  - Line-by-line commenting system with CRUD operations
+  - Comment resolution and threading
+  - My reviews and my submissions under review tracking
+  - Pending reviews queue management
+  - Comprehensive code review workflow automation
+
 ## 🔧 Key Features Implemented
 
 ### Automation Features
@@ -146,10 +160,10 @@
 
 | Category | Count | Details |
 |----------|-------|---------|
-| **Collections** | 11 | Organized by functionality including admin features |
-| **Endpoints** | 88+ | Complete API coverage including admin management |
-| **Test Scripts** | 120+ | Comprehensive validation with admin endpoints |
-| **Environment Variables** | 22 | Full automation support with admin tokens |
+| **Collections** | 12 | Organized by functionality including admin features and code reviews |
+| **Endpoints** | 104+ | Complete API coverage including admin management and code reviews |
+| **Test Scripts** | 140+ | Comprehensive validation with admin endpoints and code review workflows |
+| **Environment Variables** | 24 | Full automation support with admin tokens and code review IDs |
 | **Languages Supported** | 4 | Python, JS, C#, TypeScript |
 | **OAuth Providers** | 2 | GitHub and Google |
 | **CRUD Operations** | ✅ | Full Create, Read, Update, Delete support |
@@ -158,6 +172,7 @@
 | **Admin Management** | ✅ | User management, roles, bulk operations |
 | **Activity Monitoring** | ✅ | User activity tracking and logging |
 | **Role-Based Access** | ✅ | Admin, SuperAdmin, User role management |
+| **Code Reviews** | ✅ | Complete code review system with commenting |
 
 ## 🚀 Ready-to-Use Features
 
@@ -300,5 +315,13 @@
 - **Custom Reporting**: Generate PDF, Excel, and CSV reports with custom queries
 - **User Engagement**: Track user engagement, streaks, and learning progress
 - **Advanced Analytics**: Course analytics, lesson completion trends, and popular courses
+
+### ⭐ NEW Code Review Features (Latest Implementation)
+- **Submission Review System**: Complete code review workflow for lesson submissions
+- **GitHub-Style Reviews**: Line-by-line commenting with resolution tracking
+- **Review Status Management**: Full lifecycle from pending to completed reviews
+- **Community Learning**: View and review other students' submissions
+- **My Submissions Tracking**: Dedicated interface for managing personal submissions and reviews
+- **Comment Threading**: Comprehensive comment CRUD operations with resolution system
 
 Ready for immediate use by development, QA, and DevOps teams! 🚀

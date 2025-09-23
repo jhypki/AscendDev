@@ -13,4 +13,5 @@ public interface ICodeReviewCommentRepository
     Task<IEnumerable<CodeReviewComment>> GetByLineNumberAsync(Guid codeReviewId, int lineNumber);
     Task<IEnumerable<CodeReviewComment>> GetUnresolvedByCodeReviewIdAsync(Guid codeReviewId);
     Task<int> GetTotalCountByCodeReviewIdAsync(Guid codeReviewId);
+    Task<IEnumerable<CodeReviewComment>> GetRepliesByParentIdAsync(Guid parentCommentId);
 }
