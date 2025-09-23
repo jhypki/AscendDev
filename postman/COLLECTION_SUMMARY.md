@@ -9,7 +9,7 @@
   - Auto-managed tokens and IDs
   - OAuth configuration variables
 
-### Individual Collections (12 Collections, 90+ Endpoints Total)
+### Individual Collections (13 Collections, 100+ Endpoints Total)
 
 #### 1. Health Check Collection
 - **File**: `01-Health-Check.json`
@@ -136,6 +136,18 @@
   - Pending reviews queue management
   - Comprehensive code review workflow automation
 
+#### 13. Notifications Collection ⭐ NEW
+- **File**: `08-Notifications.json`
+- **Endpoints**: 7
+- **Purpose**: Real-time notification system for user engagement
+- **Features**:
+  - Get paginated user notifications
+  - Get unread notifications and count
+  - Mark notifications as read (individual and bulk)
+  - Delete notifications
+  - Real-time SignalR integration support
+  - Notification type filtering and management
+
 ## 🔧 Key Features Implemented
 
 ### Automation Features
@@ -160,10 +172,10 @@
 
 | Category | Count | Details |
 |----------|-------|---------|
-| **Collections** | 12 | Organized by functionality including admin features and code reviews |
-| **Endpoints** | 104+ | Complete API coverage including admin management and code reviews |
-| **Test Scripts** | 140+ | Comprehensive validation with admin endpoints and code review workflows |
-| **Environment Variables** | 24 | Full automation support with admin tokens and code review IDs |
+| **Collections** | 13 | Organized by functionality including admin features, code reviews, and notifications |
+| **Endpoints** | 111+ | Complete API coverage including admin management, code reviews, and real-time notifications |
+| **Test Scripts** | 150+ | Comprehensive validation with admin endpoints, code review workflows, and notification testing |
+| **Environment Variables** | 25 | Full automation support with admin tokens, code review IDs, and notification IDs |
 | **Languages Supported** | 4 | Python, JS, C#, TypeScript |
 | **OAuth Providers** | 2 | GitHub and Google |
 | **CRUD Operations** | ✅ | Full Create, Read, Update, Delete support |
@@ -173,6 +185,7 @@
 | **Activity Monitoring** | ✅ | User activity tracking and logging |
 | **Role-Based Access** | ✅ | Admin, SuperAdmin, User role management |
 | **Code Reviews** | ✅ | Complete code review system with commenting |
+| **Real-time Notifications** | ✅ | SignalR-based notification system with CRUD operations |
 
 ## 🚀 Ready-to-Use Features
 
@@ -323,5 +336,14 @@
 - **Community Learning**: View and review other students' submissions
 - **My Submissions Tracking**: Dedicated interface for managing personal submissions and reviews
 - **Comment Threading**: Comprehensive comment CRUD operations with resolution system
+
+### ⭐ NEW Real-time Notification Features (Latest Implementation)
+- **Real-time Notifications**: SignalR-based notification system for instant updates
+- **Code Review Notifications**: Automatic notifications when submissions receive reviews
+- **Notification Management**: Full CRUD operations for user notifications
+- **Unread Tracking**: Real-time unread count and notification status management
+- **Bulk Operations**: Mark all notifications as read with single API call
+- **Type-based Filtering**: Support for different notification types (CodeReview, Achievement, etc.)
+- **Frontend Integration**: Complete React components with notification dropdown and real-time updates
 
 Ready for immediate use by development, QA, and DevOps teams! 🚀

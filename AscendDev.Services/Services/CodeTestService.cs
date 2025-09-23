@@ -95,7 +95,7 @@ public class CodeTestService : ICodeTestService
                         Passed = result.Success,
                         SubmittedAt = DateTime.UtcNow,
                         TestResults = JsonSerializer.Serialize(result.TestResults),
-                        ExecutionTimeMs = (int)(result.Performance?.ExecutionTimeMs ?? 0),
+                        ExecutionTimeMs = (int)(result.Performance?.PureTestExecutionTimeMs ?? result.Performance?.TotalExecutionTimeMs ?? 0),
                         ErrorMessage = result.Success ? null : GetErrorMessage(result)
                     };
 

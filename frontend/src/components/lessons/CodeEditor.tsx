@@ -260,7 +260,9 @@ export const CodeEditor = ({
                                     <IconX size={16} color="var(--mantine-color-red-6)" />
                                 )}
                                 <Text size="sm" fw={500}>
-                                    Execution Result ({executionResult.executionTimeMs}ms)
+                                    Execution Result ({executionResult.performance?.pureTestExecutionTimeMs
+                                        ? Math.round(executionResult.performance.pureTestExecutionTimeMs)
+                                        : executionResult.executionTimeMs || executionResult.performance?.totalExecutionTimeMs || 0}ms)
                                 </Text>
                             </Group>
                             <ActionIcon

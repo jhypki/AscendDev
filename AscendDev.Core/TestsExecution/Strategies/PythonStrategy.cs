@@ -69,7 +69,8 @@ timeout = {timeoutSeconds}
         var result = new TestResult
         {
             Success = exitCode == 0,
-            TestResults = new List<TestCaseResult>()
+            TestResults = new List<TestCaseResult>(),
+            Performance = new Models.TestsExecution.PerformanceMetrics()
         };
 
         // Try to parse the test results from results.json file
@@ -97,8 +98,13 @@ timeout = {timeoutSeconds}
                 if (pytestResults != null)
                 {
                     _logger.LogInformation(
-                        "Parsed Pytest results: {TotalTests} tests, {PassedTests} passed, {FailedTests} failed",
-                        pytestResults.Summary.Total, pytestResults.Summary.Passed, pytestResults.Summary.Failed);
+                        "Parsed Pytest results: {TotalTests} tests, {PassedTests} passed, {FailedTests} failed, Duration: {Duration}s",
+                        pytestResults.Summary.Total, pytestResults.Summary.Passed, pytestResults.Summary.Failed, pytestResults.Summary.Duration);
+
+                    // Extract pure test execution time from pytest results
+                    result.Performance.PureTestExecutionTimeMs = pytestResults.Summary.Duration * 1000; // Convert seconds to milliseconds
+
+                    _logger.LogInformation("Pure test execution time: {PureExecutionTime}ms", result.Performance.PureTestExecutionTimeMs);
 
                     // Process each test result
                     foreach (var testCase in pytestResults.Tests)

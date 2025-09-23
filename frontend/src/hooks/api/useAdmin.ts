@@ -133,6 +133,93 @@ export const useUpdateUserRoles = () => {
     })
 }
 
+// Create user
+export const useCreateUser = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (userData: {
+            email: string
+            username: string
+            firstName?: string
+            lastName?: string
+            password: string
+            roles: string[]
+            isActive: boolean
+            sendWelcomeEmail: boolean
+        }) => {
+            const response = await api.post('/admin/users', userData)
+            return response.data
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
+            queryClient.invalidateQueries({ queryKey: ['admin', 'stats'] })
+        },
+    })
+}
+
+// Generate report
+export const useGenerateReport = () => {
+    return useMutation({
+        mutationFn: async (reportData: {
+            reportType: string
+            startDate?: Date
+            endDate?: Date
+            format: string
+        }) => {
+            const response = await api.post('/admin/reports/generate', reportData)
+            return response.data
+        },
+    })
+}
+
+// Get report types
+export const useGetReportTypes = () => {
+    return useQuery({
+        queryKey: ['admin', 'report-types'],
+        queryFn: async () => {
+            const response = await api.get('/admin/reports/types')
+            return response.data
+        },
+        staleTime: 30 * 60 * 1000, // 30 minutes
+    })
+}
+
+// Get system settings
+export const useGetSystemSettings = () => {
+    return useQuery({
+        queryKey: ['admin', 'system-settings'],
+        queryFn: async () => {
+            const response = await api.get('/admin/settings')
+            return response.data
+        },
+        staleTime: 10 * 60 * 1000, // 10 minutes
+    })
+}
+
+// Update system settings
+export const useUpdateSystemSettings = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (settings: {
+            maintenanceMode?: boolean
+            registrationEnabled?: boolean
+            emailNotificationsEnabled?: boolean
+            maxUsersPerCourse?: number
+            sessionTimeoutMinutes?: number
+            backupFrequencyHours?: number
+            maintenanceMessage?: string
+        }) => {
+            const response = await api.put('/admin/settings', settings)
+            return response.data
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['admin', 'system-settings'] })
+        },
+    })
+}
+
 // Get system analytics
 export const useSystemAnalytics = () => {
     return useQuery({

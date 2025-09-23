@@ -146,9 +146,9 @@ export const TestResults = ({ testResult, showDetails = true, onClose }: TestRes
                         <Text size="sm" c="dimmed">
                             {passedTests}/{totalTests} passed
                         </Text>
-                        {(testResult.executionTimeMs || testResult.performance?.executionTimeMs) && (
+                        {testResult.performance?.pureTestExecutionTimeMs && (
                             <Text size="sm" c="dimmed">
-                                {testResult.executionTimeMs || testResult.performance?.executionTimeMs}ms
+                                {Math.round(testResult.performance.pureTestExecutionTimeMs)}ms
                             </Text>
                         )}
                         {onClose && (
@@ -252,20 +252,54 @@ export const TestResults = ({ testResult, showDetails = true, onClose }: TestRes
                     <Box>
                         <Text size="sm" fw={500} c="dimmed" mb="sm">Performance Metrics</Text>
                         <Paper withBorder p="sm">
-                            <Group gap="md">
-                                <Text size="xs">
-                                    <Text span fw={500}>Container Startup:</Text> {testResult.performance.containerStartupTimeMs}ms
-                                </Text>
-                                <Text size="xs">
-                                    <Text span fw={500}>Test Framework:</Text> {testResult.performance.testFrameworkTimeMs}ms
-                                </Text>
-                                <Text size="xs">
-                                    <Text span fw={500}>Avg Test Time:</Text> {testResult.performance.averageTestTimeMs.toFixed(1)}ms
-                                </Text>
-                                <Text size="xs">
-                                    <Text span fw={500}>Memory:</Text> {testResult.performance.additionalMetrics.memoryLimitMb}MB
-                                </Text>
-                            </Group>
+                            <Stack gap="xs">
+                                <Group gap="md" wrap="wrap">
+                                    {testResult.performance.pureTestExecutionTimeMs && (
+                                        <Text size="xs">
+                                            <Text span fw={500} c="green">Pure Execution:</Text> {Math.round(testResult.performance.pureTestExecutionTimeMs)}ms
+                                        </Text>
+                                    )}
+                                    {testResult.performance.totalExecutionTimeMs && (
+                                        <Text size="xs">
+                                            <Text span fw={500}>Total Time:</Text> {testResult.performance.totalExecutionTimeMs}ms
+                                        </Text>
+                                    )}
+                                    {testResult.performance.containerStartupTimeMs && (
+                                        <Text size="xs">
+                                            <Text span fw={500}>Container Startup:</Text> {testResult.performance.containerStartupTimeMs}ms
+                                        </Text>
+                                    )}
+                                    {testResult.performance.averageTestTimeMs && (
+                                        <Text size="xs">
+                                            <Text span fw={500}>Avg Test Time:</Text> {testResult.performance.averageTestTimeMs.toFixed(1)}ms
+                                        </Text>
+                                    )}
+                                </Group>
+
+                                {testResult.performance.infrastructureOverheadMs && testResult.performance.infrastructureOverheadMs > 0 && (
+                                    <Group gap="md" wrap="wrap">
+                                        <Text size="xs">
+                                            <Text span fw={500} c="orange">Infrastructure Overhead:</Text> {testResult.performance.infrastructureOverheadMs}ms
+                                        </Text>
+                                        {testResult.performance.containerCleanupTimeMs && (
+                                            <Text size="xs">
+                                                <Text span fw={500}>Cleanup:</Text> {testResult.performance.containerCleanupTimeMs}ms
+                                            </Text>
+                                        )}
+                                        {testResult.performance.filePreparationTimeMs && (
+                                            <Text size="xs">
+                                                <Text span fw={500}>File Prep:</Text> {testResult.performance.filePreparationTimeMs}ms
+                                            </Text>
+                                        )}
+                                    </Group>
+                                )}
+
+                                {testResult.performance.additionalMetrics?.memoryLimitMb && typeof testResult.performance.additionalMetrics.memoryLimitMb === 'number' && (
+                                    <Text size="xs">
+                                        <Text span fw={500}>Memory Limit:</Text> {testResult.performance.additionalMetrics.memoryLimitMb}MB
+                                    </Text>
+                                )}
+                            </Stack>
                         </Paper>
                     </Box>
                 )}

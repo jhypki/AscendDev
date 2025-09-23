@@ -1,16 +1,36 @@
+export interface PerformanceMetrics {
+    totalExecutionTimeMs: number
+    pureTestExecutionTimeMs?: number
+    containerStartupTimeMs?: number
+    containerCleanupTimeMs?: number
+    filePreparationTimeMs?: number
+    containerExecutionTimeMs?: number
+    infrastructureOverheadMs?: number
+    memoryUsageMb?: number
+    cpuUsagePercent?: number
+    testCount: number
+    averageTestTimeMs?: number
+    peakMemoryUsageMb?: number
+    additionalMetrics: Record<string, unknown>
+    // Legacy properties for backward compatibility
+    executionTimeMs?: number
+    testFrameworkTimeMs?: number
+}
+
 export interface CodeExecutionResult {
     success: boolean
     stdout: string
     stderr: string
     exitCode: number
-    executionTimeMs: number
     compilationOutput: string
+    performance?: PerformanceMetrics
+    // Legacy property for backward compatibility
+    executionTimeMs?: number
 }
 
 export interface TestResult {
     success: boolean
     testResults: TestCaseResult[]
-    executionTimeMs: number
     compilationOutput?: string
     errorMessage?: string
     keywordValidation?: {
@@ -31,19 +51,9 @@ export interface TestResult {
         }>
         validationMessage: string
     }
-    performance?: {
-        executionTimeMs: number
-        containerStartupTimeMs: number
-        testFrameworkTimeMs: number
-        testCount: number
-        averageTestTimeMs: number
-        additionalMetrics: {
-            containerStatus: string
-            containerExitCode: number
-            containerRunTimeMs: number
-            memoryLimitMb: number
-        }
-    }
+    performance?: PerformanceMetrics
+    // Legacy property for backward compatibility
+    executionTimeMs?: number
 }
 
 export interface TestCaseResult {

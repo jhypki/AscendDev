@@ -3,6 +3,7 @@ using AscendDev.Core.DTOs.Social;
 using AscendDev.Core.Exceptions;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
+using AscendDev.Core.Models.Notifications;
 using AscendDev.Core.Models.Social;
 using Microsoft.Extensions.Logging;
 
@@ -12,15 +13,27 @@ public class CodeReviewCommentService : ICodeReviewCommentService
 {
     private readonly ICodeReviewCommentRepository _codeReviewCommentRepository;
     private readonly ICodeReviewRepository _codeReviewRepository;
+    private readonly INotificationService _notificationService;
+    private readonly IUserRepository _userRepository;
+    private readonly ISubmissionRepository _submissionRepository;
+    private readonly ILessonRepository _lessonRepository;
     private readonly ILogger<CodeReviewCommentService> _logger;
 
     public CodeReviewCommentService(
         ICodeReviewCommentRepository codeReviewCommentRepository,
         ICodeReviewRepository codeReviewRepository,
+        INotificationService notificationService,
+        IUserRepository userRepository,
+        ISubmissionRepository submissionRepository,
+        ILessonRepository lessonRepository,
         ILogger<CodeReviewCommentService> logger)
     {
         _codeReviewCommentRepository = codeReviewCommentRepository;
         _codeReviewRepository = codeReviewRepository;
+        _notificationService = notificationService;
+        _userRepository = userRepository;
+        _submissionRepository = submissionRepository;
+        _lessonRepository = lessonRepository;
         _logger = logger;
     }
 
@@ -106,6 +119,36 @@ public class CodeReviewCommentService : ICodeReviewCommentService
             };
 
             var createdComment = await _codeReviewCommentRepository.CreateAsync(comment);
+
+            // Send notification to the other participant in the code review
+            try
+            {
+                var recipientId = codeReview.ReviewerId == userId ? codeReview.RevieweeId : codeReview.ReviewerId;
+
+                // Get user information
+                var commenter = await _userRepository.GetByIdAsync(userId);
+                var commenterName = commenter?.Username ?? "Someone";
+
+                // Get submission and lesson information
+                var submission = await _submissionRepository.GetByIdAsync(codeReview.SubmissionId);
+                var lesson = submission != null ? await _lessonRepository.GetById(submission.LessonId) : null;
+                var lessonTitle = lesson?.Title ?? "Unknown Lesson";
+
+                await _notificationService.SendNotificationAsync(
+                    recipientId,
+                    NotificationType.CodeReview,
+                    "Code Review Comment",
+                    $"{commenterName} commented on your code review for {lessonTitle}",
+                    $"/submissions/{codeReview.SubmissionId}/review",
+                    new { codeReviewId = codeReviewId, commentId = createdComment.Id, submissionId = codeReview.SubmissionId }
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send notification for code review comment {CommentId}", createdComment.Id);
+                // Don't fail the comment creation if notification fails
+            }
+
             return MapToResponse(createdComment);
         }
         catch (Exception ex)

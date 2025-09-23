@@ -11,17 +11,20 @@ namespace AscendDev.Services.Services
         private readonly ICourseRepository _courseRepository;
         private readonly ILessonRepository _lessonRepository;
         private readonly IUserProgressRepository _userProgressRepository;
+        private readonly IUserManagementService _userManagementService;
 
         public AdminService(
             IUserRepository userRepository,
             ICourseRepository courseRepository,
             ILessonRepository lessonRepository,
-            IUserProgressRepository userProgressRepository)
+            IUserProgressRepository userProgressRepository,
+            IUserManagementService userManagementService)
         {
             _userRepository = userRepository;
             _courseRepository = courseRepository;
             _lessonRepository = lessonRepository;
             _userProgressRepository = userProgressRepository;
+            _userManagementService = userManagementService;
         }
 
         public async Task<AdminStatsResponse> GetAdminStatsAsync()
@@ -53,59 +56,42 @@ namespace AscendDev.Services.Services
 
         public async Task<PaginatedUserManagementResponse> GetUsersAsync(UserManagementQueryRequest request)
         {
-            var query = _userRepository.GetQueryable();
-
-            // Apply search filter
-            if (!string.IsNullOrEmpty(request.Search))
+            // Convert the request to UserSearchRequest format
+            var searchRequest = new UserSearchRequest
             {
-                var searchLower = request.Search.ToLower();
-                query = query.Where(u =>
-                    u.Email.ToLower().Contains(searchLower) ||
-                    (u.FirstName != null && u.FirstName.ToLower().Contains(searchLower)) ||
-                    (u.LastName != null && u.LastName.ToLower().Contains(searchLower)));
-            }
+                SearchTerm = request.Search,
+                IsActive = request.IsActive,
+                Page = request.Page,
+                PageSize = request.PageSize,
+                SortBy = "CreatedAt",
+                SortDirection = "desc"
+            };
 
-            // Apply role filter - simplified since UserRole doesn't have Role navigation
-            if (!string.IsNullOrEmpty(request.Role))
+            // Use the injected UserManagementService
+            var pagedResult = await _userManagementService.SearchUsersAsync(searchRequest);
+
+            // Convert to the expected response format
+            var users = pagedResult.Items.Select(u => new UserManagementResponse
             {
-                // This would need proper role lookup implementation
-                // For now, skip role filtering
-            }
-
-            // Apply active status filter
-            if (request.IsActive.HasValue)
-            {
-                query = query.Where(u => u.IsActive == request.IsActive.Value);
-            }
-
-            var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / request.PageSize);
-
-            var users = query
-                .Skip((request.Page - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(u => new UserManagementResponse
-                {
-                    Id = u.Id.ToString(),
-                    Email = u.Email,
-                    FirstName = u.FirstName ?? "",
-                    LastName = u.LastName ?? "",
-                    Roles = new List<string> { "User" }, // Simplified - would need proper role lookup
-                    IsActive = u.IsActive,
-                    LastLogin = u.LastLogin ?? DateTime.MinValue,
-                    CreatedAt = u.CreatedAt,
-                    CoursesEnrolled = 0, // Would need UserCourse relationship
-                    LessonsCompleted = 0 // Would need UserProgress relationship
-                })
-                .ToList();
+                Id = u.Id.ToString(),
+                Email = u.Email,
+                FirstName = u.FirstName ?? "",
+                LastName = u.LastName ?? "",
+                Roles = u.Roles?.ToList() ?? new List<string>(),
+                IsActive = u.IsActive,
+                LastLogin = u.LastLogin,
+                CreatedAt = u.CreatedAt,
+                CoursesEnrolled = u.Statistics?.CoursesCompleted ?? 0,
+                LessonsCompleted = u.Statistics?.LessonsCompleted ?? 0
+            }).ToList();
 
             return new PaginatedUserManagementResponse
             {
                 Users = users,
-                TotalCount = totalCount,
-                TotalPages = totalPages,
-                CurrentPage = request.Page,
-                PageSize = request.PageSize
+                TotalCount = pagedResult.TotalCount,
+                TotalPages = pagedResult.TotalPages,
+                CurrentPage = pagedResult.Page,
+                PageSize = pagedResult.PageSize
             };
         }
 
@@ -193,6 +179,128 @@ namespace AscendDev.Services.Services
             // In a real implementation, you'd need to work with the role system
             await Task.Delay(100); // Simulate async operation
             return true;
+        }
+
+        public async Task<ReportGenerationResponse> GenerateReportAsync(GenerateReportRequest request)
+        {
+            // Simulate report generation
+            await Task.Delay(1000); // Simulate processing time
+
+            var reportId = Guid.NewGuid();
+            var generatedAt = DateTime.UtcNow;
+
+            object reportData = request.ReportType switch
+            {
+                "user-activity" => await GenerateUserActivityReportData(request),
+                "course-analytics" => await GenerateCourseAnalyticsReportData(request),
+                "system-health" => await GenerateSystemHealthReportData(request),
+                _ => new { message = "Unknown report type" }
+            };
+
+            return new ReportGenerationResponse
+            {
+                ReportId = reportId,
+                ReportType = request.ReportType,
+                Status = "completed",
+                GeneratedAt = generatedAt,
+                Data = reportData,
+                DownloadUrl = $"/api/admin/reports/{reportId}/download"
+            };
+        }
+
+        private async Task<object> GenerateUserActivityReportData(GenerateReportRequest request)
+        {
+            var totalUsers = await _userRepository.CountAsync();
+            var activeUsers = await _userRepository.CountAsync(u => u.IsActive);
+            var startDate = request.StartDate ?? DateTime.UtcNow.AddDays(-30);
+            var endDate = request.EndDate ?? DateTime.UtcNow;
+
+            return new
+            {
+                Summary = new
+                {
+                    TotalUsers = totalUsers,
+                    ActiveUsers = activeUsers,
+                    InactiveUsers = totalUsers - activeUsers,
+                    ReportPeriod = new { StartDate = startDate, EndDate = endDate }
+                },
+                UserRegistrations = new
+                {
+                    NewRegistrations = await _userRepository.CountAsync(u => u.CreatedAt >= startDate && u.CreatedAt <= endDate),
+                    DailyBreakdown = "Would contain daily registration data"
+                },
+                UserEngagement = new
+                {
+                    LoginActivity = "Would contain login statistics",
+                    CourseEnrollments = "Would contain enrollment data",
+                    LessonCompletions = "Would contain completion data"
+                }
+            };
+        }
+
+        private async Task<object> GenerateCourseAnalyticsReportData(GenerateReportRequest request)
+        {
+            var totalCourses = await _courseRepository.CountAsync();
+            var publishedCourses = await _courseRepository.CountAsync(c => c.Status == "published");
+            var totalLessons = await _lessonRepository.CountAsync();
+
+            return new
+            {
+                Summary = new
+                {
+                    TotalCourses = totalCourses,
+                    PublishedCourses = publishedCourses,
+                    DraftCourses = totalCourses - publishedCourses,
+                    TotalLessons = totalLessons
+                },
+                CoursePerformance = new
+                {
+                    TopCourses = "Would contain top performing courses",
+                    EnrollmentTrends = "Would contain enrollment trend data",
+                    CompletionRates = "Would contain completion statistics"
+                },
+                ContentAnalysis = new
+                {
+                    LanguageDistribution = "Would contain programming language breakdown",
+                    DifficultyLevels = "Would contain difficulty level analysis",
+                    TagAnalysis = "Would contain tag usage statistics"
+                }
+            };
+        }
+
+        private async Task<object> GenerateSystemHealthReportData(GenerateReportRequest request)
+        {
+            await Task.Delay(100); // Simulate data gathering
+
+            return new
+            {
+                SystemStatus = new
+                {
+                    Uptime = "99.8%",
+                    Status = "Healthy",
+                    LastRestart = DateTime.UtcNow.AddDays(-7),
+                    Version = "1.0.0"
+                },
+                Performance = new
+                {
+                    AverageResponseTime = "120ms",
+                    DatabaseConnections = 45,
+                    MemoryUsage = "2.1GB",
+                    CpuUsage = "15%"
+                },
+                Storage = new
+                {
+                    DatabaseSize = "1.2GB",
+                    FileStorage = "850MB",
+                    BackupStatus = "Last backup: 2 hours ago"
+                },
+                Security = new
+                {
+                    FailedLoginAttempts = 12,
+                    ActiveSessions = 234,
+                    SecurityAlerts = 0
+                }
+            };
         }
     }
 }

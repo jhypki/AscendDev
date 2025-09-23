@@ -11,10 +11,12 @@ namespace AscendDev.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
+        private readonly IUserManagementService _userManagementService;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IUserManagementService userManagementService)
         {
             _adminService = adminService;
+            _userManagementService = userManagementService;
         }
 
         /// <summary>
@@ -124,6 +126,119 @@ namespace AscendDev.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "An error occurred while updating user roles", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Create a new user manually
+        /// </summary>
+        [HttpPost("users")]
+        public async Task<ActionResult<UserManagementDto>> CreateUser([FromBody] CreateUserRequest request)
+        {
+            try
+            {
+                var user = await _userManagementService.CreateUserAsync(request);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while creating user", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Generate system report
+        /// </summary>
+        [HttpPost("reports/generate")]
+        public async Task<ActionResult<ReportGenerationResponse>> GenerateReport([FromBody] GenerateReportRequest request)
+        {
+            try
+            {
+                var report = await _adminService.GenerateReportAsync(request);
+                return Ok(report);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while generating report", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Get available report types
+        /// </summary>
+        [HttpGet("reports/types")]
+        public ActionResult<List<ReportTypeResponse>> GetReportTypes()
+        {
+            try
+            {
+                var reportTypes = new List<ReportTypeResponse>
+                {
+                    new ReportTypeResponse
+                    {
+                        Id = "user-activity",
+                        Name = "User Activity Report",
+                        Description = "Detailed report of user activities and engagement"
+                    },
+                    new ReportTypeResponse
+                    {
+                        Id = "course-analytics",
+                        Name = "Course Analytics Report",
+                        Description = "Comprehensive analysis of course performance and enrollment"
+                    },
+                    new ReportTypeResponse
+                    {
+                        Id = "system-health",
+                        Name = "System Health Report",
+                        Description = "System performance and health metrics"
+                    }
+                };
+                return Ok(reportTypes);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while retrieving report types", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Get system settings (placeholder)
+        /// </summary>
+        [HttpGet("settings")]
+        public ActionResult<SystemSettingsResponse> GetSystemSettings()
+        {
+            try
+            {
+                var settings = new SystemSettingsResponse
+                {
+                    MaintenanceMode = false,
+                    RegistrationEnabled = true,
+                    EmailNotificationsEnabled = true,
+                    MaxUsersPerCourse = 1000,
+                    SessionTimeoutMinutes = 60,
+                    BackupFrequencyHours = 24
+                };
+                return Ok(settings);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while retrieving system settings", error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Update system settings (placeholder)
+        /// </summary>
+        [HttpPut("settings")]
+        public ActionResult UpdateSystemSettings([FromBody] UpdateSystemSettingsRequest request)
+        {
+            try
+            {
+                // Placeholder implementation - would update actual system settings
+                return Ok(new { message = "System settings updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while updating system settings", error = ex.Message });
             }
         }
     }

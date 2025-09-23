@@ -59,3 +59,28 @@ public class JsonTypeHandler<T>(JsonSerializerOptions? options = null) : SqlMapp
         }
     }
 }
+
+public class JsonDocumentTypeHandler : SqlMapper.TypeHandler<JsonDocument?>
+{
+    public override JsonDocument? Parse(object value)
+    {
+        if (value == null || value is DBNull)
+            return null;
+
+        if (value is string json)
+        {
+            return JsonDocument.Parse(json);
+        }
+
+        throw new InvalidCastException($"Unable to cast {value.GetType()} to JsonDocument");
+    }
+
+    public override void SetValue(IDbDataParameter parameter, JsonDocument? value)
+    {
+        if (parameter is NpgsqlParameter npgsqlParameter)
+        {
+            npgsqlParameter.NpgsqlDbType = NpgsqlDbType.Jsonb;
+            npgsqlParameter.Value = value?.RootElement.GetRawText() ?? (object)DBNull.Value;
+        }
+    }
+}

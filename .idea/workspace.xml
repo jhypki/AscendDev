@@ -5,29 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19a1f888-4119-43f8-ac59-c28fb2eaa67b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6a448cd3-2e64-4a5b-a31f-1027f5112f6f/storage_v2/_src_/database/ascenddev.C6u0_w/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/SubmissionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/SubmissionsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Courses/SubmissionResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Courses/SubmissionResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewCommentResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CodeReviewCommentResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewCommentRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/DTOs/Social/CreateCodeReviewCommentRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewCommentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewCommentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ICodeReviewRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISubmissionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Data/ISubmissionRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICodeReviewService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ICodeReviewService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ISubmissionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/ISubmissionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReviewComment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/Social/CodeReviewComment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewCommentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewCommentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/CodeReviewRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Data/Repositories/SubmissionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/Repositories/SubmissionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/AscendDev.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/AscendDev.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/Controllers/AdminController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Controllers/AdminController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/AuthenticationExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/AuthenticationExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/CorsExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/CorsExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/DatabaseExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/DependencyInjection/ServiceExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/AscendDev.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/AscendDev.Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/DockerCodeExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/CodeExecution/DockerCodeExecutor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAdminService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Interfaces/Services/IAdminService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/CodeExecution/CodeExecutionResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/CodeExecution/CodeExecutionResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/Models/TestsExecution/PerformanceMetrics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/Models/TestsExecution/PerformanceMetrics.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerTestsExecutor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/DockerTestsExecutor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/GoStrategy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/GoStrategy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/PythonStrategy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/PythonStrategy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/TypeScriptStrategy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Core/TestsExecution/Strategies/TypeScriptStrategy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Data/AscendDev.Data.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Data/AscendDev.Data.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/AscendDev.Services.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/AscendDev.Services.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/AdminService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/AdminService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewCommentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewCommentService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeReviewService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/SubmissionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/SubmissionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/AppLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/AscendDev.Services/Services/CodeTestService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/lessons/CodeEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/lessons/CodeEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/lessons/LessonViewer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/lessons/LessonViewer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/lessons/TestResults.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/lessons/TestResults.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/playground/PlaygroundCodeEditor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/playground/PlaygroundCodeEditor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init-scripts/initdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init-scripts/initdb.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/api/useAdmin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/api/useAdmin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/types/lesson.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/types/lesson.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" beforeDir="false" afterPath="$PROJECT_DIR$/postman/COLLECTION_SUMMARY.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

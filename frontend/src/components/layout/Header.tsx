@@ -3,6 +3,7 @@ import { IconChevronDown, IconUser, IconSettings, IconLogout } from '@tabler/ico
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLogout } from '../../hooks/api/useAuth'
+import { NotificationDropdown } from '../notifications/NotificationDropdown'
 
 interface User {
     id: string
@@ -53,69 +54,72 @@ export function Header({ opened, toggle, user }: HeaderProps) {
             </Group>
 
             {user && (
-                <Menu
-                    width={200}
-                    position="bottom-end"
-                    transitionProps={{ transition: 'pop-top-right' }}
-                    onClose={() => setUserMenuOpened(false)}
-                    onOpen={() => setUserMenuOpened(true)}
-                    withinPortal
-                >
-                    <Menu.Target>
-                        <UnstyledButton
-                            style={{
-                                padding: rem(8),
-                                borderRadius: rem(4),
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: rem(8),
-                            }}
-                        >
-                            <Avatar
-                                src={user.avatar}
-                                alt={displayName}
-                                radius="xl"
-                                size={32}
-                                color="brand"
-                            >
-                                {displayName.charAt(0).toUpperCase()}
-                            </Avatar>
-                            <div style={{ flex: 1 }}>
-                                <Text size="sm" fw={500}>
-                                    {displayName}
-                                </Text>
-                                <Text c="dimmed" size="xs">
-                                    {user.email}
-                                </Text>
-                            </div>
-                            <IconChevronDown
-                                size={16}
+                <Group gap="sm">
+                    <NotificationDropdown />
+                    <Menu
+                        width={200}
+                        position="bottom-end"
+                        transitionProps={{ transition: 'pop-top-right' }}
+                        onClose={() => setUserMenuOpened(false)}
+                        onOpen={() => setUserMenuOpened(true)}
+                        withinPortal
+                    >
+                        <Menu.Target>
+                            <UnstyledButton
                                 style={{
-                                    transform: userMenuOpened ? 'rotate(180deg)' : 'none',
-                                    transition: 'transform 200ms ease',
+                                    padding: rem(8),
+                                    borderRadius: rem(4),
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: rem(8),
                                 }}
-                            />
-                        </UnstyledButton>
-                    </Menu.Target>
+                            >
+                                <Avatar
+                                    src={user.avatar}
+                                    alt={displayName}
+                                    radius="xl"
+                                    size={32}
+                                    color="brand"
+                                >
+                                    {displayName.charAt(0).toUpperCase()}
+                                </Avatar>
+                                <div style={{ flex: 1 }}>
+                                    <Text size="sm" fw={500}>
+                                        {displayName}
+                                    </Text>
+                                    <Text c="dimmed" size="xs">
+                                        {user.email}
+                                    </Text>
+                                </div>
+                                <IconChevronDown
+                                    size={16}
+                                    style={{
+                                        transform: userMenuOpened ? 'rotate(180deg)' : 'none',
+                                        transition: 'transform 200ms ease',
+                                    }}
+                                />
+                            </UnstyledButton>
+                        </Menu.Target>
 
-                    <Menu.Dropdown>
-                        <Menu.Label>Account</Menu.Label>
-                        <Menu.Item leftSection={<IconUser size={16} />}>
-                            Profile
-                        </Menu.Item>
-                        <Menu.Item leftSection={<IconSettings size={16} />}>
-                            Settings
-                        </Menu.Item>
-                        <Menu.Divider />
-                        <Menu.Item
-                            leftSection={<IconLogout size={16} />}
-                            color="red"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </Menu.Item>
-                    </Menu.Dropdown>
-                </Menu>
+                        <Menu.Dropdown>
+                            <Menu.Label>Account</Menu.Label>
+                            <Menu.Item leftSection={<IconUser size={16} />}>
+                                Profile
+                            </Menu.Item>
+                            <Menu.Item leftSection={<IconSettings size={16} />}>
+                                Settings
+                            </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item
+                                leftSection={<IconLogout size={16} />}
+                                color="red"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
+                </Group>
             )}
         </Group>
     )

@@ -53,6 +53,10 @@ public static class ServiceExtensions
         services.AddScoped<ICodeReviewService, CodeReviewService>();
         services.AddScoped<ICodeReviewCommentService, CodeReviewCommentService>();
 
+        // Register notification service
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<INotificationHubService, AscendDev.API.Services.NotificationHubService>();
+
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtHelper, JwtHelper>();

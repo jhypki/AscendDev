@@ -9,6 +9,7 @@ import { queryClient } from './lib/queryClient'
 import { router } from './router'
 import { theme } from './theme'
 import { useAuthRestore } from './hooks/useAuthRestore'
+import { useSignalR } from './hooks/useSignalR'
 
 // Import Mantine styles
 import '@mantine/core/styles.css'
@@ -18,6 +19,7 @@ import 'mantine-datatable/styles.css'
 
 function AppContent() {
   useAuthRestore()
+  useSignalR()
 
   return (
     <MantineProvider theme={theme} defaultColorScheme="dark">

@@ -81,7 +81,11 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                         _logger.LogWarning("Failed to set permissions on {ExecutionDirectory}", executionDirectory);
                 }
 
+                // Measure file preparation time
+                var filePreparationStopwatch = Stopwatch.StartNew();
                 await strategy.PrepareTestFilesAsync(executionDirectory, userCode, lesson);
+                filePreparationStopwatch.Stop();
+                performanceMetrics.FilePreparationTimeMs = filePreparationStopwatch.ElapsedMilliseconds;
 
                 var containerStopwatch = Stopwatch.StartNew();
 
@@ -114,7 +118,7 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                     var executionResult = await ExecuteTestsInContainerAsync(containerId, executionTimeoutMs);
 
                     containerStopwatch.Stop();
-                    performanceMetrics.TestFrameworkTimeMs = containerStopwatch.ElapsedMilliseconds;
+                    performanceMetrics.ContainerExecutionTimeMs = containerStopwatch.ElapsedMilliseconds;
 
                     result = await strategy.ProcessExecutionResultAsync(
                         executionResult.stdout,
@@ -150,16 +154,21 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                     _logger.LogError(ex, "Container execution exception");
                 }
 
+                // Measure cleanup time
+                var cleanupStopwatch = Stopwatch.StartNew();
                 await CleanupAsync(containerId, executionDirectory);
+                cleanupStopwatch.Stop();
+                performanceMetrics.ContainerCleanupTimeMs = cleanupStopwatch.ElapsedMilliseconds;
 
                 // Finalize performance metrics
                 overallStopwatch.Stop();
-                performanceMetrics.ExecutionTimeMs = overallStopwatch.ElapsedMilliseconds;
+                performanceMetrics.TotalExecutionTimeMs = overallStopwatch.ElapsedMilliseconds;
                 performanceMetrics.TestCount = result.TestResults?.Count ?? 0;
 
-                if (performanceMetrics.TestCount > 0 && performanceMetrics.TestFrameworkTimeMs.HasValue)
+                // Copy pure execution time from result if available
+                if (result.Performance?.PureTestExecutionTimeMs.HasValue == true)
                 {
-                    performanceMetrics.AverageTestTimeMs = (double)performanceMetrics.TestFrameworkTimeMs.Value / performanceMetrics.TestCount;
+                    performanceMetrics.PureTestExecutionTimeMs = result.Performance.PureTestExecutionTimeMs;
                 }
 
                 result.Performance = performanceMetrics;
@@ -209,7 +218,7 @@ public class DockerTestsExecutor : ITestsExecutor, IDisposable
                 overallStopwatch.Stop();
                 result.Performance = new Models.TestsExecution.PerformanceMetrics
                 {
-                    ExecutionTimeMs = overallStopwatch.ElapsedMilliseconds,
+                    TotalExecutionTimeMs = overallStopwatch.ElapsedMilliseconds,
                     TestCount = result.TestResults?.Count ?? 0
                 };
             }

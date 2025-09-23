@@ -1,0 +1,221 @@
+{
+    "info": {
+        "name": "08 - Notifications",
+        "description": "API endpoints for managing user notifications and real-time updates",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get User Notifications",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications?page=1&pageSize=20",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications"
+                    ],
+                    "query": [
+                        {
+                            "key": "page",
+                            "value": "1",
+                            "description": "Page number (default: 1)"
+                        },
+                        {
+                            "key": "pageSize",
+                            "value": "20",
+                            "description": "Number of notifications per page (default: 20)"
+                        }
+                    ]
+                },
+                "description": "Get paginated notifications for the current user"
+            }
+        },
+        {
+            "name": "Get Unread Notifications",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/unread",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "unread"
+                    ]
+                },
+                "description": "Get all unread notifications for the current user"
+            }
+        },
+        {
+            "name": "Get Unread Count",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/unread/count",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "unread",
+                        "count"
+                    ]
+                },
+                "description": "Get the count of unread notifications for the current user"
+            }
+        },
+        {
+            "name": "Mark Notification as Read",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/{{notificationId}}/read",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "{{notificationId}}",
+                        "read"
+                    ]
+                },
+                "description": "Mark a specific notification as read"
+            }
+        },
+        {
+            "name": "Mark All Notifications as Read",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/read-all",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "read-all"
+                    ]
+                },
+                "description": "Mark all notifications as read for the current user"
+            }
+        },
+        {
+            "name": "Delete Notification",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/{{notificationId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "{{notificationId}}"
+                    ]
+                },
+                "description": "Delete a specific notification"
+            }
+        },
+        {
+            "name": "Get Total Notification Count",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/count",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "count"
+                    ]
+                },
+                "description": "Get the total count of notifications for the current user"
+            }
+        },
+        {
+            "name": "Create Test Notification",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{accessToken}}",
+                        "type": "text"
+                    }
+                ],
+                "url": {
+                    "raw": "{{baseUrl}}/notifications/test",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "notifications",
+                        "test"
+                    ]
+                },
+                "description": "Create a test notification for debugging purposes"
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "notificationId",
+            "value": "00000000-0000-0000-0000-000000000000",
+            "description": "ID of the notification to operate on"
+        }
+    ]
+}

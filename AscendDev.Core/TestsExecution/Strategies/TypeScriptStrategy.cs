@@ -73,7 +73,8 @@ public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageS
         var result = new TestResult
         {
             Success = exitCode == 0,
-            TestResults = new List<TestCaseResult>()
+            TestResults = new List<TestCaseResult>(),
+            Performance = new Models.TestsExecution.PerformanceMetrics()
         };
 
         // Try to parse the test results from results.json file
@@ -103,6 +104,19 @@ public class TypeScriptStrategy(ILogger<TypeScriptStrategy> logger) : ILanguageS
                     _logger.LogInformation(
                         "Parsed Jest results: {TotalTests} tests, {PassedTests} passed, {FailedTests} failed",
                         jestResults.NumTotalTests, jestResults.NumPassedTests, jestResults.NumFailedTests);
+
+                    // Calculate pure test execution time from Jest test results
+                    double totalTestDurationMs = 0;
+                    foreach (var testFile in jestResults.TestResults)
+                    {
+                        var testFileDuration = testFile.EndTime - testFile.StartTime;
+                        totalTestDurationMs += testFileDuration;
+
+                        _logger.LogDebug("Test file {TestFileName} duration: {Duration}ms", testFile.Name, testFileDuration);
+                    }
+
+                    result.Performance.PureTestExecutionTimeMs = totalTestDurationMs;
+                    _logger.LogInformation("Pure test execution time: {PureExecutionTime}ms", result.Performance.PureTestExecutionTimeMs);
 
                     // Process each test result
                     foreach (var testFile in jestResults.TestResults)

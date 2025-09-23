@@ -42,8 +42,11 @@ public class DockerCodeExecutor : ICodeExecutor, IDisposable
             Success = false,
             Stdout = string.Empty,
             Stderr = string.Empty,
-            ExitCode = 1
+            ExitCode = 1,
+            Performance = new Models.TestsExecution.PerformanceMetrics()
         };
+
+        var overallStopwatch = Stopwatch.StartNew();
 
         try
         {
@@ -79,11 +82,14 @@ public class DockerCodeExecutor : ICodeExecutor, IDisposable
                         _logger.LogWarning("Failed to set permissions on {ExecutionDirectory}", executionDirectory);
                 }
 
-                // Write the code to a file
+                // Measure file preparation time
+                var filePreparationStopwatch = Stopwatch.StartNew();
                 var sourceFileName = strategy.GetSourceFileName(code);
                 await File.WriteAllTextAsync(Path.Combine(executionDirectory, sourceFileName), code);
+                filePreparationStopwatch.Stop();
+                result.Performance.FilePreparationTimeMs = filePreparationStopwatch.ElapsedMilliseconds;
 
-                var stopwatch = Stopwatch.StartNew();
+                var containerStopwatch = Stopwatch.StartNew();
 
                 try
                 {
@@ -99,21 +105,45 @@ public class DockerCodeExecutor : ICodeExecutor, IDisposable
                         await _dockerClient.Containers.CreateContainerAsync(containerConfig);
                     containerId = createContainerResponse.ID;
 
+                    // Measure container startup time
+                    var containerStartupStopwatch = Stopwatch.StartNew();
                     var started = await _dockerClient.Containers.StartContainerAsync(containerId, null);
+                    containerStartupStopwatch.Stop();
+
                     if (!started)
                         throw new InvalidOperationException("Failed to start the container");
 
-                    var executionTimeoutMs = 10000; // 10 seconds timeout for playground execution
-                    var executionResult = await ExecuteCodeInContainerAsync(containerId, executionTimeoutMs);
+                    result.Performance.ContainerStartupTimeMs = containerStartupStopwatch.ElapsedMilliseconds;
 
-                    stopwatch.Stop();
+                    var executionTimeoutMs = 10000; // 10 seconds timeout for playground execution
+
+                    // Measure pure execution time (container runtime)
+                    var pureExecutionStopwatch = Stopwatch.StartNew();
+                    var executionResult = await ExecuteCodeInContainerAsync(containerId, executionTimeoutMs);
+                    pureExecutionStopwatch.Stop();
+
+                    // For code execution, the pure execution time is the container runtime
+                    result.Performance.PureTestExecutionTimeMs = pureExecutionStopwatch.ElapsedMilliseconds;
+
+                    containerStopwatch.Stop();
+                    result.Performance.ContainerExecutionTimeMs = containerStopwatch.ElapsedMilliseconds;
 
                     result = await strategy.ProcessExecutionResultAsync(
                         executionResult.stdout,
                         executionResult.stderr,
                         executionResult.exitCode,
-                        stopwatch.ElapsedMilliseconds,
+                        containerStopwatch.ElapsedMilliseconds,
                         executionDirectory);
+
+                    // Preserve the performance metrics we calculated
+                    if (result.Performance == null)
+                    {
+                        result.Performance = new Models.TestsExecution.PerformanceMetrics();
+                    }
+                    result.Performance.FilePreparationTimeMs = filePreparationStopwatch.ElapsedMilliseconds;
+                    result.Performance.ContainerStartupTimeMs = containerStartupStopwatch.ElapsedMilliseconds;
+                    result.Performance.PureTestExecutionTimeMs = pureExecutionStopwatch.ElapsedMilliseconds;
+                    result.Performance.ContainerExecutionTimeMs = containerStopwatch.ElapsedMilliseconds;
                 }
                 catch (TaskCanceledException)
                 {
@@ -127,7 +157,15 @@ public class DockerCodeExecutor : ICodeExecutor, IDisposable
                     _logger.LogError(ex, "Container execution exception");
                 }
 
+                // Measure cleanup time
+                var cleanupStopwatch = Stopwatch.StartNew();
                 await CleanupAsync(containerId, executionDirectory);
+                cleanupStopwatch.Stop();
+                result.Performance.ContainerCleanupTimeMs = cleanupStopwatch.ElapsedMilliseconds;
+
+                // Finalize performance metrics
+                overallStopwatch.Stop();
+                result.Performance.TotalExecutionTimeMs = overallStopwatch.ElapsedMilliseconds;
 
                 return result;
             }
@@ -154,6 +192,18 @@ public class DockerCodeExecutor : ICodeExecutor, IDisposable
             result.Success = false;
             result.Stderr = $"Unexpected error: {ex.Message}";
             return result;
+        }
+        finally
+        {
+            // Ensure performance metrics are always set
+            if (result.Performance == null)
+            {
+                overallStopwatch.Stop();
+                result.Performance = new Models.TestsExecution.PerformanceMetrics
+                {
+                    TotalExecutionTimeMs = overallStopwatch.ElapsedMilliseconds
+                };
+            }
         }
     }
 

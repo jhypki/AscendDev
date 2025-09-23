@@ -28,6 +28,9 @@ builder.Services.AddUtilities();
 // Add CORS policy
 builder.Services.AddCorsPolicy();
 
+// Add SignalR
+builder.Services.AddSignalRServices();
+
 // Add custom middleware
 builder.Services.AddCustomMiddleware();
 
@@ -49,5 +52,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map SignalR hubs
+app.UseSignalRHubs();
 
 app.Run();

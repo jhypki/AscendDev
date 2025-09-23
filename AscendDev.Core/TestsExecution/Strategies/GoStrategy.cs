@@ -85,7 +85,8 @@ go 1.21
         var result = new TestResult
         {
             Success = exitCode == 0,
-            TestResults = new List<TestCaseResult>()
+            TestResults = new List<TestCaseResult>(),
+            Performance = new Models.TestsExecution.PerformanceMetrics()
         };
 
         // Try to parse the test results from results.json file
@@ -113,8 +114,13 @@ go 1.21
                 if (goTestResults != null)
                 {
                     _logger.LogInformation(
-                        "Parsed Go test results: {TotalTests} tests, {PassedTests} passed, {FailedTests} failed",
-                        goTestResults.Summary?.Total ?? 0, goTestResults.Summary?.Passed ?? 0, goTestResults.Summary?.Failed ?? 0);
+                        "Parsed Go test results: {TotalTests} tests, {PassedTests} passed, {FailedTests} failed, Duration: {Duration}s",
+                        goTestResults.Summary?.Total ?? 0, goTestResults.Summary?.Passed ?? 0, goTestResults.Summary?.Failed ?? 0, goTestResults.Summary?.Duration ?? 0);
+
+                    // Extract pure test execution time from Go test results
+                    result.Performance.PureTestExecutionTimeMs = (goTestResults.Summary?.Duration ?? 0) * 1000; // Convert seconds to milliseconds
+
+                    _logger.LogInformation("Pure test execution time: {PureExecutionTime}ms", result.Performance.PureTestExecutionTimeMs);
 
                     // Process each test result
                     if (goTestResults.Tests != null)

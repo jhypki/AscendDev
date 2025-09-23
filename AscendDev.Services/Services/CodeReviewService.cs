@@ -13,17 +13,26 @@ public class CodeReviewService : ICodeReviewService
     private readonly ICodeReviewRepository _codeReviewRepository;
     private readonly ISubmissionRepository _submissionRepository;
     private readonly ISubmissionService _submissionService;
+    private readonly INotificationService _notificationService;
+    private readonly IUserRepository _userRepository;
+    private readonly ILessonRepository _lessonRepository;
     private readonly ILogger<CodeReviewService> _logger;
 
     public CodeReviewService(
         ICodeReviewRepository codeReviewRepository,
         ISubmissionRepository submissionRepository,
         ISubmissionService submissionService,
+        INotificationService notificationService,
+        IUserRepository userRepository,
+        ILessonRepository lessonRepository,
         ILogger<CodeReviewService> logger)
     {
         _codeReviewRepository = codeReviewRepository;
         _submissionRepository = submissionRepository;
         _submissionService = submissionService;
+        _notificationService = notificationService;
+        _userRepository = userRepository;
+        _lessonRepository = lessonRepository;
         _logger = logger;
     }
 
@@ -161,6 +170,32 @@ public class CodeReviewService : ICodeReviewService
             };
 
             var createdCodeReview = await _codeReviewRepository.CreateAsync(codeReview);
+
+            // Send notification to reviewee
+            try
+            {
+                // Get reviewer information
+                var reviewer = await _userRepository.GetByIdAsync(reviewerId);
+                var reviewerName = reviewer?.Username ?? "Unknown Reviewer";
+
+                // Get lesson information
+                var lesson = await _lessonRepository.GetById(submission.LessonId);
+                var lessonTitle = lesson?.Title ?? submission.LessonId;
+
+                await _notificationService.SendCodeReviewNotificationAsync(
+                    request.RevieweeId,
+                    reviewerId,
+                    reviewerName,
+                    lessonTitle,
+                    createdCodeReview.Id,
+                    request.SubmissionId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send code review notification for review {ReviewId}", createdCodeReview.Id);
+                // Don't fail the entire operation if notification fails
+            }
+
             return await MapToResponseAsync(createdCodeReview);
         }
         catch (Exception ex)

@@ -50,6 +50,9 @@ public static class DatabaseExtensions
         services.AddScoped<ICodeReviewRepository, CodeReviewRepository>();
         services.AddScoped<ICodeReviewCommentRepository, CodeReviewCommentRepository>();
 
+        // Register notification repository
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+
         return services;
     }
 }

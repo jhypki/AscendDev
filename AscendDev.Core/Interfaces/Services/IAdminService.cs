@@ -10,5 +10,6 @@ namespace AscendDev.Core.Interfaces.Services
         Task<SystemAnalyticsResponse> GetSystemAnalyticsAsync();
         Task<bool> UpdateUserStatusAsync(string userId, bool isActive);
         Task<bool> UpdateUserRolesAsync(string userId, List<string> roles);
+        Task<ReportGenerationResponse> GenerateReportAsync(GenerateReportRequest request);
     }
 }
