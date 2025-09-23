@@ -1,4 +1,5 @@
 using AscendDev.Core.DTOs.Courses;
+using AscendDev.Core.DTOs.UserProfile;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Models.Auth;
@@ -87,5 +88,18 @@ public class UserSettingsService : IUserSettingsService
     {
         var settings = await _userSettingsRepository.GetByUserIdAsync(userId);
         return settings?.PublicSubmissions ?? false;
+    }
+
+    public async Task UpdatePrivacySettingsAsync(Guid userId, UpdatePrivacySettingsRequest request)
+    {
+        var settings = await _userSettingsRepository.GetOrCreateDefaultAsync(userId);
+
+        // Map privacy settings to existing UserSettings properties
+        // Note: This is a simplified mapping - in a real implementation you might want
+        // to extend the UserSettings model to include these specific privacy fields
+        settings.ShowProfile = request.IsProfilePublic;
+        settings.UpdatedAt = DateTime.UtcNow;
+
+        await _userSettingsRepository.UpdateAsync(settings);
     }
 }

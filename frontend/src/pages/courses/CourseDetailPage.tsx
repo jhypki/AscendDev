@@ -28,16 +28,21 @@ import {
     IconTrash,
     IconAlertCircle,
     IconBook,
-    IconClock
+    IconClock,
+    IconMessage,
+    IconPlus
 } from '@tabler/icons-react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { notifications } from '@mantine/notifications'
 import { useCourse, useCourseLessons, useDeleteCourse } from '../../hooks/api/useCourses'
 import { useCourseProgress } from '../../hooks/api/useUserProgress'
+import { useDiscussionCount } from '../../hooks/api/useDiscussions'
 import { useAppSelector } from '../../store/hooks'
 import CourseForm from '../../components/courses/CourseForm'
+import { CommentSection } from '../../components/social/CommentSection'
 import { useDisclosure } from '@mantine/hooks'
 import type { Lesson } from '../../types/course'
+import type { Discussion } from '../../types/discussion'
 
 const CourseDetailPage = () => {
     const { courseId } = useParams<{ courseId: string }>()
@@ -64,6 +69,7 @@ const CourseDetailPage = () => {
         error: progressError
     } = useCourseProgress(courseId!)
 
+    const { data: discussionCount } = useDiscussionCount(undefined, courseId)
     const deleteCourseMutation = useDeleteCourse()
 
     const isLoading = courseLoading || lessonsLoading || progressLoading
@@ -91,6 +97,16 @@ const CourseDetailPage = () => {
                 color: 'red'
             })
         }
+    }
+
+    const handlePinDiscussion = (discussion: Discussion) => {
+        // TODO: Implement pin/unpin discussion
+        console.log('Pin discussion:', discussion)
+    }
+
+    const handleLockDiscussion = (discussion: Discussion) => {
+        // TODO: Implement lock/unlock discussion
+        console.log('Lock discussion:', discussion)
     }
 
     const getStatusColor = (status: string) => {
@@ -295,6 +311,28 @@ const CourseDetailPage = () => {
                                 </Stack>
                             </Group>
                         </Paper>
+
+                        {/* Course Discussions */}
+                        <Paper p="md" withBorder>
+                            <Group gap="xs" mb="md">
+                                <ThemeIcon variant="light" size="sm">
+                                    <IconMessage size={16} />
+                                </ThemeIcon>
+                                <Text fw={500}>Course Discussions</Text>
+                                {discussionCount !== undefined && (
+                                    <Badge size="sm" variant="light">
+                                        {discussionCount}
+                                    </Badge>
+                                )}
+                            </Group>
+
+                            <CommentSection
+                                courseId={courseId}
+                                onPinDiscussion={handlePinDiscussion}
+                                onLockDiscussion={handleLockDiscussion}
+                                canModerate={isAdmin}
+                            />
+                        </Paper>
                     </Stack>
                 </Grid.Col>
 
@@ -303,9 +341,20 @@ const CourseDetailPage = () => {
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Group justify="space-between" mb="md">
                             <Title order={3}>Course Content</Title>
-                            <Text size="sm" c="dimmed">
-                                {lessons?.length || 0} lessons
-                            </Text>
+                            <Group>
+                                <Text size="sm" c="dimmed">
+                                    {lessons?.length || 0} lessons
+                                </Text>
+                                {isAdmin && (
+                                    <Button
+                                        size="xs"
+                                        leftSection={<IconPlus size={14} />}
+                                        onClick={() => navigate(`/courses/${courseId}/lessons/create`)}
+                                    >
+                                        Add Lesson
+                                    </Button>
+                                )}
+                            </Group>
                         </Group>
 
                         {lessons && lessons.length > 0 && (
@@ -405,6 +454,7 @@ const CourseDetailPage = () => {
                     mode="edit"
                 />
             )}
+
         </Container>
     )
 }

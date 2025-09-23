@@ -66,8 +66,19 @@ export const useCourseLessons = (courseId: string, enabled: boolean = true) => {
     return useQuery({
         queryKey: courseKeys.lessons(courseId),
         queryFn: async (): Promise<Lesson[]> => {
-            const response = await api.get(`/courses/${courseId}/lessons`)
-            return response.data
+            try {
+                const response = await api.get(`/courses/${courseId}/lessons`)
+                return response.data
+            } catch (error) {
+                // If no lessons found (404), return empty array instead of throwing error
+                if (error && typeof error === 'object' && 'response' in error) {
+                    const axiosError = error as { response: { status: number } }
+                    if (axiosError.response?.status === 404) {
+                        return []
+                    }
+                }
+                throw error
+            }
         },
         enabled: enabled && !!courseId,
         staleTime: 5 * 60 * 1000, // 5 minutes

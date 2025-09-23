@@ -12,6 +12,7 @@ public class CreateDiscussionRequest
     [StringLength(5000, MinimumLength = 10)]
     public string Content { get; set; } = null!;
 
-    [Required]
-    public string LessonId { get; set; } = null!;
+    public string? LessonId { get; set; }
+
+    public string? CourseId { get; set; }
 }

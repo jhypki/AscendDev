@@ -46,6 +46,7 @@ public static class DatabaseExtensions
         // Register social repositories
         services.AddScoped<IDiscussionRepository, DiscussionRepository>();
         services.AddScoped<IDiscussionReplyRepository, DiscussionReplyRepository>();
+        services.AddScoped<IDiscussionLikeRepository, DiscussionLikeRepository>();
         services.AddScoped<ICodeReviewRepository, CodeReviewRepository>();
         services.AddScoped<ICodeReviewCommentRepository, CodeReviewCommentRepository>();
 

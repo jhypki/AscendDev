@@ -40,6 +40,7 @@ public static class ServiceExtensions
         services.AddScoped<IUserProgressService, UserProgressService>();
         services.AddScoped<ISubmissionService, SubmissionService>();
         services.AddScoped<IUserSettingsService, UserSettingsService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
 
         // Register admin services
         services.AddScoped<IAdminService, AdminService>();

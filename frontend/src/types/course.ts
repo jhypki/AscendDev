@@ -52,6 +52,8 @@ export interface TestCase {
     input: unknown
     expectedOutput: unknown
     description?: string
+    testCode?: string // Actual unit test code
+    isHidden?: boolean // Whether this test is hidden from students
 }
 
 export interface CreateCourseRequest {

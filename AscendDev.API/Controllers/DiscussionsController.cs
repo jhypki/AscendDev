@@ -13,13 +13,16 @@ namespace AscendDev.API.Controllers;
 public class DiscussionsController : ControllerBase
 {
     private readonly IDiscussionService _discussionService;
+    private readonly IDiscussionReplyService _discussionReplyService;
     private readonly ILogger<DiscussionsController> _logger;
 
     public DiscussionsController(
         IDiscussionService discussionService,
+        IDiscussionReplyService discussionReplyService,
         ILogger<DiscussionsController> logger)
     {
         _discussionService = discussionService;
+        _discussionReplyService = discussionReplyService;
         _logger = logger;
     }
 
@@ -31,7 +34,8 @@ public class DiscussionsController : ControllerBase
     {
         try
         {
-            var discussion = await _discussionService.GetByIdAsync(id);
+            var userId = GetCurrentUserId();
+            var discussion = await _discussionService.GetByIdAsync(id, userId);
             if (discussion == null)
                 return NotFound(new ErrorApiResponse(null, "Discussion not found"));
 
@@ -58,7 +62,8 @@ public class DiscussionsController : ControllerBase
     {
         try
         {
-            var discussions = await _discussionService.GetByLessonIdAsync(lessonId, page, pageSize);
+            var userId = GetCurrentUserId();
+            var discussions = await _discussionService.GetByLessonIdAsync(lessonId, page, pageSize, userId);
             return Ok(new ApiResponse<IEnumerable<DiscussionResponse>>(true, discussions, "Success", null));
         }
         catch (Exception ex)
@@ -200,6 +205,156 @@ public class DiscussionsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting discussion count for lesson {LessonId}", lessonId);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Like a discussion
+    /// </summary>
+    [HttpPost("{id}/like")]
+    public async Task<ActionResult<ApiResponse<bool>>> LikeDiscussion(Guid id)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var result = await _discussionService.LikeDiscussionAsync(id, userId);
+            return Ok(new ApiResponse<bool>(true, result, "Discussion liked successfully", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error liking discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Unlike a discussion
+    /// </summary>
+    [HttpDelete("{id}/like")]
+    public async Task<ActionResult<ApiResponse<bool>>> UnlikeDiscussion(Guid id)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var result = await _discussionService.UnlikeDiscussionAsync(id, userId);
+            return Ok(new ApiResponse<bool>(true, result, "Discussion unliked successfully", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error unliking discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Get like count for a discussion
+    /// </summary>
+    [HttpGet("{id}/likes/count")]
+    public async Task<ActionResult<ApiResponse<int>>> GetLikeCount(Guid id)
+    {
+        try
+        {
+            var count = await _discussionService.GetLikeCountAsync(id);
+            return Ok(new ApiResponse<int>(true, count, "Success", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting like count for discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Check if discussion is liked by current user
+    /// </summary>
+    [HttpGet("{id}/likes/status")]
+    public async Task<ActionResult<ApiResponse<bool>>> GetLikeStatus(Guid id)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var isLiked = await _discussionService.IsLikedByUserAsync(id, userId);
+            return Ok(new ApiResponse<bool>(true, isLiked, "Success", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting like status for discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Get replies for a discussion
+    /// </summary>
+    [HttpGet("{id}/replies")]
+    public async Task<ActionResult<ApiResponse<IEnumerable<DiscussionReplyResponse>>>> GetReplies(Guid id)
+    {
+        try
+        {
+            var replies = await _discussionReplyService.GetByDiscussionIdAsync(id);
+            return Ok(new ApiResponse<IEnumerable<DiscussionReplyResponse>>(true, replies, "Success", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting replies for discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Create a reply to a discussion
+    /// </summary>
+    [HttpPost("{id}/replies")]
+    public async Task<ActionResult<ApiResponse<DiscussionReplyResponse>>> CreateReply(Guid id, [FromBody] CreateDiscussionReplyRequest request)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var reply = await _discussionReplyService.CreateAsync(id, request, userId);
+            return CreatedAtAction(nameof(GetReplies), new { id }, new ApiResponse<DiscussionReplyResponse>(true, reply, "Reply created successfully", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating reply for discussion {Id}", id);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Update a reply
+    /// </summary>
+    [HttpPut("replies/{replyId}")]
+    public async Task<ActionResult<ApiResponse<DiscussionReplyResponse>>> UpdateReply(Guid replyId, [FromBody] UpdateDiscussionReplyRequest request)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var reply = await _discussionReplyService.UpdateAsync(replyId, request, userId);
+            return Ok(new ApiResponse<DiscussionReplyResponse>(true, reply, "Reply updated successfully", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating reply {ReplyId}", replyId);
+            return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
+        }
+    }
+
+    /// <summary>
+    /// Delete a reply
+    /// </summary>
+    [HttpDelete("replies/{replyId}")]
+    public async Task<ActionResult<ApiResponse<bool>>> DeleteReply(Guid replyId)
+    {
+        try
+        {
+            var userId = GetCurrentUserId();
+            var result = await _discussionReplyService.DeleteAsync(replyId, userId);
+            return Ok(new ApiResponse<bool>(true, result, "Reply deleted successfully", null));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting reply {ReplyId}", replyId);
             return StatusCode(500, new ErrorApiResponse(null, "Internal server error"));
         }
     }

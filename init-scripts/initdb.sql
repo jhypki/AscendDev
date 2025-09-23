@@ -203,7 +203,8 @@ CREATE TABLE refresh_tokens (
 -- Social Features Tables
 CREATE TABLE discussions (
     id UUID PRIMARY KEY,
-    lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    lesson_id TEXT REFERENCES lessons(id) ON DELETE CASCADE,
+    course_id TEXT REFERENCES courses(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(500) NOT NULL,
     content TEXT NOT NULL,
@@ -211,7 +212,19 @@ CREATE TABLE discussions (
     updated_at TIMESTAMP WITH TIME ZONE,
     is_pinned BOOLEAN DEFAULT FALSE,
     is_locked BOOLEAN DEFAULT FALSE,
-    view_count INTEGER DEFAULT 0
+    view_count INTEGER DEFAULT 0,
+    CONSTRAINT check_discussion_context CHECK (
+        (lesson_id IS NOT NULL AND course_id IS NULL) OR
+        (lesson_id IS NULL AND course_id IS NOT NULL)
+    )
+);
+
+CREATE TABLE discussion_likes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    discussion_id UUID NOT NULL REFERENCES discussions(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    UNIQUE(discussion_id, user_id)
 );
 
 CREATE TABLE discussion_replies (
@@ -420,6 +433,7 @@ CREATE TABLE bulk_operations (
 
 -- Additional Indexes for Performance
 CREATE INDEX idx_discussions_lesson_id ON discussions(lesson_id);
+CREATE INDEX idx_discussions_course_id ON discussions(course_id);
 CREATE INDEX idx_discussions_user_id ON discussions(user_id);
 CREATE INDEX idx_discussions_created_at ON discussions(created_at DESC);
 
@@ -447,6 +461,9 @@ CREATE INDEX idx_notifications_type ON notifications(type);
 CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens(user_id);
 CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(token);
 CREATE INDEX idx_refresh_tokens_expires ON refresh_tokens(expires);
+
+CREATE INDEX idx_discussion_likes_discussion_id ON discussion_likes(discussion_id);
+CREATE INDEX idx_discussion_likes_user_id ON discussion_likes(user_id);
 
 CREATE INDEX idx_user_roles_user_id ON user_roles(user_id);
 CREATE INDEX idx_user_roles_role_id ON user_roles(role_id);

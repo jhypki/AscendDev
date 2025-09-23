@@ -109,8 +109,8 @@ public class DiscussionRepository : IDiscussionRepository
     public async Task<Discussion> CreateAsync(Discussion discussion)
     {
         var sql = @"
-            INSERT INTO discussions (id, lesson_id, user_id, title, content, created_at, is_pinned, is_locked, view_count)
-            VALUES (@Id, @LessonId, @UserId, @Title, @Content, @CreatedAt, @IsPinned, @IsLocked, @ViewCount)
+            INSERT INTO discussions (id, lesson_id, course_id, user_id, title, content, created_at, is_pinned, is_locked, view_count)
+            VALUES (@Id, @LessonId, @CourseId, @UserId, @Title, @Content, @CreatedAt, @IsPinned, @IsLocked, @ViewCount)
             RETURNING *";
 
         var insertedDiscussion = await _sqlExecutor.QueryFirstAsync<Discussion>(sql, discussion);
@@ -213,6 +213,74 @@ public class DiscussionRepository : IDiscussionRepository
                 return discussion;
             },
             new { searchTerm = $"%{searchTerm}%", lessonId, pageSize, offset },
+            splitOn: "id");
+
+        return discussions;
+    }
+
+    public async Task<IEnumerable<Discussion>> GetByCourseIdAsync(string courseId, int page = 1, int pageSize = 20)
+    {
+        var offset = (page - 1) * pageSize;
+        var sql = @"
+            SELECT d.*, u.id, u.username, u.email, u.first_name, u.last_name, u.profile_picture_url
+            FROM discussions d
+            INNER JOIN users u ON d.user_id = u.id
+            WHERE d.course_id = @courseId
+            ORDER BY d.is_pinned DESC, d.created_at DESC
+            LIMIT @pageSize OFFSET @offset";
+
+        var discussions = await _sqlExecutor.QueryAsync<Discussion, dynamic, Discussion>(
+            sql,
+            (discussion, user) =>
+            {
+                discussion.User = new Core.Models.Auth.User
+                {
+                    Id = user.id,
+                    Username = user.username,
+                    Email = user.email,
+                    FirstName = user.first_name,
+                    LastName = user.last_name,
+                    ProfilePictureUrl = user.profile_picture_url
+                };
+                return discussion;
+            },
+            new { courseId, pageSize, offset },
+            splitOn: "id");
+
+        return discussions;
+    }
+
+    public async Task<int> GetTotalCountByCourseIdAsync(string courseId)
+    {
+        var sql = "SELECT COUNT(*) FROM discussions WHERE course_id = @courseId";
+        return await _sqlExecutor.QueryFirstAsync<int>(sql, new { courseId });
+    }
+
+    public async Task<IEnumerable<Discussion>> GetPinnedByCourseIdAsync(string courseId)
+    {
+        var sql = @"
+            SELECT d.*, u.id, u.username, u.email, u.first_name, u.last_name, u.profile_picture_url
+            FROM discussions d
+            INNER JOIN users u ON d.user_id = u.id
+            WHERE d.course_id = @courseId AND d.is_pinned = true
+            ORDER BY d.created_at DESC";
+
+        var discussions = await _sqlExecutor.QueryAsync<Discussion, dynamic, Discussion>(
+            sql,
+            (discussion, user) =>
+            {
+                discussion.User = new Core.Models.Auth.User
+                {
+                    Id = user.id,
+                    Username = user.username,
+                    Email = user.email,
+                    FirstName = user.first_name,
+                    LastName = user.last_name,
+                    ProfilePictureUrl = user.profile_picture_url
+                };
+                return discussion;
+            },
+            new { courseId },
             splitOn: "id");
 
         return discussions;

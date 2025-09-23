@@ -17,6 +17,7 @@ import {
 import { IconPlus, IconRefresh, IconAlertCircle } from '@tabler/icons-react'
 import { useState, useMemo } from 'react'
 import { useDisclosure } from '@mantine/hooks'
+import { useNavigate } from 'react-router-dom'
 import { notifications } from '@mantine/notifications'
 import { useCourses, useDeleteCourse } from '../../hooks/api/useCourses'
 import CourseCard from '../../components/courses/CourseCard'
@@ -26,6 +27,7 @@ import { useAppSelector } from '../../store/hooks'
 import type { CourseFilters as CourseFiltersType, Course } from '../../types/course'
 
 const CoursesPage = () => {
+    const navigate = useNavigate()
     const { user } = useAppSelector((state) => state.auth)
     const isAdmin = user?.userRoles?.includes('Admin') || user?.userRoles?.includes('Instructor')
 
@@ -34,7 +36,6 @@ const CoursesPage = () => {
     const [pageSize] = useState(12)
     const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false)
     const [courseToDelete, setCourseToDelete] = useState<string | null>(null)
-    const [createModalOpened, { open: openCreateModal, close: closeCreateModal }] = useDisclosure(false)
     const [editModalOpened, { open: openEditModal, close: closeEditModal }] = useDisclosure(false)
     const [courseToEdit, setCourseToEdit] = useState<Course | null>(null)
 
@@ -92,9 +93,6 @@ const CoursesPage = () => {
         }
     }
 
-    const handleCreateCourse = () => {
-        openCreateModal()
-    }
 
     const handleCloseEditModal = () => {
         setCourseToEdit(null)
@@ -151,7 +149,7 @@ const CoursesPage = () => {
                         {isAdmin && (
                             <Button
                                 leftSection={<IconPlus size={16} />}
-                                onClick={handleCreateCourse}
+                                onClick={() => navigate('/courses/create')}
                             >
                                 Create Course
                             </Button>
@@ -252,13 +250,6 @@ const CoursesPage = () => {
                     </Group>
                 </Stack>
             </Modal>
-
-            {/* Create Course Modal */}
-            <CourseForm
-                opened={createModalOpened}
-                onClose={closeCreateModal}
-                mode="create"
-            />
 
             {/* Edit Course Modal */}
             <CourseForm

@@ -6,7 +6,8 @@ namespace AscendDev.Core.Models.Social;
 public class Discussion
 {
     public Guid Id { get; set; }
-    public string LessonId { get; set; } = null!;
+    public string? LessonId { get; set; }
+    public string? CourseId { get; set; }
     public Guid UserId { get; set; }
     public string Title { get; set; } = null!;
     public string Content { get; set; } = null!;
@@ -20,9 +21,11 @@ public class Discussion
     public User User { get; set; } = null!;
     public Lesson Lesson { get; set; } = null!;
     public List<DiscussionReply> Replies { get; set; } = new();
+    public List<DiscussionLike> Likes { get; set; } = new();
 
     // Computed Properties
     public int ReplyCount => Replies.Count;
+    public int LikeCount => Likes.Count;
     public DateTime LastActivity => Replies.Any() ?
         Replies.Max(r => r.UpdatedAt ?? r.CreatedAt) :
         UpdatedAt ?? CreatedAt;

@@ -1,4 +1,5 @@
 using AscendDev.Core.DTOs.Courses;
+using AscendDev.Core.DTOs.UserProfile;
 using AscendDev.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -81,5 +82,23 @@ public class UserSettingsController : ControllerBase
 
         await _userSettingsService.DeleteUserSettingsAsync(userId);
         return NoContent();
+    }
+
+    /// <summary>
+    /// Update current user's privacy settings
+    /// </summary>
+    /// <param name="request">Privacy settings</param>
+    /// <returns>Success status</returns>
+    [HttpPut("privacy")]
+    public async Task<ActionResult> UpdatePrivacySettings([FromBody] UpdatePrivacySettingsRequest request)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized("Invalid user ID in token");
+        }
+
+        await _userSettingsService.UpdatePrivacySettingsAsync(userId, request);
+        return Ok();
     }
 }

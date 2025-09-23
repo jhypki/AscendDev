@@ -63,6 +63,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 collapsed: { mobile: !opened, desktop: !opened },
             }}
             padding="md"
+            style={{ minHeight: '100vh' }}
         >
             <AppShell.Header>
                 <Header opened={opened} toggle={toggle} user={user} />
@@ -101,8 +102,16 @@ export function AppLayout({ children }: AppLayoutProps) {
                 </AppShell.Section>
             </AppShell.Navbar>
 
-            <AppShell.Main>
-                {children}
+            <AppShell.Main
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: 'calc(100vh - 60px)', // Subtract header height
+                }}
+            >
+                <div style={{ flex: 1 }}>
+                    {children}
+                </div>
                 <Footer />
             </AppShell.Main>
         </AppShell>

@@ -12,8 +12,11 @@ const OAuthCallbackPage = lazy(() => import('../pages/auth/OAuthCallbackPage'))
 const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'))
 const CoursesPage = lazy(() => import('../pages/courses/CoursesPage'))
 const CourseDetailPage = lazy(() => import('../pages/courses/CourseDetailPage'))
+const CreateCoursePage = lazy(() => import('../pages/courses/CreateCoursePage'))
 const LessonPage = lazy(() => import('../pages/lessons/LessonPage'))
+const CreateLessonPage = lazy(() => import('../pages/lessons/CreateLessonPage'))
 const ProfilePage = lazy(() => import('../pages/profile/ProfilePage'))
+const SettingsPage = lazy(() => import('../pages/settings/SettingsPage'))
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'))
 const PlaygroundPage = lazy(() => import('../pages/playground/PlaygroundPage'))
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'))
@@ -98,11 +101,31 @@ export const router = createBrowserRouter([
         ),
     },
     {
+        path: '/courses/create',
+        element: (
+            <ProtectedRoute requiredRoles={['Admin', 'Instructor']}>
+                <LazyWrapper>
+                    <CreateCoursePage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
         path: '/courses/:courseId',
         element: (
             <ProtectedRoute>
                 <LazyWrapper>
                     <CourseDetailPage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/courses/:courseId/lessons/create',
+        element: (
+            <ProtectedRoute requiredRoles={['Admin', 'Instructor']}>
+                <LazyWrapper>
+                    <CreateLessonPage />
                 </LazyWrapper>
             </ProtectedRoute>
         ),
@@ -123,6 +146,26 @@ export const router = createBrowserRouter([
             <ProtectedRoute>
                 <LazyWrapper>
                     <ProfilePage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/profile/:userId',
+        element: (
+            <ProtectedRoute>
+                <LazyWrapper>
+                    <ProfilePage />
+                </LazyWrapper>
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/settings',
+        element: (
+            <ProtectedRoute>
+                <LazyWrapper>
+                    <SettingsPage />
                 </LazyWrapper>
             </ProtectedRoute>
         ),

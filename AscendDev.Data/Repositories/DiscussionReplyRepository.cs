@@ -112,7 +112,9 @@ public class DiscussionReplyRepository : IDiscussionReplyRepository
             RETURNING *";
 
         var result = await _sqlExecutor.QueryFirstAsync<DiscussionReply>(sql, reply);
-        return result;
+
+        // Fetch the complete reply with user information
+        return await GetByIdAsync(result.Id) ?? result;
     }
 
     public async Task<DiscussionReply> UpdateAsync(DiscussionReply reply)

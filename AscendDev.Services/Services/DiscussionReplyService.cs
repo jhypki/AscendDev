@@ -221,12 +221,15 @@ public class DiscussionReplyService : IDiscussionReplyService
             IsSolution = reply.IsSolution,
             IsEdited = reply.IsEdited,
             Depth = reply.Depth,
-            User = new UserDto
+            User = reply.User != null ? new UserDto
             {
                 Id = reply.User.Id,
                 Username = reply.User.Username,
-                Email = reply.User.Email
-            }
+                Email = reply.User.Email,
+                FirstName = reply.User.FirstName,
+                LastName = reply.User.LastName,
+                ProfilePictureUrl = reply.User.ProfilePictureUrl
+            } : null
         };
     }
 }

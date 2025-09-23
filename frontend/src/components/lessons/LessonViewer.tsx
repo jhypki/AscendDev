@@ -16,7 +16,8 @@ import {
     IconChartBar,
     IconInfoCircle,
     IconExternalLink,
-    IconCheck
+    IconCheck,
+    IconMessage
 } from '@tabler/icons-react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { notifications } from '@mantine/notifications'
@@ -26,7 +27,10 @@ import { ProgressTracker } from './ProgressTracker'
 import { MarkdownRenderer } from './MarkdownRenderer'
 import { useLesson, useCourseProgress, useCompleteLesson } from '../../hooks/api/useLessons'
 import { useCourse } from '../../hooks/api/useCourses'
+import { useDiscussionCount } from '../../hooks/api/useDiscussions'
+import { CommentSection } from '../social/CommentSection'
 import type { TestResult } from '../../types/lesson'
+import type { Discussion } from '../../types/discussion'
 
 export const LessonViewer = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>()
@@ -39,6 +43,7 @@ export const LessonViewer = () => {
     const { data: course, isLoading: courseLoading } = useCourse(courseId!, !!courseId)
     const { data: lesson, isLoading: lessonLoading } = useLesson(courseId!, lessonId!, !!courseId && !!lessonId)
     const { data: progress, isLoading: progressLoading } = useCourseProgress(courseId!, !!courseId)
+    const { data: discussionCount } = useDiscussionCount(lessonId)
     const completeLessonMutation = useCompleteLesson()
 
     // Set initial code when lesson loads
@@ -90,6 +95,16 @@ export const LessonViewer = () => {
                 color: 'red'
             })
         }
+    }
+
+    const handlePinDiscussion = (discussion: Discussion) => {
+        // TODO: Implement pin/unpin discussion for lessons
+        console.log('Pin discussion:', discussion)
+    }
+
+    const handleLockDiscussion = (discussion: Discussion) => {
+        // TODO: Implement lock/unlock discussion for lessons
+        console.log('Lock discussion:', discussion)
     }
 
     const getCurrentLessonProgress = () => {
@@ -202,6 +217,14 @@ export const LessonViewer = () => {
                                         >
                                             {activeTab === 'progress' ? 'Back to Lesson' : 'View Progress'}
                                         </Button>
+                                        <Button
+                                            size="xs"
+                                            variant="light"
+                                            leftSection={<IconMessage size={14} />}
+                                            onClick={() => setActiveTab(activeTab === 'discussions' ? 'lesson' : 'discussions')}
+                                        >
+                                            {activeTab === 'discussions' ? 'Back to Lesson' : `Discussions${discussionCount ? ` (${discussionCount})` : ''}`}
+                                        </Button>
                                     </Group>
                                 </Group>
                                 <Divider />
@@ -215,6 +238,15 @@ export const LessonViewer = () => {
                                             currentLessonId={lessonId}
                                         />
                                     )}
+                                </div>
+                            ) : activeTab === 'discussions' ? (
+                                <div style={{ flex: 1, overflow: 'auto', padding: 'var(--mantine-spacing-md)' }}>
+                                    <CommentSection
+                                        lessonId={lessonId}
+                                        onPinDiscussion={handlePinDiscussion}
+                                        onLockDiscussion={handleLockDiscussion}
+                                        canModerate={false} // TODO: Add proper role checking
+                                    />
                                 </div>
                             ) : (
                                 <div style={{ flex: 1, overflow: 'auto', padding: 'var(--mantine-spacing-md)' }}>

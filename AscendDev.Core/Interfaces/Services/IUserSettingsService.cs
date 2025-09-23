@@ -1,4 +1,5 @@
 using AscendDev.Core.DTOs.Courses;
+using AscendDev.Core.DTOs.UserProfile;
 using AscendDev.Core.Models.Auth;
 
 namespace AscendDev.Core.Interfaces.Services;
@@ -10,4 +11,5 @@ public interface IUserSettingsService
     Task<UserSettingsResponse> UpdateUserSettingsAsync(Guid userId, UpdateUserSettingsRequest request);
     Task DeleteUserSettingsAsync(Guid userId);
     Task<bool> IsPublicSubmissionsEnabledAsync(Guid userId);
+    Task UpdatePrivacySettingsAsync(Guid userId, UpdatePrivacySettingsRequest request);
 }

@@ -14,4 +14,9 @@ public interface IDiscussionRepository
     Task<IEnumerable<Discussion>> GetPinnedByLessonIdAsync(string lessonId);
     Task<int> GetTotalCountByLessonIdAsync(string lessonId);
     Task<IEnumerable<Discussion>> SearchAsync(string searchTerm, string? lessonId = null, int page = 1, int pageSize = 20);
+
+    // Course-level discussion methods
+    Task<IEnumerable<Discussion>> GetByCourseIdAsync(string courseId, int page = 1, int pageSize = 20);
+    Task<int> GetTotalCountByCourseIdAsync(string courseId);
+    Task<IEnumerable<Discussion>> GetPinnedByCourseIdAsync(string courseId);
 }

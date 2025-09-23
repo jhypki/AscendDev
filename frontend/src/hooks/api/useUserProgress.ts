@@ -25,8 +25,26 @@ export const useCourseProgress = (courseId: string) => {
     return useQuery({
         queryKey: ['courseProgress', courseId],
         queryFn: async (): Promise<CourseProgress> => {
-            const response = await api.get(`/courses/${courseId}/progress`);
-            return response.data;
+            try {
+                const response = await api.get(`/courses/${courseId}/progress`);
+                return response.data;
+            } catch (error) {
+                // If course has no lessons yet (404), return default progress
+                if (error && typeof error === 'object' && 'response' in error) {
+                    const axiosError = error as { response: { status: number } }
+                    if (axiosError.response?.status === 404) {
+                        return {
+                            courseId,
+                            userId: '', // Will be populated by the backend when lessons exist
+                            totalLessons: 0,
+                            completedLessons: 0,
+                            completionPercentage: 0,
+                            completedLessonIds: []
+                        };
+                    }
+                }
+                throw error;
+            }
         },
         enabled: !!courseId,
     });
