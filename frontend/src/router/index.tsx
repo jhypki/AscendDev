@@ -8,6 +8,7 @@ import PublicRoute from './PublicRoute'
 const LoginPage = lazy(() => import('../pages/auth/LoginPage'))
 const RegisterPage = lazy(() => import('../pages/auth/RegisterPage'))
 const ForgotPasswordPage = lazy(() => import('../pages/auth/ForgotPasswordPage'))
+const EmailVerificationPage = lazy(() => import('../pages/auth/EmailVerificationPage'))
 const OAuthCallbackPage = lazy(() => import('../pages/auth/OAuthCallbackPage'))
 const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'))
 const CoursesPage = lazy(() => import('../pages/courses/CoursesPage'))
@@ -68,6 +69,16 @@ export const router = createBrowserRouter([
             <PublicRoute>
                 <LazyWrapper>
                     <ForgotPasswordPage />
+                </LazyWrapper>
+            </PublicRoute>
+        ),
+    },
+    {
+        path: '/auth/verify-email',
+        element: (
+            <PublicRoute>
+                <LazyWrapper>
+                    <EmailVerificationPage />
                 </LazyWrapper>
             </PublicRoute>
         ),

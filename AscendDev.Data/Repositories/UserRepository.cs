@@ -96,6 +96,28 @@ public class UserRepository(ISqlExecutor sql, ILogger<UserRepository> logger)
         }
     }
 
+    public async Task<User?> GetByEmailVerificationTokenAsync(string token)
+    {
+        const string query = """
+                                         SELECT id, email, password_hash, username, first_name, last_name, is_email_verified,
+                                                created_at, updated_at, last_login, profile_picture_url, bio, external_id, provider,
+                                                is_active, is_locked, locked_until, failed_login_attempts, last_failed_login,
+                                                email_verification_token, email_verification_token_expires, password_reset_token,
+                                                password_reset_token_expires, time_zone, language, email_notifications, push_notifications
+                                         FROM users
+                                         WHERE email_verification_token = @Token
+                             """;
+        try
+        {
+            return await sql.QueryFirstOrDefaultAsync<User>(query, new { Token = token });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error getting user by email verification token");
+            throw;
+        }
+    }
+
     public async Task<bool> CreateAsync(User user)
     {
         const string query = """

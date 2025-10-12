@@ -1,0 +1,1229 @@
+{
+    "courses": [
+        {
+            "id": "python-fundamentals",
+            "title": "Python Fundamentals",
+            "slug": "python-fundamentals",
+            "description": "Learn Python programming fundamentals with hands-on exercises",
+            "language": "python",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "python",
+                "programming",
+                "fundamentals"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "javascript-essentials",
+            "title": "JavaScript Essentials",
+            "slug": "javascript-essentials",
+            "description": "Master JavaScript programming with practical examples",
+            "language": "javascript",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "javascript",
+                "programming",
+                "web"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "typescript-mastery",
+            "title": "TypeScript Mastery",
+            "slug": "typescript-mastery",
+            "description": "Advanced TypeScript programming concepts and practices",
+            "language": "typescript",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "typescript",
+                "programming",
+                "web"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "go-fundamentals",
+            "title": "Go Fundamentals",
+            "slug": "go-fundamentals",
+            "description": "Learn Go programming fundamentals with hands-on exercises",
+            "language": "go",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "go",
+                "programming",
+                "fundamentals"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "python-basics",
+            "title": "Python Basics",
+            "slug": "python-basics",
+            "description": "Start your Python journey with variables, data types, and basic operations",
+            "language": "python",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "python",
+                "basics",
+                "beginner"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "python-intermediate",
+            "title": "Python Intermediate",
+            "slug": "python-intermediate",
+            "description": "Advance your Python skills with data structures, OOP, and advanced concepts",
+            "language": "python",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "python",
+                "intermediate",
+                "oop",
+                "data-structures"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "typescript-fundamentals",
+            "title": "TypeScript Fundamentals",
+            "slug": "typescript-fundamentals",
+            "description": "Learn TypeScript from the ground up with types, interfaces, and modern features",
+            "language": "typescript",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "typescript",
+                "fundamentals",
+                "types"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        },
+        {
+            "id": "go-programming",
+            "title": "Go Programming",
+            "slug": "go-programming",
+            "description": "Master Go programming with structs, interfaces, and concurrent programming",
+            "language": "go",
+            "status": "published",
+            "created_by": "22222222-2222-2222-2222-222222222222",
+            "last_modified_by": "22222222-2222-2222-2222-222222222222",
+            "tags": [
+                "go",
+                "programming",
+                "concurrency"
+            ],
+            "current_version": 1,
+            "has_draft_version": false
+        }
+    ],
+    "lessons": [
+        {
+            "id": "python-arrays",
+            "course_id": "python-fundamentals",
+            "title": "Working with Arrays",
+            "slug": "python-arrays",
+            "content": "# Working with Arrays in Python\n\nLearn how to manipulate arrays (lists) in Python.\n\n## What are Lists?\n\nIn Python, lists are ordered collections of items that can be of different types. Lists are mutable, which means you can change their content without changing their identity.\n\n## Exercise\n\nImplement functions to work with arrays:\n- `reverse_array(arr)`: Return a new array with elements in reverse order\n- `find_max(arr)`: Find the maximum element in the array\n- `sum_array(arr)`: Calculate the sum of all elements",
+            "language": "python",
+            "template": "def reverse_array(arr):\n    \"\"\"\n    Reverse the given array.\n    Args:\n        arr (list): The array to reverse\n    Returns:\n        list: A new array with elements in reverse order\n    \"\"\"\n    # Write your code here\n    pass\n\ndef find_max(arr):\n    \"\"\"\n    Find the maximum element in the array.\n    Args:\n        arr (list): The array to search\n    Returns:\n        int/float: The maximum element, or None if array is empty\n    \"\"\"\n    # Write your code here\n    pass\n\ndef sum_array(arr):\n    \"\"\"\n    Calculate the sum of all elements in the array.\n    Args:\n        arr (list): The array to sum\n    Returns:\n        int/float: The sum of all elements\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 15000,
+                "memoryLimitMb": 512,
+                "testTemplate": "import pytest\nfrom solution import reverse_array, find_max, sum_array\n\ndef test_reverse_array():\n    assert reverse_array([1, 2, 3]) == [3, 2, 1]\n    assert reverse_array([]) == []\n    assert reverse_array([5]) == [5]\n\ndef test_find_max():\n    assert find_max([1, 5, 3]) == 5\n    assert find_max([10]) == 10\n    assert find_max([]) is None\n\ndef test_sum_array():\n    assert sum_array([1, 2, 3]) == 6\n    assert sum_array([]) == 0\n    assert sum_array([10]) == 10",
+                "testCases": [
+                    {
+                        "name": "test_reverse_array_1",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": [
+                            3,
+                            2,
+                            1
+                        ],
+                        "description": "Test reversing array [1, 2, 3]"
+                    },
+                    {
+                        "name": "test_find_max_1",
+                        "input": [
+                            1,
+                            5,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test finding max in [1, 5, 3]"
+                    },
+                    {
+                        "name": "test_sum_array_1",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 6,
+                        "description": "Test summing array [1, 2, 3]"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "def",
+                        "description": "Must use function definitions",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/datastructures.html",
+                    "title": "Python Lists Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "arrays",
+                "lists"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-functions",
+            "course_id": "python-fundamentals",
+            "title": "Python Functions",
+            "slug": "python-functions",
+            "content": "# Python Functions\n\nLearn to create and use functions in Python.\n\n## Exercise\n\nImplement mathematical functions:\n- `add_numbers(a, b)`: Add two numbers\n- `multiply_numbers(a, b)`: Multiply two numbers\n- `calculate_factorial(n)`: Calculate factorial of n",
+            "language": "python",
+            "template": "def add_numbers(a, b):\n    \"\"\"\n    Add two numbers.\n    Args:\n        a (int/float): First number\n        b (int/float): Second number\n    Returns:\n        int/float: Sum of a and b\n    \"\"\"\n    # Write your code here\n    pass\n\ndef multiply_numbers(a, b):\n    \"\"\"\n    Multiply two numbers.\n    Args:\n        a (int/float): First number\n        b (int/float): Second number\n    Returns:\n        int/float: Product of a and b\n    \"\"\"\n    # Write your code here\n    pass\n\ndef calculate_factorial(n):\n    \"\"\"\n    Calculate factorial of n.\n    Args:\n        n (int): Non-negative integer\n    Returns:\n        int: Factorial of n\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "import pytest\nfrom solution import add_numbers, multiply_numbers, calculate_factorial\n\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5\n    assert add_numbers(0, 0) == 0\n    assert add_numbers(-1, 1) == 0\n\ndef test_multiply_numbers():\n    assert multiply_numbers(3, 4) == 12\n    assert multiply_numbers(0, 5) == 0\n    assert multiply_numbers(-2, 3) == -6\n\ndef test_calculate_factorial():\n    assert calculate_factorial(5) == 120\n    assert calculate_factorial(0) == 1\n    assert calculate_factorial(1) == 1",
+                "testCases": [
+                    {
+                        "name": "test_add_numbers_1",
+                        "input": [
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test adding 2 + 3"
+                    },
+                    {
+                        "name": "test_multiply_numbers_1",
+                        "input": [
+                            3,
+                            4
+                        ],
+                        "expectedOutput": 12,
+                        "description": "Test multiplying 3 * 4"
+                    },
+                    {
+                        "name": "test_calculate_factorial_1",
+                        "input": 5,
+                        "expectedOutput": 120,
+                        "description": "Test factorial of 5"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "def",
+                        "description": "Must use function definitions",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+                    "title": "Python Functions Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "functions",
+                "math"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "javascript-arrays",
+            "course_id": "javascript-essentials",
+            "title": "JavaScript Arrays",
+            "slug": "javascript-arrays",
+            "content": "# JavaScript Arrays\n\nLearn array manipulation in JavaScript.\n\n## Exercise\n\nImplement array functions:\n- `reverseArray(arr)`: Return a new array with elements in reverse order\n- `findMax(arr)`: Find the maximum element\n- `sumArray(arr)`: Calculate sum of all elements",
+            "language": "javascript",
+            "template": "function reverseArray(arr) {\n    // Reverse the given array\n    // Return a new array with elements in reverse order\n}\n\nfunction findMax(arr) {\n    // Find the maximum element in the array\n    // Return the maximum element, or undefined if array is empty\n}\n\nfunction sumArray(arr) {\n    // Calculate the sum of all elements in the array\n    // Return the sum of all elements\n}",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([5])).toEqual([5]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "reverseArray should reverse arrays",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": [
+                            3,
+                            2,
+                            1
+                        ],
+                        "description": "Test reversing array [1, 2, 3]"
+                    },
+                    {
+                        "name": "findMax should find maximum element",
+                        "input": [
+                            1,
+                            5,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test finding max in [1, 5, 3]"
+                    },
+                    {
+                        "name": "sumArray should calculate sum",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 6,
+                        "description": "Test summing array [1, 2, 3]"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "function",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+                    "title": "JavaScript Array Documentation"
+                }
+            ],
+            "tags": [
+                "javascript",
+                "arrays",
+                "functions"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "javascript-functions",
+            "course_id": "javascript-essentials",
+            "title": "JavaScript Functions",
+            "slug": "javascript-functions",
+            "content": "# JavaScript Functions\n\nMaster function creation and usage in JavaScript.\n\n## Exercise\n\nImplement mathematical functions:\n- `addNumbers(a, b)`: Add two numbers\n- `multiplyNumbers(a, b)`: Multiply two numbers\n- `calculateFactorial(n)`: Calculate factorial of n",
+            "language": "javascript",
+            "template": "function addNumbers(a, b) {\n    // Add two numbers and return the result\n}\n\nfunction multiplyNumbers(a, b) {\n    // Multiply two numbers and return the result\n}\n\nfunction calculateFactorial(n) {\n    // Calculate factorial of n\n    // Return 1 for n = 0 or n = 1\n}",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 8000,
+                "memoryLimitMb": 256,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"Math Functions\", () => {\n    test(\"addNumbers should add two numbers\", () => {\n        expect(addNumbers(2, 3)).toBe(5);\n        expect(addNumbers(0, 0)).toBe(0);\n        expect(addNumbers(-1, 1)).toBe(0);\n    });\n    \n    test(\"multiplyNumbers should multiply two numbers\", () => {\n        expect(multiplyNumbers(3, 4)).toBe(12);\n        expect(multiplyNumbers(0, 5)).toBe(0);\n        expect(multiplyNumbers(-2, 3)).toBe(-6);\n    });\n    \n    test(\"calculateFactorial should calculate factorial\", () => {\n        expect(calculateFactorial(5)).toBe(120);\n        expect(calculateFactorial(0)).toBe(1);\n        expect(calculateFactorial(1)).toBe(1);\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "addNumbers should add two numbers",
+                        "input": [
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test adding 2 + 3"
+                    },
+                    {
+                        "name": "multiplyNumbers should multiply two numbers",
+                        "input": [
+                            3,
+                            4
+                        ],
+                        "expectedOutput": 12,
+                        "description": "Test multiplying 3 * 4"
+                    },
+                    {
+                        "name": "calculateFactorial should calculate factorial",
+                        "input": 5,
+                        "expectedOutput": 120,
+                        "description": "Test factorial of 5"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "function",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+                    "title": "JavaScript Functions Guide"
+                }
+            ],
+            "tags": [
+                "javascript",
+                "functions",
+                "math"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "typescript-arrays",
+            "course_id": "typescript-mastery",
+            "title": "TypeScript Arrays",
+            "slug": "typescript-arrays",
+            "content": "# TypeScript Arrays\n\nLearn typed array manipulation in TypeScript.\n\n## Exercise\n\nImplement strongly-typed array functions:\n- `reverseArray<T>(arr: T[]): T[]`: Return a new array with elements in reverse order\n- `findMax(arr: number[]): number | undefined`: Find the maximum element\n- `sumArray(arr: number[]): number`: Calculate sum of all elements",
+            "language": "typescript",
+            "template": "function reverseArray<T>(arr: T[]): T[] {\n    // Reverse the given array\n    // Return a new array with elements in reverse order\n}\n\nfunction findMax(arr: number[]): number | undefined {\n    // Find the maximum element in the array\n    // Return the maximum element, or undefined if array is empty\n}\n\nfunction sumArray(arr: number[]): number {\n    // Calculate the sum of all elements in the array\n    // Return the sum of all elements\n}",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 12000,
+                "memoryLimitMb": 512,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Array Functions\", () => {\n    test(\"reverseArray should reverse arrays\", () => {\n        expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1]);\n        expect(reverseArray([])).toEqual([]);\n        expect(reverseArray([\"a\", \"b\", \"c\"])).toEqual([\"c\", \"b\", \"a\"]);\n    });\n    \n    test(\"findMax should find maximum element\", () => {\n        expect(findMax([1, 5, 3])).toBe(5);\n        expect(findMax([10])).toBe(10);\n        expect(findMax([])).toBeUndefined();\n    });\n    \n    test(\"sumArray should calculate sum\", () => {\n        expect(sumArray([1, 2, 3])).toBe(6);\n        expect(sumArray([])).toBe(0);\n        expect(sumArray([10])).toBe(10);\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "reverseArray should reverse arrays",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": [
+                            3,
+                            2,
+                            1
+                        ],
+                        "description": "Test reversing number array [1, 2, 3]"
+                    },
+                    {
+                        "name": "findMax should find maximum element",
+                        "input": [
+                            1,
+                            5,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test finding max in [1, 5, 3]"
+                    },
+                    {
+                        "name": "sumArray should calculate sum",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 6,
+                        "description": "Test summing array [1, 2, 3]"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "function",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    },
+                    {
+                        "keyword": ":",
+                        "description": "Must use type annotations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 5
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays",
+                    "title": "TypeScript Arrays Documentation"
+                }
+            ],
+            "tags": [
+                "typescript",
+                "arrays",
+                "generics",
+                "types"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "typescript-basic-math",
+            "course_id": "typescript-mastery",
+            "title": "TypeScript Basic Math",
+            "slug": "typescript-basic-math",
+            "content": "# TypeScript Basic Math\n\nLearn to create strongly-typed mathematical functions in TypeScript.\n\n## Exercise\n\nImplement typed mathematical functions:\n- `square(number: number): number`: Calculate square of a number\n- `addNumbers(a: number, b: number): number`: Add two numbers\n- `calculateFactorial(n: number): number`: Calculate factorial of n",
+            "language": "typescript",
+            "template": "function square(number: number): number {\n    // Calculate and return the square of the given number\n}\n\nfunction addNumbers(a: number, b: number): number {\n    // Add two numbers and return the result\n}\n\nfunction calculateFactorial(n: number): number {\n    // Calculate factorial of n\n    // Return 1 for n = 0 or n = 1\n}",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 8000,
+                "memoryLimitMb": 256,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Math Functions\", () => {\n    test(\"square should calculate square\", () => {\n        expect(square(2)).toBe(4);\n        expect(square(3)).toBe(9);\n        expect(square(4)).toBe(16);\n    });\n    \n    test(\"addNumbers should add two numbers\", () => {\n        expect(addNumbers(2, 3)).toBe(5);\n        expect(addNumbers(0, 0)).toBe(0);\n        expect(addNumbers(-1, 1)).toBe(0);\n    });\n    \n    test(\"calculateFactorial should calculate factorial\", () => {\n        expect(calculateFactorial(5)).toBe(120);\n        expect(calculateFactorial(0)).toBe(1);\n        expect(calculateFactorial(1)).toBe(1);\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "square should calculate square",
+                        "input": 2,
+                        "expectedOutput": 4,
+                        "description": "Test square of 2"
+                    },
+                    {
+                        "name": "addNumbers should add two numbers",
+                        "input": [
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test adding 2 + 3"
+                    },
+                    {
+                        "name": "calculateFactorial should calculate factorial",
+                        "input": 5,
+                        "expectedOutput": 120,
+                        "description": "Test factorial of 5"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "function",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    },
+                    {
+                        "keyword": "number",
+                        "description": "Must use number type annotations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 6
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://www.typescriptlang.org/docs/handbook/2/functions.html",
+                    "title": "TypeScript Functions Documentation"
+                }
+            ],
+            "tags": [
+                "typescript",
+                "functions",
+                "math",
+                "types"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "go-slices",
+            "course_id": "go-fundamentals",
+            "title": "Go Slices",
+            "slug": "go-slices",
+            "content": "# Working with Slices in Go\n\nLearn how to manipulate slices in Go.\n\n## What are Slices?\n\nIn Go, slices are a key data type that provides a more powerful interface to sequences of data than arrays. Slices are built on top of arrays and provide great flexibility and convenience.\n\n## Exercise\n\nImplement functions to work with slices:\n- `ReverseSlice(slice []int) []int`: Return a new slice with elements in reverse order\n- `FindMax(slice []int) int`: Find the maximum element in the slice\n- `SumSlice(slice []int) int`: Calculate the sum of all elements",
+            "language": "go",
+            "template": "package main\n\n// ReverseSlice returns a new slice with elements in reverse order\nfunc ReverseSlice(slice []int) []int {\n    // Write your code here\n    return nil\n}\n\n// FindMax finds the maximum element in the slice\n// Returns 0 if slice is empty\nfunc FindMax(slice []int) int {\n    // Write your code here\n    return 0\n}\n\n// SumSlice calculates the sum of all elements in the slice\nfunc SumSlice(slice []int) int {\n    // Write your code here\n    return 0\n}",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 15000,
+                "memoryLimitMb": 512,
+                "testTemplate": "package main\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestReverseSlice(t *testing.T) {\n\tresult := ReverseSlice([]int{1, 2, 3})\n\texpected := []int{3, 2, 1}\n\tif !reflect.DeepEqual(result, expected) {\n\t\tt.Errorf(\"ReverseSlice([1, 2, 3]) = %v; want %v\", result, expected)\n\t}\n\n\tresult = ReverseSlice([]int{})\n\texpected = []int{}\n\tif !reflect.DeepEqual(result, expected) {\n\t\tt.Errorf(\"ReverseSlice([]) = %v; want %v\", result, expected)\n\t}\n}\n\nfunc TestFindMax(t *testing.T) {\n\tresult := FindMax([]int{1, 5, 3})\n\tif result != 5 {\n\t\tt.Errorf(\"FindMax([1, 5, 3]) = %d; want 5\", result)\n\t}\n\n\tresult = FindMax([]int{10})\n\tif result != 10 {\n\t\tt.Errorf(\"FindMax([10]) = %d; want 10\", result)\n\t}\n}\n\nfunc TestSumSlice(t *testing.T) {\n\tresult := SumSlice([]int{1, 2, 3})\n\tif result != 6 {\n\t\tt.Errorf(\"SumSlice([1, 2, 3]) = %d; want 6\", result)\n\t}\n\n\tresult = SumSlice([]int{})\n\tif result != 0 {\n\t\tt.Errorf(\"SumSlice([]) = %d; want 0\", result)\n\t}\n}",
+                "testCases": [
+                    {
+                        "name": "TestReverseSlice",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": [
+                            3,
+                            2,
+                            1
+                        ],
+                        "description": "Test reversing slice [1, 2, 3]"
+                    },
+                    {
+                        "name": "TestFindMax",
+                        "input": [
+                            1,
+                            5,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test finding max in [1, 5, 3]"
+                    },
+                    {
+                        "name": "TestSumSlice",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 6,
+                        "description": "Test summing slice [1, 2, 3]"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "func",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    },
+                    {
+                        "keyword": "[]int",
+                        "description": "Must work with integer slices",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://go.dev/tour/moretypes/7",
+                    "title": "Go Slices Documentation"
+                }
+            ],
+            "tags": [
+                "go",
+                "slices",
+                "arrays"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "go-functions",
+            "course_id": "go-fundamentals",
+            "title": "Go Functions",
+            "slug": "go-functions",
+            "content": "# Go Functions\n\nLearn to create and use functions in Go.\n\n## Exercise\n\nImplement mathematical functions:\n- `AddNumbers(a, b int) int`: Add two numbers\n- `MultiplyNumbers(a, b int) int`: Multiply two numbers\n- `CalculateFactorial(n int) int`: Calculate factorial of n",
+            "language": "go",
+            "template": "package main\n\n// AddNumbers adds two integers and returns the result\nfunc AddNumbers(a, b int) int {\n    // Write your code here\n    return 0\n}\n\n// MultiplyNumbers multiplies two integers and returns the result\nfunc MultiplyNumbers(a, b int) int {\n    // Write your code here\n    return 0\n}\n\n// CalculateFactorial calculates the factorial of n\n// Returns 1 for n = 0 or n = 1\nfunc CalculateFactorial(n int) int {\n    // Write your code here\n    return 0\n}",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "package main\n\nimport \"testing\"\n\nfunc TestAddNumbers(t *testing.T) {\n\tresult := AddNumbers(2, 3)\n\tif result != 5 {\n\t\tt.Errorf(\"AddNumbers(2, 3) = %d; want 5\", result)\n\t}\n\n\tresult = AddNumbers(0, 0)\n\tif result != 0 {\n\t\tt.Errorf(\"AddNumbers(0, 0) = %d; want 0\", result)\n\t}\n\n\tresult = AddNumbers(-1, 1)\n\tif result != 0 {\n\t\tt.Errorf(\"AddNumbers(-1, 1) = %d; want 0\", result)\n\t}\n}\n\nfunc TestMultiplyNumbers(t *testing.T) {\n\tresult := MultiplyNumbers(3, 4)\n\tif result != 12 {\n\t\tt.Errorf(\"MultiplyNumbers(3, 4) = %d; want 12\", result)\n\t}\n\n\tresult = MultiplyNumbers(0, 5)\n\tif result != 0 {\n\t\tt.Errorf(\"MultiplyNumbers(0, 5) = %d; want 0\", result)\n\t}\n}\n\nfunc TestCalculateFactorial(t *testing.T) {\n\tresult := CalculateFactorial(5)\n\tif result != 120 {\n\t\tt.Errorf(\"CalculateFactorial(5) = %d; want 120\", result)\n\t}\n\n\tresult = CalculateFactorial(0)\n\tif result != 1 {\n\t\tt.Errorf(\"CalculateFactorial(0) = %d; want 1\", result)\n\t}\n\n\tresult = CalculateFactorial(1)\n\tif result != 1 {\n\t\tt.Errorf(\"CalculateFactorial(1) = %d; want 1\", result)\n\t}\n}",
+                "testCases": [
+                    {
+                        "name": "TestAddNumbers",
+                        "input": [
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 5,
+                        "description": "Test adding 2 + 3"
+                    },
+                    {
+                        "name": "TestMultiplyNumbers",
+                        "input": [
+                            3,
+                            4
+                        ],
+                        "expectedOutput": 12,
+                        "description": "Test multiplying 3 * 4"
+                    },
+                    {
+                        "name": "TestCalculateFactorial",
+                        "input": 5,
+                        "expectedOutput": 120,
+                        "description": "Test factorial of 5"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "func",
+                        "description": "Must use function declarations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    },
+                    {
+                        "keyword": "int",
+                        "description": "Must use integer types",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 6
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://go.dev/tour/basics/4",
+                    "title": "Go Functions Documentation"
+                }
+            ],
+            "tags": [
+                "go",
+                "functions",
+                "math"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-variables",
+            "course_id": "python-basics",
+            "title": "Variables and Data Types",
+            "slug": "python-variables",
+            "content": "# Variables and Data Types in Python\n\nLearn about Python's basic data types and how to work with variables.\n\n## What are Variables?\n\nVariables are containers for storing data values. Python has several built-in data types including integers, floats, strings, and booleans.\n\n## Exercise\n\nImplement functions to work with different data types:\n- `create_greeting(name)`: Create a greeting message\n- `calculate_age_in_days(age_years)`: Convert age in years to days\n- `is_adult(age)`: Check if someone is an adult (18 or older)",
+            "language": "python",
+            "template": "def create_greeting(name):\n    \"\"\"\n    Create a greeting message.\n    Args:\n        name (str): The person's name\n    Returns:\n        str: A greeting message\n    \"\"\"\n    # Write your code here\n    pass\n\ndef calculate_age_in_days(age_years):\n    \"\"\"\n    Convert age in years to days.\n    Args:\n        age_years (int): Age in years\n    Returns:\n        int: Age in days (assume 365 days per year)\n    \"\"\"\n    # Write your code here\n    pass\n\ndef is_adult(age):\n    \"\"\"\n    Check if someone is an adult.\n    Args:\n        age (int): Person's age\n    Returns:\n        bool: True if adult (18+), False otherwise\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "import pytest\nfrom solution import create_greeting, calculate_age_in_days, is_adult\n\ndef test_create_greeting():\n    assert create_greeting(\"Alice\") == \"Hello, Alice!\"\n    assert create_greeting(\"Bob\") == \"Hello, Bob!\"\n\ndef test_calculate_age_in_days():\n    assert calculate_age_in_days(1) == 365\n    assert calculate_age_in_days(2) == 730\n    assert calculate_age_in_days(0) == 0\n\ndef test_is_adult():\n    assert is_adult(18) == True\n    assert is_adult(25) == True\n    assert is_adult(17) == False\n    assert is_adult(16) == False",
+                "testCases": [
+                    {
+                        "name": "test_create_greeting",
+                        "input": "Alice",
+                        "expectedOutput": "Hello, Alice!",
+                        "description": "Test greeting creation"
+                    },
+                    {
+                        "name": "test_calculate_age_in_days",
+                        "input": 1,
+                        "expectedOutput": 365,
+                        "description": "Test age conversion"
+                    },
+                    {
+                        "name": "test_is_adult",
+                        "input": 18,
+                        "expectedOutput": true,
+                        "description": "Test adult check"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "def",
+                        "description": "Must use function definitions",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/introduction.html#using-python-as-a-calculator",
+                    "title": "Python Variables Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "variables",
+                "data-types",
+                "basics"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-conditionals",
+            "course_id": "python-basics",
+            "title": "Conditionals and Logic",
+            "slug": "python-conditionals",
+            "content": "# Conditionals and Logic in Python\n\nLearn how to make decisions in your code using if, elif, and else statements.\n\n## What are Conditionals?\n\nConditionals allow your program to make decisions based on different conditions. Python uses if, elif, and else statements for this purpose.\n\n## Exercise\n\nImplement functions using conditional logic:\n- `grade_calculator(score)`: Return letter grade based on score\n- `temperature_check(temp)`: Classify temperature as hot, warm, or cold\n- `number_classifier(num)`: Classify number as positive, negative, or zero",
+            "language": "python",
+            "template": "def grade_calculator(score):\n    \"\"\"\n    Calculate letter grade based on score.\n    Args:\n        score (int): Score from 0-100\n    Returns:\n        str: Letter grade (A, B, C, D, F)\n    \"\"\"\n    # A: 90-100, B: 80-89, C: 70-79, D: 60-69, F: below 60\n    # Write your code here\n    pass\n\ndef temperature_check(temp):\n    \"\"\"\n    Classify temperature.\n    Args:\n        temp (int): Temperature in Celsius\n    Returns:\n        str: 'hot' (>30), 'warm' (15-30), 'cold' (<15)\n    \"\"\"\n    # Write your code here\n    pass\n\ndef number_classifier(num):\n    \"\"\"\n    Classify a number.\n    Args:\n        num (int): Number to classify\n    Returns:\n        str: 'positive', 'negative', or 'zero'\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "import pytest\nfrom solution import grade_calculator, temperature_check, number_classifier\n\ndef test_grade_calculator():\n    assert grade_calculator(95) == 'A'\n    assert grade_calculator(85) == 'B'\n    assert grade_calculator(75) == 'C'\n    assert grade_calculator(65) == 'D'\n    assert grade_calculator(55) == 'F'\n\ndef test_temperature_check():\n    assert temperature_check(35) == 'hot'\n    assert temperature_check(25) == 'warm'\n    assert temperature_check(10) == 'cold'\n\ndef test_number_classifier():\n    assert number_classifier(5) == 'positive'\n    assert number_classifier(-3) == 'negative'\n    assert number_classifier(0) == 'zero'",
+                "testCases": [
+                    {
+                        "name": "test_grade_calculator",
+                        "input": 95,
+                        "expectedOutput": "A",
+                        "description": "Test grade calculation"
+                    },
+                    {
+                        "name": "test_temperature_check",
+                        "input": 35,
+                        "expectedOutput": "hot",
+                        "description": "Test temperature classification"
+                    },
+                    {
+                        "name": "test_number_classifier",
+                        "input": 5,
+                        "expectedOutput": "positive",
+                        "description": "Test number classification"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "if",
+                        "description": "Must use if statements",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements",
+                    "title": "Python Conditionals Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "conditionals",
+                "logic",
+                "basics"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-loops",
+            "course_id": "python-basics",
+            "title": "Loops and Iteration",
+            "slug": "python-loops",
+            "content": "# Loops and Iteration in Python\n\nLearn how to repeat code execution using for and while loops.\n\n## What are Loops?\n\nLoops allow you to execute a block of code repeatedly. Python has two main types of loops: for loops and while loops.\n\n## Exercise\n\nImplement functions using loops:\n- `count_to_n(n)`: Return a list of numbers from 1 to n\n- `sum_even_numbers(limit)`: Sum all even numbers up to limit\n- `find_first_multiple(num, multiple)`: Find first number divisible by multiple",
+            "language": "python",
+            "template": "def count_to_n(n):\n    \"\"\"\n    Create a list of numbers from 1 to n.\n    Args:\n        n (int): Upper limit\n    Returns:\n        list: List of numbers from 1 to n\n    \"\"\"\n    # Write your code here\n    pass\n\ndef sum_even_numbers(limit):\n    \"\"\"\n    Sum all even numbers from 2 to limit.\n    Args:\n        limit (int): Upper limit\n    Returns:\n        int: Sum of even numbers\n    \"\"\"\n    # Write your code here\n    pass\n\ndef find_first_multiple(num, multiple):\n    \"\"\"\n    Find first number >= num that is divisible by multiple.\n    Args:\n        num (int): Starting number\n        multiple (int): Divisor\n    Returns:\n        int: First multiple found\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 3,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "import pytest\nfrom solution import count_to_n, sum_even_numbers, find_first_multiple\n\ndef test_count_to_n():\n    assert count_to_n(5) == [1, 2, 3, 4, 5]\n    assert count_to_n(3) == [1, 2, 3]\n    assert count_to_n(1) == [1]\n\ndef test_sum_even_numbers():\n    assert sum_even_numbers(10) == 30  # 2+4+6+8+10\n    assert sum_even_numbers(5) == 6   # 2+4\n    assert sum_even_numbers(1) == 0   # no even numbers\n\ndef test_find_first_multiple():\n    assert find_first_multiple(7, 3) == 9   # first multiple of 3 >= 7\n    assert find_first_multiple(10, 5) == 10 # 10 is divisible by 5\n    assert find_first_multiple(11, 4) == 12 # first multiple of 4 >= 11",
+                "testCases": [
+                    {
+                        "name": "test_count_to_n",
+                        "input": 5,
+                        "expectedOutput": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "description": "Test counting to n"
+                    },
+                    {
+                        "name": "test_sum_even_numbers",
+                        "input": 10,
+                        "expectedOutput": 30,
+                        "description": "Test summing even numbers"
+                    },
+                    {
+                        "name": "test_find_first_multiple",
+                        "input": [
+                            7,
+                            3
+                        ],
+                        "expectedOutput": 9,
+                        "description": "Test finding first multiple"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "for",
+                        "description": "Must use for loops",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 2
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+                    "title": "Python Loops Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "loops",
+                "iteration",
+                "basics"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-dictionaries",
+            "course_id": "python-intermediate",
+            "title": "Dictionaries and Sets",
+            "slug": "python-dictionaries",
+            "content": "# Dictionaries in Python\n\nLearn to work with Python's powerful dictionary data structure.\n\n## What are Dictionaries?\n\nDictionaries store key-value pairs and are essential for efficient data manipulation and counting.\n\n## Exercise\n\nImplement a function using dictionaries:\n- `count_words(text)`: Count word frequency in text and return a dictionary",
+            "language": "python",
+            "template": "def count_words(text):\n    \"\"\"\n    Count word frequency in text.\n    Args:\n        text (str): Input text (words separated by spaces)\n    Returns:\n        dict: Dictionary with word counts\n    \"\"\"\n    # Write your code here\n    pass",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 12000,
+                "memoryLimitMb": 512,
+                "testTemplate": "import pytest\nfrom solution import count_words\n\ndef test_count_words():\n    result = count_words(\"hello world hello\")\n    assert result == {'hello': 2, 'world': 1}\n    \n    result = count_words(\"python is great python\")\n    assert result == {'python': 2, 'is': 1, 'great': 1}\n    \n    result = count_words(\"\")\n    assert result == {}",
+                "testCases": [
+                    {
+                        "name": "test_count_words",
+                        "input": "hello world hello",
+                        "expectedOutput": {
+                            "hello": 2,
+                            "world": 1
+                        },
+                        "description": "Test word counting"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "dict",
+                        "description": "Must work with dictionaries",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": true,
+                        "minOccurrences": 1
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/datastructures.html#dictionaries",
+                    "title": "Python Dictionaries Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "dictionaries",
+                "sets",
+                "intermediate"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "python-classes",
+            "course_id": "python-intermediate",
+            "title": "Classes and Objects",
+            "slug": "python-classes",
+            "content": "# Classes and Objects in Python\n\nLearn object-oriented programming concepts with Python classes.\n\n## What are Classes?\n\nClasses are blueprints for creating objects. They encapsulate data and functionality together.\n\n## Exercise\n\nCreate a simple Person class:\n- Create a `Person` class with name and age attributes\n- Add a method to get formatted information",
+            "language": "python",
+            "template": "class Person:\n    \"\"\"\n    A class representing a person.\n    \"\"\"\n    def __init__(self, name, age):\n        \"\"\"\n        Initialize a Person.\n        Args:\n            name (str): Person's name\n            age (int): Person's age\n        \"\"\"\n        # Write your code here\n        pass\n    \n    def get_info(self):\n        \"\"\"\n        Get person's information.\n        Returns:\n            str: Formatted info string \"Name: {name}, Age: {age}\"\n        \"\"\"\n        # Write your code here\n        pass",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 12000,
+                "memoryLimitMb": 512,
+                "testTemplate": "import pytest\nfrom solution import Person\n\ndef test_person_creation_and_info():\n    person = Person(\"Alice\", 25)\n    assert person.name == \"Alice\"\n    assert person.age == 25\n    assert person.get_info() == \"Name: Alice, Age: 25\"\n    \n    person2 = Person(\"Bob\", 30)\n    assert person2.get_info() == \"Name: Bob, Age: 30\"",
+                "testCases": [
+                    {
+                        "name": "test_person_creation_and_info",
+                        "input": [
+                            "Alice",
+                            25
+                        ],
+                        "expectedOutput": "Name: Alice, Age: 25",
+                        "description": "Test person creation and info method"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "class",
+                        "description": "Must define a class",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    },
+                    {
+                        "keyword": "__init__",
+                        "description": "Must use constructor",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://docs.python.org/3/tutorial/classes.html",
+                    "title": "Python Classes Documentation"
+                }
+            ],
+            "tags": [
+                "python",
+                "classes",
+                "oop",
+                "intermediate"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "typescript-types",
+            "course_id": "typescript-fundamentals",
+            "title": "Types and Interfaces",
+            "slug": "typescript-types",
+            "content": "# Types and Interfaces in TypeScript\n\nLearn how to define and use custom types and interfaces in TypeScript.\n\n## What are Interfaces?\n\nInterfaces allow you to define the shape of objects and ensure type safety in your code.\n\n## Exercise\n\nCreate a function that works with a User interface:\n- Define a `User` interface with id, name, and email properties\n- Create a function that formats user information",
+            "language": "typescript",
+            "template": "// Define a User interface\ninterface User {\n    // Add properties: id (number), name (string), email (string)\n}\n\nfunction formatUser(user: User): string {\n    // Return formatted string: \"User: {name} ({email}) - ID: {id}\"\n}",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 12000,
+                "memoryLimitMb": 512,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Types and Interfaces\", () => {\n    test(\"formatUser should format user info correctly\", () => {\n        const user: User = { id: 1, name: \"Alice\", email: \"alice@example.com\" };\n        expect(formatUser(user)).toBe(\"User: Alice (alice@example.com) - ID: 1\");\n        \n        const user2: User = { id: 2, name: \"Bob\", email: \"bob@example.com\" };\n        expect(formatUser(user2)).toBe(\"User: Bob (bob@example.com) - ID: 2\");\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "formatUser should format user info correctly",
+                        "input": {
+                            "id": 1,
+                            "name": "Alice",
+                            "email": "alice@example.com"
+                        },
+                        "expectedOutput": "User: Alice (alice@example.com) - ID: 1",
+                        "description": "Test user formatting"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "interface",
+                        "description": "Must define an interface",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    },
+                    {
+                        "keyword": ":",
+                        "description": "Must use type annotations",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 3
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://www.typescriptlang.org/docs/handbook/2/objects.html",
+                    "title": "TypeScript Interfaces Documentation"
+                }
+            ],
+            "tags": [
+                "typescript",
+                "interfaces",
+                "types",
+                "fundamentals"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "typescript-generics",
+            "course_id": "typescript-fundamentals",
+            "title": "Generic Functions",
+            "slug": "typescript-generics",
+            "content": "# Generic Functions in TypeScript\n\nLearn how to create reusable functions with generics.\n\n## What are Generics?\n\nGenerics allow you to create components that work with multiple types while maintaining type safety.\n\n## Exercise\n\nCreate a generic function:\n- Implement `getFirstElement<T>` that returns the first element of an array\n- The function should work with arrays of any type",
+            "language": "typescript",
+            "template": "function getFirstElement<T>(arr: T[]): T | undefined {\n    // Return the first element of the array, or undefined if empty\n}",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "__USER_CODE__\n\ndescribe(\"TypeScript Generics\", () => {\n    test(\"getFirstElement should work with different types\", () => {\n        expect(getFirstElement([1, 2, 3])).toBe(1);\n        expect(getFirstElement([\"a\", \"b\", \"c\"])).toBe(\"a\");\n        expect(getFirstElement([true, false])).toBe(true);\n        expect(getFirstElement([])).toBeUndefined();\n    });\n});",
+                "testCases": [
+                    {
+                        "name": "getFirstElement should work with different types",
+                        "input": [
+                            1,
+                            2,
+                            3
+                        ],
+                        "expectedOutput": 1,
+                        "description": "Test generic function with numbers"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "<T>",
+                        "description": "Must use generic type parameter",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+                    "title": "TypeScript Generics Documentation"
+                }
+            ],
+            "tags": [
+                "typescript",
+                "generics",
+                "functions",
+                "fundamentals"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "go-variables",
+            "course_id": "go-programming",
+            "title": "Variables and Types",
+            "slug": "go-variables",
+            "content": "# Variables and Types in Go\n\nLearn about Go's type system and variable declarations.\n\n## What are Variables in Go?\n\nGo is a statically typed language with explicit type declarations. Variables can be declared in multiple ways.\n\n## Exercise\n\nCreate a function that works with different variable types:\n- Implement `FormatPersonInfo` that takes name (string) and age (int)\n- Return a formatted string with the person's information",
+            "language": "go",
+            "template": "package main\n\n// FormatPersonInfo formats a person's name and age into a string\n// Returns format: \"Name: {name}, Age: {age}\"\nfunc FormatPersonInfo(name string, age int) string {\n    // Write your code here\n    return \"\"\n}",
+            "order": 1,
+            "test_config": {
+                "timeoutMs": 10000,
+                "memoryLimitMb": 256,
+                "testTemplate": "package main\n\nimport \"testing\"\n\nfunc TestFormatPersonInfo(t *testing.T) {\n\tresult := FormatPersonInfo(\"Alice\", 25)\n\texpected := \"Name: Alice, Age: 25\"\n\tif result != expected {\n\t\tt.Errorf(\"FormatPersonInfo(\\\"Alice\\\", 25) = %s; want %s\", result, expected)\n\t}\n\n\tresult = FormatPersonInfo(\"Bob\", 30)\n\texpected = \"Name: Bob, Age: 30\"\n\tif result != expected {\n\t\tt.Errorf(\"FormatPersonInfo(\\\"Bob\\\", 30) = %s; want %s\", result, expected)\n\t}\n}",
+                "testCases": [
+                    {
+                        "name": "TestFormatPersonInfo",
+                        "input": [
+                            "Alice",
+                            25
+                        ],
+                        "expectedOutput": "Name: Alice, Age: 25",
+                        "description": "Test person info formatting"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "func",
+                        "description": "Must use function declaration",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    },
+                    {
+                        "keyword": "string",
+                        "description": "Must use string type",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 2
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://go.dev/tour/basics/8",
+                    "title": "Go Variables Documentation"
+                }
+            ],
+            "tags": [
+                "go",
+                "variables",
+                "types",
+                "basics"
+            ],
+            "status": "published"
+        },
+        {
+            "id": "go-structs",
+            "course_id": "go-programming",
+            "title": "Structs and Methods",
+            "slug": "go-structs",
+            "content": "# Structs and Methods in Go\n\nLearn how to define custom types using structs and add methods to them.\n\n## What are Structs?\n\nStructs are custom types that group together related data. Methods can be defined on structs to add behavior.\n\n## Exercise\n\nCreate a struct with a method:\n- Define a `Person` struct with Name and Age fields\n- Add a `String()` method that returns formatted information",
+            "language": "go",
+            "template": "package main\n\n// Person represents a person with name and age\ntype Person struct {\n\t// Define Name (string) and Age (int) fields\n}\n\n// String returns a formatted string representation of the person\n// Format: \"Name: {name}, Age: {age}\"\nfunc (p Person) String() string {\n\t// Write your code here\n\treturn \"\"\n}",
+            "order": 2,
+            "test_config": {
+                "timeoutMs": 12000,
+                "memoryLimitMb": 512,
+                "testTemplate": "package main\n\nimport \"testing\"\n\nfunc TestPersonStruct(t *testing.T) {\n\tperson := Person{Name: \"Alice\", Age: 25}\n\tresult := person.String()\n\texpected := \"Name: Alice, Age: 25\"\n\tif result != expected {\n\t\tt.Errorf(\"person.String() = %s; want %s\", result, expected)\n\t}\n\n\tperson2 := Person{Name: \"Bob\", Age: 30}\n\tresult2 := person2.String()\n\texpected2 := \"Name: Bob, Age: 30\"\n\tif result2 != expected2 {\n\t\tt.Errorf(\"person2.String() = %s; want %s\", result2, expected2)\n\t}\n}",
+                "testCases": [
+                    {
+                        "name": "TestPersonStruct",
+                        "input": {
+                            "Name": "Alice",
+                            "Age": 25
+                        },
+                        "expectedOutput": "Name: Alice, Age: 25",
+                        "description": "Test struct and method"
+                    }
+                ],
+                "keywordRequirements": [
+                    {
+                        "keyword": "type",
+                        "description": "Must define a custom type",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    },
+                    {
+                        "keyword": "struct",
+                        "description": "Must use struct",
+                        "required": true,
+                        "caseSensitive": true,
+                        "allowPartialMatch": false,
+                        "minOccurrences": 1
+                    }
+                ]
+            },
+            "additional_resources": [
+                {
+                    "url": "https://go.dev/tour/moretypes/2",
+                    "title": "Go Structs Documentation"
+                }
+            ],
+            "tags": [
+                "go",
+                "structs",
+                "methods",
+                "intermediate"
+            ],
+            "status": "published"
+        }
+    ]
+}

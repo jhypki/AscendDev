@@ -4,7 +4,8 @@
   "main": "script.js",
   "scripts": {
     "generate": "node generate-configs.js",
-    "upload": "node upload-to-db.js"
+    "upload": "node upload-to-db.js",
+    "upload-sample": "node upload-sample-data.js"
   },
   "author": "",
   "license": "ISC",

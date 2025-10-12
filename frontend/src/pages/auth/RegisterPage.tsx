@@ -112,11 +112,13 @@ const RegisterPage = () => {
 
             if (result.isSuccess) {
                 notifications.show({
-                    title: 'Success',
-                    message: 'Account created successfully! Welcome to AscendDev.',
+                    title: 'Account Created Successfully!',
+                    message: result.message || 'Please check your email to verify your account.',
                     color: 'green',
+                    autoClose: 8000,
                 })
-                navigate('/dashboard')
+                // Navigate to email verification page instead of dashboard
+                navigate('/auth/verify-email')
             } else {
                 notifications.show({
                     title: 'Registration Failed',

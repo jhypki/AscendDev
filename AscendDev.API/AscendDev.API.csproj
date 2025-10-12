@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="Hellang.Authentication.JwtBearer.Google" Version="3.0.0"/>
         <PackageReference Include="MDP.AspNetCore.Authentication.GitHub" Version="8.0.7.65"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.14"/>

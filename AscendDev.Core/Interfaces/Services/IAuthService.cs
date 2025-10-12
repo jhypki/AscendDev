@@ -20,4 +20,8 @@ public interface IAuthService
     Task<User?> GetUserByIdAsync(Guid userId);
 
     Task<UserDto?> GetUserWithRolesByIdAsync(Guid userId);
+
+    Task<bool> VerifyEmailAsync(string token);
+
+    Task<bool> ResendEmailVerificationAsync(string email);
 }

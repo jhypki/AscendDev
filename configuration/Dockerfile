@@ -15,4 +15,4 @@ RUN npm install
 COPY . .
 
 # We'll use the command from docker-compose.yml to run the script
-CMD ["node", "upload-to-db.js"]
+CMD ["node", "upload-sample-data"]

@@ -205,6 +205,99 @@
                 "description": "Revoke a refresh token"
             },
             "response": []
+        },
+        {
+            "name": "Verify Email",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Email verified successfully\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('message');",
+                            "    pm.expect(jsonData.message).to.include('verified successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/verify-email?token={{emailVerificationToken}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "verify-email"
+                    ],
+                    "query": [
+                        {
+                            "key": "token",
+                            "value": "{{emailVerificationToken}}"
+                        }
+                    ]
+                },
+                "description": "Verify email address using verification token"
+            },
+            "response": []
+        },
+        {
+            "name": "Resend Email Verification",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Verification email sent\", function () {",
+                            "    const jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('message');",
+                            "    pm.expect(jsonData.message).to.include('sent successfully');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"Email\": \"{{testUserEmail}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/resend-verification",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "auth",
+                        "resend-verification"
+                    ]
+                },
+                "description": "Resend email verification to user"
+            },
+            "response": []
         }
     ],
     "event": [

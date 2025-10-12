@@ -22,7 +22,18 @@ public class AuthController(IAuthService authService) : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
     {
         var authResult = await authService.RegisterAsync(request);
-        return Created("api/auth/register", authResult);
+
+        // Add email verification message to the response
+        var response = new
+        {
+            authResult.IsSuccess,
+            authResult.AccessToken,
+            authResult.RefreshToken,
+            authResult.User,
+            Message = "Registration successful! Please check your email to verify your account."
+        };
+
+        return Created("api/auth/register", response);
     }
 
     [HttpPost("login")]
@@ -97,5 +108,40 @@ public class AuthController(IAuthService authService) : ControllerBase
         {
             return StatusCode(500, new { message = "An error occurred while retrieving user information", error = ex.Message });
         }
+    }
+
+    [HttpGet("verify-email")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> VerifyEmail([FromQuery] string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            return BadRequest(new { message = "Verification token is required" });
+        }
+
+        var result = await authService.VerifyEmailAsync(token);
+        if (result)
+        {
+            return Ok(new { message = "Email verified successfully! You can now access all features." });
+        }
+
+        return BadRequest(new { message = "Invalid or expired verification token" });
+    }
+
+    [HttpPost("resend-verification")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorApiResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ResendVerification([FromBody] ResendVerificationRequest request)
+    {
+        var result = await authService.ResendEmailVerificationAsync(request.Email);
+        if (result)
+        {
+            return Ok(new { message = "Verification email sent successfully" });
+        }
+
+        return BadRequest(new { message = "Unable to send verification email. Please check the email address." });
     }
 }

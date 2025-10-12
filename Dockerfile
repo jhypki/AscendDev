@@ -3,24 +3,22 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy project files first (for better layer caching)
-COPY ["AscendDev.sln", "./"]
 COPY ["AscendDev.Core/AscendDev.Core.csproj", "AscendDev.Core/"]
 COPY ["AscendDev.Data/AscendDev.Data.csproj", "AscendDev.Data/"]
 COPY ["AscendDev.Services/AscendDev.Services.csproj", "AscendDev.Services/"]
 COPY ["AscendDev.API/AscendDev.API.csproj", "AscendDev.API/"]
-COPY ["AscendDev.Services.Test/AscendDev.Services.Test.csproj", "AscendDev.Services.Test/"]
-COPY ["AscendDev.Data.Test/AscendDev.Data.Test.csproj", "AscendDev.Data.Test/"]
-COPY ["AscendDev.Core.Test/AscendDev.Core.Test.csproj", "AscendDev.Core.Test/"]
-COPY ["AscendDev.API.Test/AscendDev.API.Test.csproj", "AscendDev.API.Test/"]
 
-# Restore NuGet packages
-RUN dotnet restore
+# Restore NuGet packages for API project only
+RUN dotnet restore AscendDev.API/AscendDev.API.csproj
 
-# Copy the rest of the source code
-COPY . .
+# Copy the rest of the source code (excluding test projects)
+COPY ["AscendDev.Core/", "AscendDev.Core/"]
+COPY ["AscendDev.Data/", "AscendDev.Data/"]
+COPY ["AscendDev.Services/", "AscendDev.Services/"]
+COPY ["AscendDev.API/", "AscendDev.API/"]
 
-# Build and publish the application
-RUN dotnet publish -c Release -o /app/out
+# Build and publish the application (only the API project, exclude test projects)
+RUN dotnet publish AscendDev.API/AscendDev.API.csproj -c Release -o /app/out
 
 # Final image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0

@@ -19,6 +19,7 @@ public class AuthService(
     IPasswordHasher passwordHasher,
     IJwtHelper jwtHelper,
     IHttpContextAccessor httpContextAccessor,
+    IEmailService emailService,
     ILogger<AuthService> logger)
     : IAuthService
 {
@@ -27,6 +28,10 @@ public class AuthService(
         var existingUser = await userRepository.GetByEmailAsync(request.Email);
         if (existingUser != null)
             throw new ConflictException("User with this email already exists.");
+
+        // Generate email verification token
+        var verificationToken = GenerateEmailVerificationToken();
+        var tokenExpiry = DateTime.UtcNow.AddHours(24); // Token expires in 24 hours
 
         var user = new User
         {
@@ -37,13 +42,18 @@ public class AuthService(
             LastLogin = DateTime.UtcNow,
             IsEmailVerified = false,
             Username = request.Email.Split('@')[0],
-            Provider = "Local" //TODO add this field to the database
+            Provider = "Local", //TODO add this field to the database
+            EmailVerificationToken = verificationToken,
+            EmailVerificationTokenExpires = tokenExpiry
         };
 
         await userRepository.CreateAsync(user);
 
         // Assign default "user" role
         await AssignDefaultRoleAsync(user.Id);
+
+        // Send email verification
+        await SendEmailVerificationAsync(user);
 
         var authResult = await GenerateAuthResultAsync(user);
 
@@ -241,6 +251,129 @@ public class AuthService(
         {
             logger.LogError(ex, "Failed to assign default role to user {UserId}", userId);
         }
+    }
+
+    public async Task<bool> VerifyEmailAsync(string token)
+    {
+        try
+        {
+            var user = await userRepository.GetByEmailVerificationTokenAsync(token);
+            if (user == null)
+            {
+                logger.LogWarning("Email verification attempted with invalid token: {Token}", token);
+                return false;
+            }
+
+            if (!user.IsEmailVerificationTokenValid)
+            {
+                logger.LogWarning("Email verification attempted with expired token for user: {UserId}", user.Id);
+                return false;
+            }
+
+            // Mark email as verified and clear the verification token
+            user.IsEmailVerified = true;
+            user.EmailVerificationToken = null;
+            user.EmailVerificationTokenExpires = null;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await userRepository.UpdateAsync(user);
+
+            // Send welcome email
+            await emailService.SendWelcomeEmailAsync(user.Email, user.Username);
+
+            logger.LogInformation("Email verified successfully for user: {UserId}", user.Id);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error verifying email with token: {Token}", token);
+            return false;
+        }
+    }
+
+    public async Task<bool> ResendEmailVerificationAsync(string email)
+    {
+        try
+        {
+            var user = await userRepository.GetByEmailAsync(email);
+            if (user == null)
+            {
+                logger.LogWarning("Email verification resend attempted for non-existent email: {Email}", email);
+                return false;
+            }
+
+            if (user.IsEmailVerified)
+            {
+                logger.LogWarning("Email verification resend attempted for already verified user: {UserId}", user.Id);
+                return false;
+            }
+
+            // Generate new verification token
+            var verificationToken = GenerateEmailVerificationToken();
+            var tokenExpiry = DateTime.UtcNow.AddHours(24);
+
+            user.EmailVerificationToken = verificationToken;
+            user.EmailVerificationTokenExpires = tokenExpiry;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await userRepository.UpdateAsync(user);
+
+            // Send verification email
+            await SendEmailVerificationAsync(user);
+
+            logger.LogInformation("Email verification resent for user: {UserId}", user.Id);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error resending email verification for email: {Email}", email);
+            return false;
+        }
+    }
+
+    private async Task SendEmailVerificationAsync(User user)
+    {
+        try
+        {
+            var baseUrl = GetBaseUrl();
+            var verificationUrl = $"{baseUrl}/auth/verify-email?token={user.EmailVerificationToken}";
+
+            await emailService.SendEmailVerificationAsync(user.Email, verificationUrl, user.Username);
+
+            logger.LogInformation("Email verification sent to user: {UserId}", user.Id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to send email verification to user: {UserId}", user.Id);
+            // Don't throw - registration should succeed even if email fails
+        }
+    }
+
+    private string GetBaseUrl()
+    {
+        // For email verification, we need to return the frontend URL, not the API URL
+        // This should be configured in appsettings, but for now we'll use the development frontend URL
+        var request = httpContextAccessor.HttpContext?.Request;
+        if (request != null)
+        {
+            // Check if we're in development (localhost)
+            if (request.Host.Host == "localhost")
+            {
+                // Return frontend URL for development
+                return "http://localhost:3000";
+            }
+            // For production, return the frontend domain
+            return "https://ascenddev.com";
+        }
+
+        // Fallback URL - frontend URL
+        return "http://localhost:3000";
+    }
+
+    private static string GenerateEmailVerificationToken()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(32);
+        return Convert.ToBase64String(bytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
     }
 
     private static string GenerateRefreshToken()

@@ -2,6 +2,7 @@ using AscendDev.Core.DTOs.Notifications;
 using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Models.Notifications;
+using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
@@ -11,15 +12,24 @@ public class NotificationService : INotificationService
 {
     private readonly INotificationRepository _notificationRepository;
     private readonly INotificationHubService _hubService;
+    private readonly IEmailService _emailService;
+    private readonly IUserRepository _userRepository;
+    private readonly IUserSettingsRepository _userSettingsRepository;
     private readonly ILogger<NotificationService> _logger;
 
     public NotificationService(
         INotificationRepository notificationRepository,
         INotificationHubService hubService,
+        IEmailService emailService,
+        IUserRepository userRepository,
+        IUserSettingsRepository userSettingsRepository,
         ILogger<NotificationService> logger)
     {
         _notificationRepository = notificationRepository;
         _hubService = hubService;
+        _emailService = emailService;
+        _userRepository = userRepository;
+        _userSettingsRepository = userSettingsRepository;
         _logger = logger;
     }
 
@@ -139,7 +149,45 @@ public class NotificationService : INotificationService
             SubmissionId = submissionId
         };
 
+        // Send in-app notification
         await SendNotificationAsync(revieweeId, NotificationType.CodeReview, title, message, actionUrl, metadata);
+
+        // Send email notification if user has enabled it
+        await SendEmailNotificationIfEnabledAsync(revieweeId, async (user, userSettings) =>
+        {
+            if (userSettings.EmailOnCodeReview)
+            {
+                var fullActionUrl = $"https://ascenddev.com{actionUrl}"; // TODO: Get base URL from configuration
+                await _emailService.SendCodeReviewNotificationEmailAsync(user.Email, reviewerName, lessonTitle, fullActionUrl);
+            }
+        });
+    }
+
+    private async Task SendEmailNotificationIfEnabledAsync(Guid userId, Func<User, UserSettings, Task> emailAction)
+    {
+        try
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("User not found for email notification: {UserId}", userId);
+                return;
+            }
+
+            var userSettings = await _userSettingsRepository.GetByUserIdAsync(userId);
+            if (userSettings == null)
+            {
+                _logger.LogWarning("User settings not found for email notification: {UserId}", userId);
+                return;
+            }
+
+            await emailAction(user, userSettings);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send email notification to user {UserId}", userId);
+            // Don't throw - email failures shouldn't break the notification flow
+        }
     }
 
     private static NotificationResponse MapToResponse(Notification notification)

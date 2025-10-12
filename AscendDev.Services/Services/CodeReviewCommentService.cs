@@ -5,6 +5,7 @@ using AscendDev.Core.Interfaces.Data;
 using AscendDev.Core.Interfaces.Services;
 using AscendDev.Core.Models.Notifications;
 using AscendDev.Core.Models.Social;
+using AscendDev.Core.Models.Auth;
 using Microsoft.Extensions.Logging;
 
 namespace AscendDev.Services.Services;
@@ -14,7 +15,9 @@ public class CodeReviewCommentService : ICodeReviewCommentService
     private readonly ICodeReviewCommentRepository _codeReviewCommentRepository;
     private readonly ICodeReviewRepository _codeReviewRepository;
     private readonly INotificationService _notificationService;
+    private readonly IEmailService _emailService;
     private readonly IUserRepository _userRepository;
+    private readonly IUserSettingsRepository _userSettingsRepository;
     private readonly ISubmissionRepository _submissionRepository;
     private readonly ILessonRepository _lessonRepository;
     private readonly ILogger<CodeReviewCommentService> _logger;
@@ -23,7 +26,9 @@ public class CodeReviewCommentService : ICodeReviewCommentService
         ICodeReviewCommentRepository codeReviewCommentRepository,
         ICodeReviewRepository codeReviewRepository,
         INotificationService notificationService,
+        IEmailService emailService,
         IUserRepository userRepository,
+        IUserSettingsRepository userSettingsRepository,
         ISubmissionRepository submissionRepository,
         ILessonRepository lessonRepository,
         ILogger<CodeReviewCommentService> logger)
@@ -31,7 +36,9 @@ public class CodeReviewCommentService : ICodeReviewCommentService
         _codeReviewCommentRepository = codeReviewCommentRepository;
         _codeReviewRepository = codeReviewRepository;
         _notificationService = notificationService;
+        _emailService = emailService;
         _userRepository = userRepository;
+        _userSettingsRepository = userSettingsRepository;
         _submissionRepository = submissionRepository;
         _lessonRepository = lessonRepository;
         _logger = logger;
@@ -134,6 +141,7 @@ public class CodeReviewCommentService : ICodeReviewCommentService
                 var lesson = submission != null ? await _lessonRepository.GetById(submission.LessonId) : null;
                 var lessonTitle = lesson?.Title ?? "Unknown Lesson";
 
+                // Send in-app notification
                 await _notificationService.SendNotificationAsync(
                     recipientId,
                     NotificationType.CodeReview,
@@ -142,6 +150,19 @@ public class CodeReviewCommentService : ICodeReviewCommentService
                     $"/submissions/{codeReview.SubmissionId}/review",
                     new { codeReviewId = codeReviewId, commentId = createdComment.Id, submissionId = codeReview.SubmissionId }
                 );
+
+                // Send email notification in background (don't await to avoid blocking comment creation)
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await SendEmailNotificationIfEnabledAsync(recipientId, commenterName, lessonTitle, $"/submissions/{codeReview.SubmissionId}/review");
+                    }
+                    catch (Exception emailEx)
+                    {
+                        _logger.LogError(emailEx, "Background email notification failed for comment {CommentId}", createdComment.Id);
+                    }
+                });
             }
             catch (Exception ex)
             {
@@ -249,6 +270,37 @@ public class CodeReviewCommentService : ICodeReviewCommentService
         {
             _logger.LogError(ex, "Error getting total count by code review id {CodeReviewId}", codeReviewId);
             throw;
+        }
+    }
+
+    private async Task SendEmailNotificationIfEnabledAsync(Guid userId, string commenterName, string lessonTitle, string actionUrl)
+    {
+        try
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("User not found for email notification: {UserId}", userId);
+                return;
+            }
+
+            var userSettings = await _userSettingsRepository.GetByUserIdAsync(userId);
+            if (userSettings == null)
+            {
+                _logger.LogWarning("User settings not found for email notification: {UserId}", userId);
+                return;
+            }
+
+            if (userSettings.EmailOnCodeReview)
+            {
+                var fullActionUrl = $"https://ascenddev.com{actionUrl}"; // TODO: Get base URL from configuration
+                await _emailService.SendCodeReviewCommentNotificationEmailAsync(user.Email, commenterName, lessonTitle, fullActionUrl);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send email notification to user {UserId}", userId);
+            // Don't throw - email failures shouldn't break the notification flow
         }
     }
 

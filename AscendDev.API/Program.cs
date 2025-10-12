@@ -1,4 +1,8 @@
 using AscendDev.API.DependencyInjection;
+using DotNetEnv;
+
+// Load .env file
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 

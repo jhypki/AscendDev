@@ -101,6 +101,32 @@
         max-file: "3"
     restart: on-failure
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ${FRONTEND_CONTAINER_NAME:-ascenddev-frontend}
+    depends_on:
+      - api
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:5171/api}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    networks:
+      - elearning_network
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+      - ./frontend/postcss.config.js:/app/postcss.config.js
+      - ./frontend/eslint.config.js:/app/eslint.config.js
+    restart: unless-stopped
+    command: npm run dev
+
   newrelic-infra:
     image: newrelic/infrastructure:latest
     container_name: newrelic-infra

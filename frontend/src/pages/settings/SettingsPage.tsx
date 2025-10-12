@@ -29,13 +29,16 @@ import {
     IconX,
     IconShield,
     IconBell,
-    IconWorld
+    IconWorld,
+    IconMailCheck
 } from '@tabler/icons-react'
 import {
     useUserSettings,
     useUpdateUserSettings,
     useDeleteUserSettings
 } from '../../hooks/api/useSettings'
+import { useResendVerification } from '../../hooks/api/useAuth'
+import { useAppSelector } from '../../store/hooks'
 import type { UpdateUserSettingsRequest } from '../../types/settings'
 
 const SettingsPage = () => {
@@ -44,6 +47,8 @@ const SettingsPage = () => {
     const { data: settings, isLoading, error } = useUserSettings()
     const updateSettingsMutation = useUpdateUserSettings()
     const deleteSettingsMutation = useDeleteUserSettings()
+    const resendVerificationMutation = useResendVerification()
+    const { user } = useAppSelector((state) => state.auth)
 
     const form = useForm<UpdateUserSettingsRequest>({
         initialValues: {
@@ -102,6 +107,35 @@ const SettingsPage = () => {
             notifications.show({
                 title: 'Reset Failed',
                 message: 'Failed to reset settings. Please try again.',
+                color: 'red',
+                icon: <IconX size={16} />
+            })
+        }
+    }
+
+    const handleResendVerification = async () => {
+        if (!user?.email) {
+            notifications.show({
+                title: 'Error',
+                message: 'User email not found. Please try logging in again.',
+                color: 'red',
+                icon: <IconX size={16} />
+            })
+            return
+        }
+
+        try {
+            await resendVerificationMutation.mutateAsync(user.email)
+            notifications.show({
+                title: 'Verification Email Sent',
+                message: 'A new verification email has been sent to your email address.',
+                color: 'green',
+                icon: <IconCheck size={16} />
+            })
+        } catch {
+            notifications.show({
+                title: 'Failed to Send Email',
+                message: 'Unable to send verification email. Please try again later.',
                 color: 'red',
                 icon: <IconX size={16} />
             })
@@ -256,6 +290,61 @@ const SettingsPage = () => {
                                         {...form.getInputProps('emailOnDiscussionReply', { type: 'checkbox' })}
                                     />
                                 </Group>
+                            </Stack>
+                        </Card>
+
+                        {/* Account Security */}
+                        <Card shadow="sm" padding="lg" radius="md" withBorder>
+                            <Stack gap="md">
+                                <Group gap="sm">
+                                    <IconShield size={24} />
+                                    <Title order={3}>Account Security</Title>
+                                </Group>
+
+                                <Text size="sm" c="dimmed">
+                                    Manage your account security settings and email verification status.
+                                </Text>
+
+                                <Divider />
+
+                                {/* Email Verification Status */}
+                                <Group justify="space-between">
+                                    <Group gap="sm">
+                                        <IconMailCheck size={20} />
+                                        <Stack gap={0}>
+                                            <Text size="sm" fw={500}>Email Verification</Text>
+                                            <Text size="xs" c="dimmed">
+                                                {user?.isEmailVerified
+                                                    ? 'Your email address is verified'
+                                                    : 'Your email address needs verification'
+                                                }
+                                            </Text>
+                                        </Stack>
+                                    </Group>
+                                    {user?.isEmailVerified ? (
+                                        <Text size="sm" c="green" fw={500}>
+                                            ✓ Verified
+                                        </Text>
+                                    ) : (
+                                        <Button
+                                            size="xs"
+                                            variant="light"
+                                            color="blue"
+                                            onClick={handleResendVerification}
+                                            loading={resendVerificationMutation.isPending}
+                                            leftSection={<IconMail size={14} />}
+                                        >
+                                            Resend Verification
+                                        </Button>
+                                    )}
+                                </Group>
+
+                                {!user?.isEmailVerified && (
+                                    <Alert color="yellow">
+                                        Please verify your email address to access all platform features.
+                                        Check your inbox for the verification email.
+                                    </Alert>
+                                )}
                             </Stack>
                         </Card>
 

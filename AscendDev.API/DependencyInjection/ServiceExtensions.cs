@@ -25,6 +25,9 @@ public static class ServiceExtensions
         // Configure OAuth settings
         services.Configure<OAuthSettings>(configuration.GetSection(OAuthSettings.SectionName));
 
+        // Configure Email settings
+        services.Configure<EmailSettings>(configuration.GetSection(EmailSettings.SectionName));
+
         // Register OAuth providers (after HttpClient)
         services.AddScoped<IOAuthProvider, GoogleOAuthProvider>();
         services.AddScoped<IOAuthProvider, GitHubOAuthProvider>();
@@ -53,9 +56,10 @@ public static class ServiceExtensions
         services.AddScoped<ICodeReviewService, CodeReviewService>();
         services.AddScoped<ICodeReviewCommentService, CodeReviewCommentService>();
 
-        // Register notification service
+        // Register notification services
         services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<INotificationHubService, AscendDev.API.Services.NotificationHubService>();
+        services.AddScoped<IEmailService, EmailService>();
 
         // Register utilities
         services.AddScoped<IPasswordHasher, PasswordHasher>();

@@ -37,6 +37,7 @@ interface AuthResult {
     }
     errorMessage?: string
     errors?: string[]
+    message?: string
 }
 
 export const useLogin = () => {
@@ -132,5 +133,23 @@ export const useCurrentUser = () => {
             return response.data
         },
         enabled: false, // Only fetch when explicitly called
+    })
+}
+
+export const useVerifyEmail = () => {
+    return useMutation({
+        mutationFn: async (token: string) => {
+            const response = await api.get(`/auth/verify-email?token=${token}`)
+            return response.data
+        },
+    })
+}
+
+export const useResendVerification = () => {
+    return useMutation({
+        mutationFn: async (email: string) => {
+            const response = await api.post('/auth/resend-verification', { email })
+            return response.data
+        },
     })
 }
