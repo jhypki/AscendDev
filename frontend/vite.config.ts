@@ -21,7 +21,6 @@ export default defineConfig({
     port: 3000,
     host: true,
   },
-  define: {
-    'process.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'http://localhost:5171/api'),
-  },
+  // Environment variables are automatically loaded by Vite when prefixed with VITE_
+  // No need to define them manually
 })
