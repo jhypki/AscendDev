@@ -1,69 +1,63 @@
 #!/bin/bash
 
 # Configuration - Replace with your Docker Hub username
-DOCKER_USERNAME="${DOCKER_USERNAME:-jhypki}"
+DOCKER_USERNAME=${DOCKER_USERNAME:-jhypki}
 
 # Base name for all images
 BASE_IMAGE_NAME="ascenddev"
 
-# Colors for better output
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
-echo -e "${YELLOW}Starting Docker image build and push process...${NC}"
-echo -e "${YELLOW}Using Docker username: ${DOCKER_USERNAME}${NC}"
-
-# Function to build and push Docker images
-build_and_push_image() {
-    local dockerfile_path=$1
-    local language=$2
-    local type=$3 # runner or tester
-    
-    local image_name="${DOCKER_USERNAME}/${BASE_IMAGE_NAME}-${language}-${type}:latest"
-    
-    echo -e "\n${YELLOW}Building: ${image_name}${NC}"
-    echo -e "Dockerfile path: ${dockerfile_path}"
-    
-    # Build the Docker image specifically for Ubuntu platform
-    docker build --platform linux/amd64 -t "$image_name" -f "$dockerfile_path/Dockerfile" "$dockerfile_path"
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Successfully built: ${image_name}${NC}"
-        
-        # Push the image
-        echo -e "${YELLOW}Pushing: ${image_name}${NC}"
-        docker push "$image_name"
-        if [ $? -eq 0 ]; then
-            echo -e "${GREEN}Successfully pushed: ${image_name}${NC}"
-        else
-            echo -e "${RED}Failed to push: ${image_name}${NC}"
-            return 1
-        fi
-    else
-        echo -e "${RED}Failed to build: ${image_name}${NC}"
-        return 1
-    fi
-}
+echo "Starting Docker image build and push process..."
+echo "Using Docker username: $DOCKER_USERNAME"
 
 # Get the script directory and navigate to project root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+PROJECT_ROOT="$SCRIPT_DIR/.."
 DOCKER_CONFIG_DIR="$PROJECT_ROOT/configuration/docker"
 
-echo -e "${YELLOW}Project root: ${PROJECT_ROOT}${NC}"
-echo -e "${YELLOW}Docker config directory: ${DOCKER_CONFIG_DIR}${NC}"
+echo "Project root: $PROJECT_ROOT"
+echo "Docker config directory: $DOCKER_CONFIG_DIR"
 
 # Change to docker configuration directory
-cd "$DOCKER_CONFIG_DIR"
+cd "$DOCKER_CONFIG_DIR" || exit 1
+
+# Setup Docker buildx for multi-platform builds
+echo "Setting up Docker buildx for multi-platform builds..."
+docker buildx create --name multiplatform-builder --use --bootstrap 2>/dev/null || {
+    echo "Using existing multiplatform-builder..."
+    docker buildx use multiplatform-builder
+}
+
+# Function to build and push Docker images
+build_and_push_image() {
+    local dockerfile_path="$1"
+    local language="$2"
+    local type="$3"
+    
+    local image_name="$DOCKER_USERNAME/$BASE_IMAGE_NAME-$language-$type:latest"
+    
+    echo ""
+    echo "Building multi-platform image: $image_name"
+    echo "Dockerfile path: $dockerfile_path"
+    echo "Platforms: linux/amd64,linux/arm64"
+    
+    # Build and push multi-platform Docker image using buildx
+    docker buildx build --platform linux/amd64,linux/arm64 --push -t "$image_name" -f "$dockerfile_path/Dockerfile" "$dockerfile_path"
+    
+    if [ $? -eq 0 ]; then
+        echo "Successfully built and pushed multi-platform image: $image_name"
+    else
+        echo "Failed to build multi-platform image: $image_name"
+        exit 1
+    fi
+}
 
 # Build runner images
-echo -e "\n${YELLOW}Processing runner images...${NC}"
+echo ""
+echo "Processing runner images..."
 
-# C# Runner
-if [ -d "./environments/runners/csharp" ]; then
-    build_and_push_image "./environments/runners/csharp" "csharp" "runner"
+# Go Runner
+if [ -d "./environments/runners/go" ]; then
+    build_and_push_image "./environments/runners/go" "go" "runner"
 fi
 
 # JavaScript Runner
@@ -76,22 +70,18 @@ if [ -d "./environments/runners/python" ]; then
     build_and_push_image "./environments/runners/python" "python" "runner"
 fi
 
-# Go Runner
-if [ -d "./environments/runners/go" ]; then
-    build_and_push_image "./environments/runners/go" "go" "runner"
-fi
-
 # TypeScript Runner
 if [ -d "./environments/runners/typescript" ]; then
     build_and_push_image "./environments/runners/typescript" "typescript" "runner"
 fi
 
 # Build tester images
-echo -e "\n${YELLOW}Processing tester images...${NC}"
+echo ""
+echo "Processing tester images..."
 
-# C# Tester
-if [ -d "./environments/testers/csharp" ]; then
-    build_and_push_image "./environments/testers/csharp" "csharp" "tester"
+# Go Tester
+if [ -d "./environments/testers/go" ]; then
+    build_and_push_image "./environments/testers/go" "go" "tester"
 fi
 
 # Python Tester
@@ -104,5 +94,10 @@ if [ -d "./environments/testers/typescript" ]; then
     build_and_push_image "./environments/testers/typescript" "typescript" "tester"
 fi
 
-echo -e "\n${GREEN}Docker image build and push process completed!${NC}"
-echo -e "${YELLOW}Note: You need to be logged in to Docker Hub with 'docker login' for this script to work.${NC}"
+echo ""
+echo "Docker image build and push process completed!"
+echo "Note: You need to be logged in to Docker Hub with 'docker login' for this script to work."
+
+# Cleanup: Remove the buildx builder (optional - comment out if you want to keep it for future builds)
+echo "Cleaning up buildx builder..."
+docker buildx rm multiplatform-builder 2>/dev/null || echo "Builder already removed or doesn't exist."

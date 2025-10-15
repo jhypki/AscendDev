@@ -160,7 +160,7 @@
     restart: "no"
     command: >
       sh -c "
-        node /app/upload-to-db.js
+        node /app/upload-sample-data.js
       "
 
 volumes:

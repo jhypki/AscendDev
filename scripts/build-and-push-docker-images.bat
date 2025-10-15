@@ -21,6 +21,13 @@ echo Docker config directory: %DOCKER_CONFIG_DIR%
 REM Change to docker configuration directory
 cd /d "%DOCKER_CONFIG_DIR%"
 
+REM Setup Docker buildx for multi-platform builds
+echo Setting up Docker buildx for multi-platform builds...
+docker buildx create --name multiplatform-builder --use --bootstrap 2>nul || (
+    echo Using existing multiplatform-builder...
+    docker buildx use multiplatform-builder
+)
+
 REM Function to build and push Docker images
 goto :main
 
@@ -32,26 +39,17 @@ set type=%3
 set image_name=%DOCKER_USERNAME%/%BASE_IMAGE_NAME%-%language%-%type%:latest
 
 echo.
-echo Building: !image_name!
+echo Building multi-platform image: !image_name!
 echo Dockerfile path: %dockerfile_path%
+echo Platforms: linux/amd64,linux/arm64
 
-REM Build the Docker image specifically for Ubuntu platform
-docker build --platform linux/amd64 -t "!image_name!" -f "%dockerfile_path%\Dockerfile" "%dockerfile_path%"
+REM Build and push multi-platform Docker image using buildx
+docker buildx build --platform linux/amd64,linux/arm64 --push -t "!image_name!" -f "%dockerfile_path%\Dockerfile" "%dockerfile_path%"
 
 if !errorlevel! equ 0 (
-    echo Successfully built: !image_name!
-    
-    REM Push the image
-    echo Pushing: !image_name!
-    docker push "!image_name!"
-    if !errorlevel! equ 0 (
-        echo Successfully pushed: !image_name!
-    ) else (
-        echo Failed to push: !image_name!
-        exit /b 1
-    )
+    echo Successfully built and pushed multi-platform image: !image_name!
 ) else (
-    echo Failed to build: !image_name!
+    echo Failed to build multi-platform image: !image_name!
     exit /b 1
 )
 goto :eof
@@ -110,5 +108,9 @@ if exist ".\environments\testers\typescript" (
 echo.
 echo Docker image build and push process completed!
 echo Note: You need to be logged in to Docker Hub with 'docker login' for this script to work.
+
+REM Cleanup: Remove the buildx builder (optional - comment out if you want to keep it for future builds)
+echo Cleaning up buildx builder...
+docker buildx rm multiplatform-builder 2>nul || echo Builder already removed or doesn't exist.
 
 endlocal
