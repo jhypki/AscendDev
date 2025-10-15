@@ -37,11 +37,11 @@ async function uploadSampleData() {
             if (existingCourse.rows.length > 0) {
                 // Update existing course
                 await client.query(
-                    `UPDATE courses 
-           SET title = $2, slug = $3, description = $4, language = $5, 
-               status = $6, created_by = $7, last_modified_by = $8, 
-               tags = $9, current_version = $10, has_draft_version = $11, 
-               updated_at = NOW()
+                    `UPDATE courses
+           SET title = $2, slug = $3, description = $4, language = $5,
+               status = $6, created_by = $7, last_modified_by = $8,
+               tags = $9, current_version = $10, has_draft_version = $11,
+               featured_image = $12, updated_at = NOW()
            WHERE id = $1`,
                     [
                         course.id,
@@ -54,18 +54,19 @@ async function uploadSampleData() {
                         course.last_modified_by,
                         JSON.stringify(course.tags),
                         course.current_version,
-                        course.has_draft_version
+                        course.has_draft_version,
+                        course.featured_image
                     ]
                 );
                 console.log(`Updated course: ${course.title} (${course.id})`);
             } else {
                 // Insert new course
                 await client.query(
-                    `INSERT INTO courses 
-           (id, title, slug, description, language, status, created_by, 
-            last_modified_by, tags, current_version, has_draft_version, 
-            created_at, updated_at)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW())`,
+                    `INSERT INTO courses
+           (id, title, slug, description, language, status, created_by,
+            last_modified_by, tags, current_version, has_draft_version,
+            featured_image, created_at, updated_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), NOW())`,
                     [
                         course.id,
                         course.title,
@@ -77,7 +78,8 @@ async function uploadSampleData() {
                         course.last_modified_by,
                         JSON.stringify(course.tags),
                         course.current_version,
-                        course.has_draft_version
+                        course.has_draft_version,
+                        course.featured_image
                     ]
                 );
                 console.log(`Inserted course: ${course.title} (${course.id})`);
