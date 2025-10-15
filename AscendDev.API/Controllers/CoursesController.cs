@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace AscendDev.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 [ValidateModel]
 [Authorize]

@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/courses/{courseId}/[controller]")]
+[Route("courses/{courseId}/[controller]")]
 [Authorize]
 public class CourseDiscussionsController : ControllerBase
 {

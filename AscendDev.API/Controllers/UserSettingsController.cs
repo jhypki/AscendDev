@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [Authorize]
 public class UserSettingsController : ControllerBase
 {

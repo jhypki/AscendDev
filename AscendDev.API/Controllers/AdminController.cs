@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AscendDev.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminController : ControllerBase
     {

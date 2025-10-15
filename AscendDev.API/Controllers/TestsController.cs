@@ -9,7 +9,7 @@ namespace AscendDev.Functions.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class TestsController(ICodeTestService codeTestService, ILogger<TestsController> logger) : ControllerBase
 {
     [HttpPost("run")]

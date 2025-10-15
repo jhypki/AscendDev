@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/auth/oauth")]
+[Route("auth/oauth")]
 public class OAuthController : ControllerBase
 {
     private readonly IOAuthService _oauthService;

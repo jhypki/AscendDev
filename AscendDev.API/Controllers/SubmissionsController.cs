@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class SubmissionsController : ControllerBase
 {
     private readonly ISubmissionService _submissionService;

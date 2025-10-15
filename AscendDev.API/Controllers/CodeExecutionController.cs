@@ -9,7 +9,7 @@ namespace AscendDev.Functions.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ValidateModel]
 public class CodeExecutionController(ICodeExecutionService codeExecutionService) : ControllerBase
 {

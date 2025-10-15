@@ -11,7 +11,7 @@ namespace AscendDev.Functions.Controllers;
 
 [ApiController]
 [ValidateModel]
-[Route("api/[controller]", Name = "auth")]
+[Route("[controller]", Name = "auth")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]

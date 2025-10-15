@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/admin/[controller]")]
+[Route("admin/[controller]")]
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class UserManagementController : ControllerBase
 {

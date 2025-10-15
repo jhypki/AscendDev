@@ -7,7 +7,7 @@ using AscendDev.Core.DTOs;
 namespace AscendDev.API.Controllers;
 
 [ApiController]
-[Route("api/admin/[controller]")]
+[Route("admin/[controller]")]
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class AnalyticsController : ControllerBase
 {
