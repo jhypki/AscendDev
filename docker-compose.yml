@@ -76,6 +76,31 @@
       JwtSettings__AccessTokenExpiryMinutes: ${JwtSettings__AccessTokenExpiryMinutes:-60}
       JwtSettings__RefreshTokenExpiryDays: ${JwtSettings__RefreshTokenExpiryDays:-7}
 
+      # OAuth Configuration
+      OAuth__GitHub__ClientId: ${OAuth__GitHub__ClientId:-}
+      OAuth__GitHub__ClientSecret: ${OAuth__GitHub__ClientSecret:-}
+      OAuth__GitHub__RedirectUri: ${OAuth__GitHub__RedirectUri:-}
+      OAuth__GitHub__Scope: ${OAuth__GitHub__Scope:-user:email}
+      OAuth__GitHub__AuthorizationUrl: ${OAuth__GitHub__AuthorizationUrl:-https://github.com/login/oauth/authorize}
+      OAuth__GitHub__TokenUrl: ${OAuth__GitHub__TokenUrl:-https://github.com/login/oauth/access_token}
+      OAuth__GitHub__UserInfoUrl: ${OAuth__GitHub__UserInfoUrl:-https://api.github.com/user}
+      OAuth__GitHub__UserEmailUrl: ${OAuth__GitHub__UserEmailUrl:-https://api.github.com/user/emails}
+      OAuth__Google__ClientId: ${OAuth__Google__ClientId:-}
+      OAuth__Google__ClientSecret: ${OAuth__Google__ClientSecret:-}
+      OAuth__Google__RedirectUri: ${OAuth__Google__RedirectUri:-}
+      OAuth__Google__Scope: ${OAuth__Google__Scope:-openid profile email}
+      OAuth__Google__AuthorizationUrl: ${OAuth__Google__AuthorizationUrl:-https://accounts.google.com/o/oauth2/v2/auth}
+      OAuth__Google__TokenUrl: ${OAuth__Google__TokenUrl:-https://oauth2.googleapis.com/token}
+      OAuth__Google__UserInfoUrl: ${OAuth__Google__UserInfoUrl:-https://www.googleapis.com/oauth2/v2/userinfo}
+
+      # Email Configuration
+      Email__SmtpHost: ${Email__SmtpHost:-}
+      Email__SmtpPort: ${Email__SmtpPort:-587}
+      Email__SmtpUsername: ${Email__SmtpUsername:-}
+      Email__SmtpPassword: ${Email__SmtpPassword:-}
+      Email__FromEmail: ${Email__FromEmail:-}
+      Email__FromName: ${Email__FromName:-}
+
       # New Relic Configuration (Passed from environment)
       NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_LICENSE_KEY:-}
       NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME:-AscendDev}
