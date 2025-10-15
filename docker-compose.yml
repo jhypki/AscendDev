@@ -108,11 +108,13 @@
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://ascenddev.pl/api}
     container_name: ${FRONTEND_CONTAINER_NAME:-ascenddev-frontend}
     depends_on:
       - api
     environment:
-      VITE_API_URL: ${VITE_API_URL:-http://api:5171/api}
+      VITE_API_URL: ${VITE_API_URL:-https://ascenddev.pl/api}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     networks:
