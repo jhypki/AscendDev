@@ -58,8 +58,8 @@ export function NotificationItem({ notification, onMarkAsRead, onDelete, onClick
 
     // Use theme-aware colors that work in both light and dark mode
     const unreadBgColor = computedColorScheme === 'dark'
-        ? theme.colors.blue[9]
-        : theme.colors.blue[0]
+        ? 'rgba(34, 139, 230, 0.15)' // More transparent blue for dark mode
+        : 'rgba(34, 139, 230, 0.1)'  // More transparent blue for light mode
 
     const borderColor = computedColorScheme === 'dark'
         ? theme.colors.blue[4]
@@ -86,13 +86,25 @@ export function NotificationItem({ notification, onMarkAsRead, onDelete, onClick
                         </Avatar>
 
                         <div style={{ flex: 1 }}>
-                            <Text fw={notification.isRead ? 400 : 600} size="sm">
+                            <Text
+                                fw={notification.isRead ? 400 : 600}
+                                size="sm"
+                                c={notification.isRead ? undefined : 'white'}
+                            >
                                 {notification.title}
                             </Text>
-                            <Text c="dimmed" size="xs" mt={2}>
+                            <Text
+                                c={notification.isRead ? "dimmed" : "rgba(255, 255, 255, 0.8)"}
+                                size="xs"
+                                mt={2}
+                            >
                                 {notification.message}
                             </Text>
-                            <Text c="dimmed" size="xs" mt={4}>
+                            <Text
+                                c={notification.isRead ? "dimmed" : "rgba(255, 255, 255, 0.7)"}
+                                size="xs"
+                                mt={4}
+                            >
                                 {timeAgo}
                             </Text>
                         </div>
