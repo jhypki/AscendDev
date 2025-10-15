@@ -62,12 +62,12 @@
       Redis__Port: ${REDIS_PORT:-6379}
       Redis__User: ${REDIS_USER:-default}
       Redis__Password: ${REDIS_PASSWORD:-redis}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS:-http://+:5171}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS:-http://0.0.0.0:5171}
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       DOCKER_HOST: ${DOCKER_HOST:-unix:///var/run/docker.sock}
 
       # CORS Configuration
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,https://localhost:3000,http://localhost:5173,https://localhost:5173}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,https://localhost:3000,http://localhost:5173,https://localhost:5173,http://34.49.97.27:3000,http://34.49.97.27:5173,http://frontend:3000}
 
       # JWT Settings (Added from init script vars)
       JwtSettings__Key: ${JwtSettings__Key:-your-256-bit-secret-key-here-for-development-only}
@@ -112,7 +112,7 @@
     depends_on:
       - api
     environment:
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:5171/api}
+      VITE_API_URL: ${VITE_API_URL:-http://api:5171/api}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     networks:

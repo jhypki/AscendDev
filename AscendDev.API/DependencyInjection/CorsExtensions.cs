@@ -21,13 +21,23 @@ public static class CorsExtensions
                         "https://localhost:3000"
                     };
 
-                // In development, allow any origin for easier testing
+                // Always use specific origins to support credentials
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                 if (environment == "Development")
                 {
-                    policy.AllowAnyOrigin()
+                    // In development, include all common development origins
+                    var devOrigins = allowedOrigins.Concat(new[] {
+                        "http://frontend:3000",
+                        "http://api:5171",
+                        "http://localhost:8080",
+                        "http://127.0.0.1:3000",
+                        "http://127.0.0.1:5173"
+                    }).ToArray();
+
+                    policy.WithOrigins(devOrigins)
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 }
                 else
                 {
