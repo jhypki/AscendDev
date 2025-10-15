@@ -66,6 +66,9 @@
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       DOCKER_HOST: ${DOCKER_HOST:-unix:///var/run/docker.sock}
 
+      # CORS Configuration
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,https://localhost:3000,http://localhost:5173,https://localhost:5173}
+
       # JWT Settings (Added from init script vars)
       JwtSettings__Key: ${JwtSettings__Key:-your-256-bit-secret-key-here-for-development-only}
       JwtSettings__Issuer: ${JwtSettings__Issuer:-ascenddev}
