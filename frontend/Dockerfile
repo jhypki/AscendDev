@@ -1,4 +1,4 @@
-# Use Node.js 20 Alpine as base image (required for Vite 7.1.6+)
+# Use Node.js 20 Alpine as base image
 FROM node:20-alpine
 
 # Set working directory
@@ -13,8 +13,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Build the application for production
+RUN npm run build
+
 # Expose port 3000
 EXPOSE 3000
 
-# Start the development server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Start the preview server (serves built files without HMR)
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "3000"]
