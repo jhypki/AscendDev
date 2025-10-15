@@ -40,6 +40,9 @@ builder.Services.AddCustomMiddleware();
 
 var app = builder.Build();
 
+// Configure path base for API routing
+app.UsePathBase("/api");
+
 // Configure the HTTP request pipeline
 app.UseSwaggerDocumentation(app.Environment);
 
