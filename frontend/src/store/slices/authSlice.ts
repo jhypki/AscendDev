@@ -92,7 +92,7 @@ export const authSlice = createSlice({
             localStorage.removeItem('user')
 
             // Clear OAuth-related session storage
-            const keysToRemove = []
+            const keysToRemove: string[] = []
             for (let i = 0; i < sessionStorage.length; i++) {
                 const key = sessionStorage.key(i)
                 if (key && (key.startsWith('oauth_state_') || key.startsWith('oauth_processed_'))) {

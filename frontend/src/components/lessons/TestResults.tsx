@@ -294,11 +294,11 @@ export const TestResults = ({ testResult, showDetails = true, onClose }: TestRes
                                     </Group>
                                 )}
 
-                                {testResult.performance.additionalMetrics?.memoryLimitMb && typeof testResult.performance.additionalMetrics.memoryLimitMb === 'number' && (
+                                {testResult.performance.additionalMetrics?.memoryLimitMb && typeof testResult.performance.additionalMetrics.memoryLimitMb === 'number' ? (
                                     <Text size="xs">
-                                        <Text span fw={500}>Memory Limit:</Text> {testResult.performance.additionalMetrics.memoryLimitMb}MB
+                                        <Text span fw={500}>Memory Limit:</Text> {testResult.performance.additionalMetrics.memoryLimitMb as number}MB
                                     </Text>
-                                )}
+                                ) : null}
                             </Stack>
                         </Paper>
                     </Box>
