@@ -20,6 +20,13 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      '34.49.97.27',
+      'ascenddev.pl',
+      'www.ascenddev.pl'
+    ],
   },
   // Environment variables are automatically loaded by Vite when prefixed with VITE_
   // No need to define them manually
